@@ -22,8 +22,7 @@ struct StatisticsView: View {
             ArcadePanel(title: "SAVED RESULTS", color: Color(red: 0.05, green: 0.3, blue: 0.5)) {
                 stat("Waiting to sync", symbol: "icloud.and.arrow.up",
                      value: "\(game.pendingResults)")
-                Button {
-                    ArcadeAudio.shared.play(.press)
+                ArcadeActionButton {
                     Task { await game.sync(server: settings.serverURL) }
                 } label: {
                     Label(game.isSyncing ? "SYNCING…" : "SYNC RESULTS",

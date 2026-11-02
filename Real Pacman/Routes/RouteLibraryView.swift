@@ -87,7 +87,9 @@ struct RouteLibraryView: View {
                     .arcadeEntrance(delay: 0.12)
 
                     HStack(spacing: 24) {
-                        Button("Previous level", systemImage: "chevron.left") { move(-1) }
+                        ArcadeActionButton(sound: nil) { move(-1) } label: {
+                            Label("Previous level", systemImage: "chevron.left")
+                        }
                             .labelStyle(.iconOnly)
                             .disabled(currentIndex == 0)
                             .opacity(currentIndex == 0 ? 0.4 : 1)
@@ -96,7 +98,9 @@ struct RouteLibraryView: View {
                             .monospacedDigit()
                             .foregroundStyle(.white)
                             .accessibilityLabel("Level \(currentIndex + 1) of \(ids.count)")
-                        Button("Next level", systemImage: "chevron.right") { move(1) }
+                        ArcadeActionButton(sound: nil) { move(1) } label: {
+                            Label("Next level", systemImage: "chevron.right")
+                        }
                             .labelStyle(.iconOnly)
                             .disabled(currentIndex == ids.count - 1)
                             .opacity(currentIndex == ids.count - 1 ? 0.4 : 1)

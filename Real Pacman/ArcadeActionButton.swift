@@ -2,6 +2,7 @@ import SwiftUI
 
 /// Waits for the release spring before acting. The view task cancels if the control disappears.
 struct ArcadeActionButton<Label: View>: View {
+    var sound: ArcadeSound? = .press
     let action: () -> Void
     @ViewBuilder let label: () -> Label
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -11,13 +12,14 @@ struct ArcadeActionButton<Label: View>: View {
     var body: some View {
         Button {
             guard !pending else { return }
-            ArcadeAudio.shared.play(.press)
+            if let sound { ArcadeAudio.shared.play(sound) }
             pending = true
         } label: { label() }
+        .environment(\.arcadeButtonActivated, pending)
         .task(id: pending) {
             guard pending else { return }
             if !reduceMotion {
-                do { try await Task.sleep(for: .milliseconds(260)) }
+                do { try await Task.sleep(for: .milliseconds(360)) }
                 catch { return }
             }
             guard !Task.isCancelled else { return }

@@ -18,7 +18,7 @@ struct RouteDetailView: View {
                 }.disabled(offline.isDownloading)
                 if game.archive.activeSession == nil {
                     ArcadeNavigationLink { GameplayView(startingRoute: route) } label: { Text("Start walk") }
-                        .buttonStyle(.borderedProminent)
+                        .buttonStyle(ArcadeButtonStyle(color: .green))
                 } else {
                     Text("Finish your saved game before starting another route.").font(.caption)
                     ArcadeNavigationLink { GameplayView() } label: { Text("Resume game") }
