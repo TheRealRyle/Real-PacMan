@@ -8,22 +8,66 @@ struct MainMenuView: View {
     var body: some View {
         @Bindable var game = game
         NavigationStack {
-            List {
-                Section {
-                    Text("REAL PAC-MAN").font(.largeTitle.bold())
-                    Text("Turn your next walk into a pellet hunt.").foregroundStyle(.secondary)
-                }
-                Section {
-                    NavigationLink { RouteLibraryView() } label: { Label("Play", systemImage: "figure.walk") }
-                    NavigationLink { StatisticsView() } label: { Label("Statistics", systemImage: "chart.bar") }
-                    NavigationLink { SettingsView() } label: { Label("Settings", systemImage: "gearshape") }
-                }
-                if game.pendingResults > 0 {
-                    Text("\(game.pendingResults) saved results waiting to sync").font(.caption)
+            ZStack {
+                ArcadeBackground()
+                ScrollView {
+                    VStack(spacing: 34) {
+                        VStack(spacing: 2) {
+                            Text("REAL")
+                                .font(.largeTitle.weight(.black))
+                                .foregroundStyle(.white)
+                            Text("PAC-MAN")
+                                .font(.system(.largeTitle, design: .rounded, weight: .black))
+                                .foregroundStyle(.yellow)
+                                .shadow(color: .black.opacity(0.6), radius: 0, y: 5)
+                            Text("THE STREETS ARE YOUR LEVEL")
+                                .font(.caption.weight(.heavy))
+                                .tracking(2)
+                                .foregroundStyle(.white.opacity(0.8))
+                                .padding(.top, 12)
+                        }
+                        .multilineTextAlignment(.center)
+
+                        Image(systemName: "figure.walk.circle.fill")
+                            .font(.system(size: 90, weight: .black))
+                            .foregroundStyle(.yellow)
+                            .shadow(color: .black.opacity(0.4), radius: 0, y: 6)
+                            .accessibilityHidden(true)
+
+                        NavigationLink { RouteLibraryView() } label: {
+                            Label("PLAY", systemImage: "play.fill")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(ArcadeButtonStyle(color: .green))
+
+                        HStack(spacing: 20) {
+                            NavigationLink { StatisticsView().toolbar(.visible, for: .navigationBar) } label: {
+                                Label("Stats", systemImage: "chart.bar.fill")
+                                    .frame(maxWidth: .infinity)
+                            }
+                            NavigationLink { SettingsView().toolbar(.visible, for: .navigationBar) } label: {
+                                Label("Settings", systemImage: "gearshape.fill")
+                                    .frame(maxWidth: .infinity)
+                            }
+                        }
+                        .buttonStyle(ArcadeButtonStyle(color: .cyan))
+
+                        Text("WALK • COLLECT • COMPLETE")
+                            .font(.caption.weight(.bold))
+                            .tracking(2)
+                            .foregroundStyle(.white.opacity(0.7))
+                    }
+                    .padding(.horizontal, 28)
+                    .padding(.vertical, 48)
+                    .frame(maxWidth: 560)
+                    .frame(maxWidth: .infinity)
                 }
             }
-            .navigationTitle("Let's walk")
-            .alert("Real Pac-Man", isPresented: Binding(get: { game.message != nil }, set: { if !$0 { game.message = nil } })) {
+            .toolbar(.hidden, for: .navigationBar)
+            .alert("Real Pac-Man", isPresented: Binding(
+                get: { game.message != nil },
+                set: { if !$0 { game.message = nil } }
+            )) {
                 Button("OK") { game.message = nil }
             } message: { Text(game.message ?? "") }
         }
@@ -34,4 +78,10 @@ struct MainMenuView: View {
             }
         }
     }
+}
+
+#Preview {
+    MainMenuView()
+        .environment(GameStore())
+        .environment(GameSettings())
 }
