@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ArcadeButtonStyle: ButtonStyle {
     var color: Color = .yellow
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -20,5 +21,16 @@ struct ArcadeButtonStyle: ButtonStyle {
             }
             .shadow(color: .black.opacity(0.45), radius: 0, y: configuration.isPressed ? 2 : 6)
             .offset(y: configuration.isPressed ? 4 : 0)
+            .scaleEffect(
+                x: reduceMotion ? 1 : (configuration.isPressed ? 0.94 : 1),
+                y: reduceMotion ? 1 : (configuration.isPressed ? 0.88 : 1)
+            )
+            .animation(
+                reduceMotion ? nil : .spring(
+                    response: configuration.isPressed ? 0.22 : 0.42,
+                    dampingFraction: configuration.isPressed ? 0.65 : 0.38
+                ),
+                value: configuration.isPressed
+            )
     }
 }

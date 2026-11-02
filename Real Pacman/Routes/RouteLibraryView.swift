@@ -38,12 +38,18 @@ struct RouteLibraryView: View {
                             .accessibilityHidden(true)
                     }
                     .padding(.horizontal, 20)
+                    .arcadeEntrance(delay: 0.03)
 
                     ScrollView(.horizontal) {
                         LazyHStack(spacing: 20) {
                             if game.archive.routes.isEmpty {
                                 LevelCardView(title: "Your first adventure", number: 1, pellets: 30,
                                               progress: 0, isPreview: true, color: .indigo)
+                                    .scrollTransition(.interactive, axis: .horizontal) { [reduceMotion] content, phase in
+                                        content
+                                            .scaleEffect(reduceMotion ? 1 : (phase.isIdentity ? 1 : 0.92))
+                                            .rotationEffect(.degrees(reduceMotion ? 0 : phase.value * 3))
+                                    }
                                     .containerRelativeFrame(.horizontal)
                                     .id(previewID)
                             } else {
@@ -53,6 +59,11 @@ struct RouteLibraryView: View {
                                                   pellets: route.pellets.count,
                                                   progress: bestProgress(route), isPreview: false,
                                                   color: .indigo)
+                                        .scrollTransition(.interactive, axis: .horizontal) { [reduceMotion] content, phase in
+                                        content
+                                            .scaleEffect(reduceMotion ? 1 : (phase.isIdentity ? 1 : 0.92))
+                                            .rotationEffect(.degrees(reduceMotion ? 0 : phase.value * 3))
+                                    }
                                     .containerRelativeFrame(.horizontal)
                                         .id(route.id)
                                 }
@@ -65,7 +76,15 @@ struct RouteLibraryView: View {
                     .scrollPosition(id: $selectedID)
                     .scrollIndicators(.hidden)
                     .contentMargins(.horizontal, 28, for: .scrollContent)
-
+                    .scrollClipDisabled()
+                    .phaseAnimator([0, 1, 2], trigger: selectedID) { [reduceMotion] content, phase in
+                        content
+                            .scaleEffect(reduceMotion ? 1 : (phase == 1 ? 1.025 : 1))
+                            .offset(y: reduceMotion ? 0 : (phase == 1 ? -5 : 0))
+                    } animation: { _ in
+                        reduceMotion ? .linear(duration: 0) : .spring(response: 0.32, dampingFraction: 0.45)
+                    }
+                    .arcadeEntrance(delay: 0.12)
 
                     HStack(spacing: 24) {
                         Button("Previous level", systemImage: "chevron.left") { move(-1) }
@@ -83,6 +102,7 @@ struct RouteLibraryView: View {
                             .opacity(currentIndex == ids.count - 1 ? 0.4 : 1)
                     }
                     .buttonStyle(ArcadeButtonStyle(color: .cyan))
+                    .arcadeEntrance(delay: 0.22)
 
                     if let route = game.archive.routes.first(where: { $0.id == ids[currentIndex] }) {
                         NavigationLink { RouteDetailView(route: route).toolbar(.visible, for: .navigationBar) } label: {
@@ -119,7 +139,7 @@ struct RouteLibraryView: View {
 
     private func move(_ offset: Int) {
         let index = min(max(currentIndex + offset, 0), ids.count - 1)
-        withAnimation(reduceMotion ? nil : .snappy) { selectedID = ids[index] }
+        withAnimation(reduceMotion ? nil : .spring(response: 0.5, dampingFraction: 0.62)) { selectedID = ids[index] }
     }
 
     private func bestProgress(_ route: GameRoute) -> Double {

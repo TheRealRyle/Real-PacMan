@@ -27,18 +27,21 @@ struct MainMenuView: View {
                                 .padding(.top, 12)
                         }
                         .multilineTextAlignment(.center)
+                        .arcadeEntrance(delay: 0.04)
 
                         Image(systemName: "figure.walk.circle.fill")
                             .font(.system(size: 90, weight: .black))
                             .foregroundStyle(.yellow)
                             .shadow(color: .black.opacity(0.4), radius: 0, y: 6)
                             .accessibilityHidden(true)
+                            .arcadeEntrance(delay: 0.12)
 
                         NavigationLink { RouteLibraryView() } label: {
                             Label("PLAY", systemImage: "play.fill")
                                 .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(ArcadeButtonStyle(color: .green))
+                        .arcadeEntrance(delay: 0.22)
 
                         HStack(spacing: 20) {
                             NavigationLink { StatisticsView().toolbar(.visible, for: .navigationBar) } label: {
@@ -51,6 +54,7 @@ struct MainMenuView: View {
                             }
                         }
                         .buttonStyle(ArcadeButtonStyle(color: .cyan))
+                        .arcadeEntrance(delay: 0.3)
 
                         Text("WALK • COLLECT • COMPLETE")
                             .font(.caption.weight(.bold))
