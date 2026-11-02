@@ -36,7 +36,7 @@ struct MainMenuView: View {
                             .accessibilityHidden(true)
                             .arcadeEntrance(delay: 0.12)
 
-                        NavigationLink { RouteLibraryView() } label: {
+                        ArcadeNavigationLink { RouteLibraryView() } label: {
                             Label("PLAY", systemImage: "play.fill")
                                 .frame(maxWidth: .infinity)
                         }
@@ -44,11 +44,11 @@ struct MainMenuView: View {
                         .arcadeEntrance(delay: 0.22)
 
                         HStack(spacing: 20) {
-                            NavigationLink { StatisticsView().toolbar(.visible, for: .navigationBar) } label: {
+                            ArcadeNavigationLink { StatisticsView() } label: {
                                 Label("Stats", systemImage: "chart.bar.fill")
                                     .frame(maxWidth: .infinity)
                             }
-                            NavigationLink { SettingsView().toolbar(.visible, for: .navigationBar) } label: {
+                            ArcadeNavigationLink { SettingsView() } label: {
                                 Label("Settings", systemImage: "gearshape.fill")
                                     .frame(maxWidth: .infinity)
                             }

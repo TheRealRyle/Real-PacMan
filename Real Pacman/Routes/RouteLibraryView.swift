@@ -21,7 +21,7 @@ struct RouteLibraryView: View {
             ScrollView {
                 VStack(spacing: 28) {
                     HStack {
-                        Button("Back", systemImage: "arrow.left") { dismiss() }
+                        ArcadeActionButton { dismiss() } label: { Label("Back", systemImage: "arrow.left") }
                             .labelStyle(.iconOnly)
                             .buttonStyle(ArcadeButtonStyle(color: .yellow))
                             .accessibilityLabel("Back to main menu")
@@ -105,7 +105,7 @@ struct RouteLibraryView: View {
                     .arcadeEntrance(delay: 0.22)
 
                     if let route = game.archive.routes.first(where: { $0.id == ids[currentIndex] }) {
-                        NavigationLink { RouteDetailView(route: route).toolbar(.visible, for: .navigationBar) } label: {
+                        ArcadeNavigationLink { RouteDetailView(route: route).toolbar(.visible, for: .navigationBar) } label: {
                             Label("LET'S GO", systemImage: "play.fill")
                                 .frame(maxWidth: .infinity)
                         }
@@ -124,7 +124,7 @@ struct RouteLibraryView: View {
                     }
 
                     if game.archive.activeSession != nil {
-                        NavigationLink("RESUME WALK") { GameplayView().toolbar(.visible, for: .navigationBar) }
+                        ArcadeNavigationLink { GameplayView().toolbar(.visible, for: .navigationBar) } label: { Text("RESUME WALK") }
                             .buttonStyle(ArcadeButtonStyle())
                     }
                 }

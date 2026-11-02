@@ -16,11 +16,11 @@ struct RouteDetailView: View {
                     downloadRequested = true
                 }.disabled(offline.isDownloading)
                 if game.archive.activeSession == nil {
-                    NavigationLink("Start walk") { GameplayView(startingRoute: route) }
+                    ArcadeNavigationLink { GameplayView(startingRoute: route) } label: { Text("Start walk") }
                         .buttonStyle(.borderedProminent)
                 } else {
                     Text("Finish your saved game before starting another route.").font(.caption)
-                    NavigationLink("Resume game") { GameplayView() }
+                    ArcadeNavigationLink { GameplayView() } label: { Text("Resume game") }
                 }
             }.padding()
         }
