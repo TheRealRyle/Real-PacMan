@@ -14,7 +14,8 @@ struct SettingsView: View {
                     Label("Vibration", systemImage: "iphone.radiowaves.left.and.right")
                 }
                 .tint(.green)
-                Text("Audio playback and vibration effects are planned.")
+                .onChange(of: settings.vibrationEnabled) { ArcadeAudio.shared.play(.toggle) }
+                Text("Music and sound volumes update live. Vibration effects are planned.")
                     .font(.caption)
                     .foregroundStyle(.white.opacity(0.8))
             }
@@ -48,7 +49,9 @@ struct SettingsView: View {
                     .monospacedDigit()
                     .foregroundStyle(.yellow)
             }
-            Slider(value: value, in: 0...1) { Text(name) }
+            Slider(value: value, in: 0...1) { Text(name) } onEditingChanged: { editing in
+                if !editing { ArcadeAudio.shared.play(.adjust) }
+            }
                 .tint(.yellow)
         }
     }

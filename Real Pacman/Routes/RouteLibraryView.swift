@@ -134,7 +134,13 @@ struct RouteLibraryView: View {
             }
         }
         .toolbar(.hidden, for: .navigationBar)
+        .onAppear { if selectedID == nil { selectedID = ids.first } }
         .onChange(of: ids) { selectedID = ids.first }
+        .onChange(of: selectedID) { old, new in
+            if let old, let new, old != new, ids.contains(old), ids.contains(new) {
+                ArcadeAudio.shared.play(.level)
+            }
+        }
     }
 
     private func move(_ offset: Int) {

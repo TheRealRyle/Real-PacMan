@@ -13,6 +13,7 @@ struct RouteDetailView: View {
                 Text("\(route.pellets.count) pellets · \(route.pellets.count * 10) possible points")
                 Text(offline.status).font(.caption).foregroundStyle(.secondary)
                 Button(offline.isDownloading ? "Downloading…" : "Download offline map") {
+                    ArcadeAudio.shared.play(.press)
                     downloadRequested = true
                 }.disabled(offline.isDownloading)
                 if game.archive.activeSession == nil {

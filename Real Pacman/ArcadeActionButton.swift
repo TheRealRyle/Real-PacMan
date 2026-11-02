@@ -11,6 +11,7 @@ struct ArcadeActionButton<Label: View>: View {
     var body: some View {
         Button {
             guard !pending else { return }
+            ArcadeAudio.shared.play(.press)
             pending = true
         } label: { label() }
         .task(id: pending) {

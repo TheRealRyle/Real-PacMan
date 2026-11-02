@@ -22,10 +22,11 @@ struct GameplayView: View {
                             .font(.caption).foregroundStyle(.secondary)
                         HStack {
                             Button(game.isPlaying ? "Pause" : "Resume") {
+                                ArcadeAudio.shared.play(.press)
                                 if game.isPlaying { game.pause() } else { game.resume() }
                                 location.wantsUpdates = game.isPlaying
                             }.buttonStyle(.borderedProminent)
-                            Button("Finish walk") { confirmFinish = true }.buttonStyle(.bordered)
+                            Button("Finish walk") { ArcadeAudio.shared.play(.press); confirmFinish = true }.buttonStyle(.bordered)
                         }
                         Text("Stay on public paths and watch your surroundings. GPS runs while this screen is active.")
                             .font(.caption2).foregroundStyle(.secondary)
@@ -38,12 +39,13 @@ struct GameplayView: View {
         }
         .navigationTitle("Collect pellets")
         .onAppear {
+            ArcadeAudio.shared.setGameplayVisible(true)
             if let startingRoute { game.start(startingRoute) }
             location.onLocation = { game.collect(at: $0) }
             game.resume()
             location.wantsUpdates = game.archive.activeSession != nil
         }
-        .onDisappear { location.wantsUpdates = false; game.pause() }
+        .onDisappear { ArcadeAudio.shared.setGameplayVisible(false); location.wantsUpdates = false; game.pause() }
         .onChange(of: scenePhase) {
             if scenePhase != .active { location.wantsUpdates = false; game.pause() }
         }

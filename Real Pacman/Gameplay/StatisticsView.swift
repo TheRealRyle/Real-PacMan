@@ -23,6 +23,7 @@ struct StatisticsView: View {
                 stat("Waiting to sync", symbol: "icloud.and.arrow.up",
                      value: "\(game.pendingResults)")
                 Button {
+                    ArcadeAudio.shared.play(.press)
                     Task { await game.sync(server: settings.serverURL) }
                 } label: {
                     Label(game.isSyncing ? "SYNCING…" : "SYNC RESULTS",
