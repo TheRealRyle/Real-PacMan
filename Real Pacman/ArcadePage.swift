@@ -17,7 +17,7 @@ struct ArcadePage<Content: View>: View {
                                 .frame(minWidth: 24, minHeight: 24)
                         }
                         .buttonStyle(ArcadeButtonStyle())
-                        .accessibilityLabel("Back to main menu")
+                        .accessibilityLabel("Back")
                         Text(title)
                             .font(.system(.largeTitle, design: .rounded, weight: .black))
                             .foregroundStyle(.white)

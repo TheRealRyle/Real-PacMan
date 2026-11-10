@@ -8,15 +8,37 @@ final class OfflineMapStore {
     private(set) var isDownloading = false
     private var pack: MLNOfflinePack?
 
+    func refreshStatus(for route: GameRoute) async {
+        do {
+            try await waitForPacks()
+            let context = Data("\(route.id.uuidString):\(route.version)".utf8)
+            if let existing = MLNOfflineStorage.shared.packs?.first(where: { $0.context == context }) {
+                existing.requestProgress()
+                status = existing.state == .complete ? "Map downloaded · available offline" : "Map partially downloaded · tap to resume"
+            } else { status = "Layout saved · map not downloaded" }
+        } catch { status = "Offline map storage is unavailable. Try again." }
+    }
+
+    private func waitForPacks() async throws {
+        // packs is nil during asynchronous SDK startup. Do not create a duplicate pack.
+        for _ in 0..<100 {
+            if MLNOfflineStorage.shared.packs != nil { return }
+            try await Task.sleep(for: .milliseconds(50))
+        }
+        throw URLError(.timedOut)
+    }
+
     func download(_ route: GameRoute) async {
         guard !isDownloading else { return }
         isDownloading = true
         defer { isDownloading = false }
+        do { try await waitForPacks() }
+        catch { status = "Offline map storage is unavailable. Try again."; return }
         let context = Data("\(route.id.uuidString):\(route.version)".utf8)
         if let existing = MLNOfflineStorage.shared.packs?.first(where: { $0.context == context }) {
             pack = existing
         } else {
-            let points = route.coordinates + route.pellets.map(\.coordinate)
+            let points = route.mapCoordinates
             guard let first = points.first else { return }
             let south = max(-85, (points.map(\.latitude).min() ?? first.latitude) - 0.003)
             let north = min(85, (points.map(\.latitude).max() ?? first.latitude) + 0.003)

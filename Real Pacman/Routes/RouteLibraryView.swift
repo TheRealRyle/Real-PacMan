@@ -4,12 +4,15 @@ struct RouteLibraryView: View {
     @Environment(GameStore.self) private var game
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(GameSettings.self) private var settings
     @State private var selectedID: UUID?
-    private let previewID = UUID(uuidString: "00000000-0000-0000-0000-000000000001")!
-
-    private var ids: [UUID] {
-        game.archive.routes.isEmpty ? [previewID] : game.archive.routes.map(\.id)
+    @State private var prototype: GameRoute?
+    @State private var prototypeError: String?
+    private var entries: [ParcoursCandidate] {
+        ParcoursCatalogue.entries(saved: game.archive.routes, prototype: prototype)
     }
+
+    private var ids: [UUID] { entries.map(\.id) }
 
     private var currentIndex: Int {
         ids.firstIndex(of: selectedID ?? ids[0]) ?? 0
@@ -26,7 +29,7 @@ struct RouteLibraryView: View {
                             .buttonStyle(ArcadeButtonStyle(color: .yellow))
                             .accessibilityLabel("Back to main menu")
                         Spacer()
-                        Text("LEVELS")
+                        Text("PARCOURS")
                             .font(.system(.largeTitle, design: .rounded, weight: .black))
                             .foregroundStyle(.white)
                             .shadow(color: .black.opacity(0.5), radius: 0, y: 3)
@@ -42,31 +45,28 @@ struct RouteLibraryView: View {
 
                     ScrollView(.horizontal) {
                         LazyHStack(spacing: 20) {
-                            if game.archive.routes.isEmpty {
-                                LevelCardView(title: "Your first adventure", number: 1, pellets: 30,
-                                              progress: 0, isPreview: true, color: .indigo)
+                            ForEach(entries) { entry in
+                                LevelCardView(
+                                    title: entry.name,
+                                    number: (ids.firstIndex(of: entry.id) ?? 0) + 1,
+                                    pellets: entry.route?.pellets.count,
+                                    progress: entry.route.map(bestProgress) ?? 0,
+                                    isPreview: entry.route?.parcours?.fieldVerified == false || entry.route == nil,
+                                    color: entry.id == ParcoursCatalogue.verneyID ? .indigo : .blue,
+                                    subtitle: entry.description,
+                                    status: entry.route == nil ? "PLANNED" :
+                                        (entry.route?.parcours?.fieldVerified == false ? "MAP DRAFT" : "SAVED"),
+                                    points: entry.route?.totalPoints,
+                                    distance: entry.route.map { route in
+                                        "\(Int(route.distanceMeters.rounded())) m of paths"
+                                    }, previewRoute: entry.route)
                                     .scrollTransition(.interactive, axis: .horizontal) { [reduceMotion] content, phase in
                                         content
                                             .scaleEffect(reduceMotion ? 1 : (phase.isIdentity ? 1 : 0.92))
                                             .rotationEffect(.degrees(reduceMotion ? 0 : phase.value * 3))
                                     }
                                     .containerRelativeFrame(.horizontal)
-                                    .id(previewID)
-                            } else {
-                                ForEach(game.archive.routes) { route in
-                                    LevelCardView(title: route.name,
-                                                  number: (game.archive.routes.firstIndex(where: { $0.id == route.id }) ?? 0) + 1,
-                                                  pellets: route.pellets.count,
-                                                  progress: bestProgress(route), isPreview: false,
-                                                  color: .indigo)
-                                        .scrollTransition(.interactive, axis: .horizontal) { [reduceMotion] content, phase in
-                                        content
-                                            .scaleEffect(reduceMotion ? 1 : (phase.isIdentity ? 1 : 0.92))
-                                            .rotationEffect(.degrees(reduceMotion ? 0 : phase.value * 3))
-                                    }
-                                    .containerRelativeFrame(.horizontal)
-                                        .id(route.id)
-                                }
+                                    .id(entry.id)
                             }
                         }
                         .scrollTargetLayout()
@@ -108,23 +108,40 @@ struct RouteLibraryView: View {
                     .buttonStyle(ArcadeButtonStyle(color: .cyan))
                     .arcadeEntrance(delay: 0.22)
 
-                    if let route = game.archive.routes.first(where: { $0.id == ids[currentIndex] }) {
-                        ArcadeNavigationLink { RouteDetailView(route: route).toolbar(.visible, for: .navigationBar) } label: {
-                            Label("LET'S GO", systemImage: "play.fill")
-                                .frame(maxWidth: .infinity)
+                    let entry = entries[currentIndex]
+                    if let route = entry.route {
+                        ArcadeNavigationLink { ParcoursModeView(route: route) } label: {
+                            Label("CHOOSE MODE", systemImage: "play.fill").frame(maxWidth: .infinity)
                         }
                         .buttonStyle(ArcadeButtonStyle(color: .green))
                         .padding(.horizontal, 28)
+                        Text(route.parcours?.fieldVerified == false
+                             ? "Layout bundled offline · awaiting on-foot review"
+                             : "Layout saved · download the map before going offline")
+                            .font(.caption).foregroundStyle(.white.opacity(0.8))
+                            .multilineTextAlignment(.center).padding(.horizontal, 28)
                     } else {
-                        VStack(spacing: 8) {
-                            Text("YOUR NEXT ADVENTURE STARTS HERE")
-                                .font(.headline.weight(.black))
-                            Text("Level card preview · your routes will appear here.")
-                                .font(.subheadline)
+                        ArcadeNavigationLink { ParcoursLocationView(candidate: entry) } label: {
+                            Label("VIEW LOCATION", systemImage: "map").frame(maxWidth: .infinity)
                         }
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.white.opacity(0.85))
+                        .buttonStyle(ArcadeButtonStyle(color: .cyan))
                         .padding(.horizontal, 28)
+                    }
+
+                    if let prototypeError {
+                        Text(prototypeError).font(.caption).foregroundStyle(.yellow).padding(.horizontal, 28)
+                    }
+                    ArcadeActionButton {
+                        Task { await game.fetchRoutes(server: settings.serverURL) }
+                    } label: {
+                        Label(game.isLoading ? "REFRESHING…" : "REFRESH PARCOURS", systemImage: "arrow.clockwise")
+                    }
+                    .buttonStyle(ArcadeButtonStyle(color: .cyan))
+                    .disabled(game.isLoading || settings.serverURL.isEmpty)
+                    .opacity(settings.serverURL.isEmpty ? 0.5 : 1)
+                    if settings.serverURL.isEmpty {
+                        Text("Add a route server in Settings to download published parcours.")
+                            .font(.caption).foregroundStyle(.white.opacity(0.8)).padding(.horizontal, 28)
                     }
 
                     if game.archive.activeSession != nil {
@@ -138,7 +155,13 @@ struct RouteLibraryView: View {
             }
         }
         .toolbar(.hidden, for: .navigationBar)
-        .onAppear { if selectedID == nil { selectedID = ids.first } }
+        .onAppear {
+            if prototype == nil {
+                do { prototype = try ParcoursCatalogue.loadVerney() }
+                catch { prototypeError = "The bundled map draft could not be loaded." }
+            }
+            if selectedID == nil { selectedID = ids.first }
+        }
         .onChange(of: ids) { selectedID = ids.first }
         .onChange(of: selectedID) { old, new in
             if let old, let new, old != new, ids.contains(old), ids.contains(new) {
