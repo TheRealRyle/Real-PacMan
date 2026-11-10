@@ -1,0 +1,4094 @@
+{
+  "id": "7DAB402C-797E-4B41-A47D-54D01D1CF361",
+  "name": "Parc du Verney",
+  "version": 1,
+  "coordinates": [
+    {
+      "latitude": 45.5688185,
+      "longitude": 5.9189683
+    },
+    {
+      "latitude": 45.5688867,
+      "longitude": 5.9188184
+    }
+  ],
+  "pellets": [
+    {
+      "id": "BC7A2A72-D1F4-5C34-8704-CD5AF59D01E7",
+      "coordinate": {
+        "latitude": 45.5688185,
+        "longitude": 5.9189683
+      },
+      "value": 10
+    },
+    {
+      "id": "6DE92E5E-40E0-502E-B338-B60EC913FF11",
+      "coordinate": {
+        "latitude": 45.5689702,
+        "longitude": 5.9186066
+      },
+      "value": 10
+    },
+    {
+      "id": "EA3A5074-A4D3-5863-820D-9DB577E5E8C4",
+      "coordinate": {
+        "latitude": 45.5691334,
+        "longitude": 5.918178
+      },
+      "value": 10
+    },
+    {
+      "id": "E4B770A6-4137-5C1F-B6BB-4FA5AE9F7BA8",
+      "coordinate": {
+        "latitude": 45.569236,
+        "longitude": 5.9185737
+      },
+      "value": 10
+    },
+    {
+      "id": "3FBE89D2-676F-5374-985A-3409C662C75D",
+      "coordinate": {
+        "latitude": 45.5691061,
+        "longitude": 5.9177278
+      },
+      "value": 10
+    },
+    {
+      "id": "A34A01E6-D91D-5198-BBEA-632DC2387757",
+      "coordinate": {
+        "latitude": 45.5688445,
+        "longitude": 5.9174766
+      },
+      "value": 10
+    },
+    {
+      "id": "4631BF33-95DF-54ED-ACF3-08B0D2D6A703",
+      "coordinate": {
+        "latitude": 45.5687837,
+        "longitude": 5.9170685
+      },
+      "value": 10
+    },
+    {
+      "id": "FC8EFDA7-784D-502D-8AD4-2ABA9CC875FF",
+      "coordinate": {
+        "latitude": 45.5695165,
+        "longitude": 5.9171749
+      },
+      "value": 10
+    },
+    {
+      "id": "B4B64414-D3A1-59A9-B0EE-90433B789FF2",
+      "coordinate": {
+        "latitude": 45.5694811,
+        "longitude": 5.9168193
+      },
+      "value": 10
+    },
+    {
+      "id": "59CE1B86-B8DC-5F25-B30A-28B9E0D07062",
+      "coordinate": {
+        "latitude": 45.5693932,
+        "longitude": 5.9174757
+      },
+      "value": 10
+    },
+    {
+      "id": "03538CB9-5B1C-55FF-B2AB-AEF62476B7B2",
+      "coordinate": {
+        "latitude": 45.5691496,
+        "longitude": 5.9172692
+      },
+      "value": 10
+    },
+    {
+      "id": "9D142188-77F2-5D9D-B01D-D62FDDA6FDC1",
+      "coordinate": {
+        "latitude": 45.5693024,
+        "longitude": 5.9179745
+      },
+      "value": 10
+    },
+    {
+      "id": "DAF5BF2D-5E5D-500B-8137-6130E74022F4",
+      "coordinate": {
+        "latitude": 45.5691129,
+        "longitude": 5.9165408
+      },
+      "value": 10
+    },
+    {
+      "id": "7F11A8C6-5F71-578C-A787-CD35472EDB1F",
+      "coordinate": {
+        "latitude": 45.5690346,
+        "longitude": 5.9169372
+      },
+      "value": 10
+    },
+    {
+      "id": "DA68BA31-E22F-5272-AE6F-DC93F780CD03",
+      "coordinate": {
+        "latitude": 45.5686122,
+        "longitude": 5.9176127
+      },
+      "value": 10
+    },
+    {
+      "id": "E855362D-D304-5517-AAE5-663B3ADD91A1",
+      "coordinate": {
+        "latitude": 45.5696601,
+        "longitude": 5.9173924
+      },
+      "value": 10
+    },
+    {
+      "id": "64F15085-C7A5-5BBE-8357-CB6171BF408A",
+      "coordinate": {
+        "latitude": 45.569722,
+        "longitude": 5.9176775
+      },
+      "value": 10
+    },
+    {
+      "id": "01674484-C551-5ED8-9698-299A282E4361",
+      "coordinate": {
+        "latitude": 45.5699705,
+        "longitude": 5.9178447
+      },
+      "value": 10
+    },
+    {
+      "id": "69DBA602-360C-5BC8-B0BC-9C5C17BF7C66",
+      "coordinate": {
+        "latitude": 45.5697581,
+        "longitude": 5.9170729
+      },
+      "value": 10
+    },
+    {
+      "id": "5A1B8A7C-C4A9-55FB-9D40-044C3E824550",
+      "coordinate": {
+        "latitude": 45.5687661,
+        "longitude": 5.9178464
+      },
+      "value": 10
+    },
+    {
+      "id": "71AA8784-1ECE-5FEC-8043-D6176E97D67A",
+      "coordinate": {
+        "latitude": 45.5690297,
+        "longitude": 5.9159562
+      },
+      "value": 10
+    },
+    {
+      "id": "CFB36480-72E9-5ECA-9484-0FF3FFD0F66B",
+      "coordinate": {
+        "latitude": 45.5691638,
+        "longitude": 5.9154845
+      },
+      "value": 10
+    },
+    {
+      "id": "59274415-FA1D-5734-A4AC-963B46CB4300",
+      "coordinate": {
+        "latitude": 45.5694898,
+        "longitude": 5.916239
+      },
+      "value": 10
+    },
+    {
+      "id": "B83E9A01-FDC9-5151-A247-6E07B3D1FBEB",
+      "coordinate": {
+        "latitude": 45.569285,
+        "longitude": 5.9160555
+      },
+      "value": 10
+    },
+    {
+      "id": "289EA8CC-3F2A-524C-A4E1-149180AD2DDE",
+      "coordinate": {
+        "latitude": 45.5688757,
+        "longitude": 5.9162673
+      },
+      "value": 10
+    }
+  ],
+  "mapStyleURL": "https://tiles.openfreemap.org/styles/liberty",
+  "parcours": {
+    "description": "Explore the mapped walking paths of Parc du Verney in Chambéry. Map-based prototype; access, proposed start and pellet spacing still need an on-foot review.",
+    "boundary": [
+      {
+        "latitude": 45.5699992,
+        "longitude": 5.9178403
+      },
+      {
+        "latitude": 45.5699949,
+        "longitude": 5.9178577
+      },
+      {
+        "latitude": 45.5692566,
+        "longitude": 5.9185412
+      },
+      {
+        "latitude": 45.5692428,
+        "longitude": 5.9185873
+      },
+      {
+        "latitude": 45.5691096,
+        "longitude": 5.9187305
+      },
+      {
+        "latitude": 45.5689375,
+        "longitude": 5.9189474
+      },
+      {
+        "latitude": 45.5688086,
+        "longitude": 5.9190454
+      },
+      {
+        "latitude": 45.5687694,
+        "longitude": 5.9191307
+      },
+      {
+        "latitude": 45.5687549,
+        "longitude": 5.919118
+      },
+      {
+        "latitude": 45.5686839,
+        "longitude": 5.9190489
+      },
+      {
+        "latitude": 45.5687655,
+        "longitude": 5.9188828
+      },
+      {
+        "latitude": 45.5689041,
+        "longitude": 5.9186003
+      },
+      {
+        "latitude": 45.5689914,
+        "longitude": 5.9184228
+      },
+      {
+        "latitude": 45.5690552,
+        "longitude": 5.9182156
+      },
+      {
+        "latitude": 45.5688833,
+        "longitude": 5.9180531
+      },
+      {
+        "latitude": 45.5687671,
+        "longitude": 5.9179413
+      },
+      {
+        "latitude": 45.568581,
+        "longitude": 5.9177667
+      },
+      {
+        "latitude": 45.5685521,
+        "longitude": 5.9177357
+      },
+      {
+        "latitude": 45.5685586,
+        "longitude": 5.9177197
+      },
+      {
+        "latitude": 45.5687273,
+        "longitude": 5.9173063
+      },
+      {
+        "latitude": 45.5686788,
+        "longitude": 5.9172629
+      },
+      {
+        "latitude": 45.5688153,
+        "longitude": 5.9169233
+      },
+      {
+        "latitude": 45.5689918,
+        "longitude": 5.9165391
+      },
+      {
+        "latitude": 45.5687782,
+        "longitude": 5.9163528
+      },
+      {
+        "latitude": 45.5687393,
+        "longitude": 5.9163071
+      },
+      {
+        "latitude": 45.568784,
+        "longitude": 5.916192
+      },
+      {
+        "latitude": 45.568786,
+        "longitude": 5.916185
+      },
+      {
+        "latitude": 45.568826,
+        "longitude": 5.916092
+      },
+      {
+        "latitude": 45.5690265,
+        "longitude": 5.9156163
+      },
+      {
+        "latitude": 45.5691962,
+        "longitude": 5.9152152
+      },
+      {
+        "latitude": 45.5692532,
+        "longitude": 5.9152775
+      },
+      {
+        "latitude": 45.569266,
+        "longitude": 5.9152914
+      },
+      {
+        "latitude": 45.5695679,
+        "longitude": 5.9155959
+      },
+      {
+        "latitude": 45.5697814,
+        "longitude": 5.9157951
+      },
+      {
+        "latitude": 45.569793,
+        "longitude": 5.9158592
+      },
+      {
+        "latitude": 45.5698195,
+        "longitude": 5.9163881
+      },
+      {
+        "latitude": 45.5697972,
+        "longitude": 5.9164808
+      },
+      {
+        "latitude": 45.5697705,
+        "longitude": 5.9164555
+      },
+      {
+        "latitude": 45.5696752,
+        "longitude": 5.9166676
+      },
+      {
+        "latitude": 45.5697037,
+        "longitude": 5.9166947
+      },
+      {
+        "latitude": 45.5696869,
+        "longitude": 5.9167285
+      },
+      {
+        "latitude": 45.5697098,
+        "longitude": 5.9169106
+      },
+      {
+        "latitude": 45.5699996,
+        "longitude": 5.9177807
+      }
+    ],
+    "startJunctionID": "269891457",
+    "junctions": [
+      {
+        "id": "1069953159",
+        "coordinate": {
+          "latitude": 45.5696341,
+          "longitude": 5.9173107
+        }
+      },
+      {
+        "id": "11401589707",
+        "coordinate": {
+          "latitude": 45.5698153,
+          "longitude": 5.917759
+        }
+      },
+      {
+        "id": "11401589727",
+        "coordinate": {
+          "latitude": 45.5691968,
+          "longitude": 5.9186158
+        }
+      },
+      {
+        "id": "11401589728",
+        "coordinate": {
+          "latitude": 45.5691647,
+          "longitude": 5.918639
+        }
+      },
+      {
+        "id": "11401589729",
+        "coordinate": {
+          "latitude": 45.5691016,
+          "longitude": 5.918652
+        }
+      },
+      {
+        "id": "11401589736",
+        "coordinate": {
+          "latitude": 45.5692496,
+          "longitude": 5.9185306
+        }
+      },
+      {
+        "id": "11401589738",
+        "coordinate": {
+          "latitude": 45.569213,
+          "longitude": 5.9185997
+        }
+      },
+      {
+        "id": "11525308296",
+        "coordinate": {
+          "latitude": 45.568887,
+          "longitude": 5.9175372
+        }
+      },
+      {
+        "id": "11525308297",
+        "coordinate": {
+          "latitude": 45.5691387,
+          "longitude": 5.9177568
+        }
+      },
+      {
+        "id": "11525308298",
+        "coordinate": {
+          "latitude": 45.569216,
+          "longitude": 5.9177897
+        }
+      },
+      {
+        "id": "11525308299",
+        "coordinate": {
+          "latitude": 45.5692158,
+          "longitude": 5.9178015
+        }
+      },
+      {
+        "id": "11525308300",
+        "coordinate": {
+          "latitude": 45.569213,
+          "longitude": 5.9178126
+        }
+      },
+      {
+        "id": "11525308301",
+        "coordinate": {
+          "latitude": 45.5692081,
+          "longitude": 5.9178271
+        }
+      },
+      {
+        "id": "11525308302",
+        "coordinate": {
+          "latitude": 45.5692042,
+          "longitude": 5.9178398
+        }
+      },
+      {
+        "id": "11525308303",
+        "coordinate": {
+          "latitude": 45.5691679,
+          "longitude": 5.9178045
+        }
+      },
+      {
+        "id": "11525308304",
+        "coordinate": {
+          "latitude": 45.569167,
+          "longitude": 5.9177931
+        }
+      },
+      {
+        "id": "11525308305",
+        "coordinate": {
+          "latitude": 45.5691688,
+          "longitude": 5.917782
+        }
+      },
+      {
+        "id": "11525308306",
+        "coordinate": {
+          "latitude": 45.5691729,
+          "longitude": 5.9177723
+        }
+      },
+      {
+        "id": "11525308307",
+        "coordinate": {
+          "latitude": 45.569179,
+          "longitude": 5.9177649
+        }
+      },
+      {
+        "id": "11525308308",
+        "coordinate": {
+          "latitude": 45.5691979,
+          "longitude": 5.9178582
+        }
+      },
+      {
+        "id": "11525308309",
+        "coordinate": {
+          "latitude": 45.5691867,
+          "longitude": 5.9178419
+        }
+      },
+      {
+        "id": "11525308310",
+        "coordinate": {
+          "latitude": 45.5691758,
+          "longitude": 5.9178251
+        }
+      },
+      {
+        "id": "11525308311",
+        "coordinate": {
+          "latitude": 45.5691714,
+          "longitude": 5.9178151
+        }
+      },
+      {
+        "id": "11525308312",
+        "coordinate": {
+          "latitude": 45.5691865,
+          "longitude": 5.9177607
+        }
+      },
+      {
+        "id": "11525308313",
+        "coordinate": {
+          "latitude": 45.5691944,
+          "longitude": 5.9177602
+        }
+      },
+      {
+        "id": "11525308314",
+        "coordinate": {
+          "latitude": 45.5692021,
+          "longitude": 5.9177633
+        }
+      },
+      {
+        "id": "11525308315",
+        "coordinate": {
+          "latitude": 45.5692087,
+          "longitude": 5.9177698
+        }
+      },
+      {
+        "id": "11525308316",
+        "coordinate": {
+          "latitude": 45.5692135,
+          "longitude": 5.9177789
+        }
+      },
+      {
+        "id": "11525308317",
+        "coordinate": {
+          "latitude": 45.5691899,
+          "longitude": 5.9177375
+        }
+      },
+      {
+        "id": "11525308318",
+        "coordinate": {
+          "latitude": 45.5692006,
+          "longitude": 5.9177122
+        }
+      },
+      {
+        "id": "11525308319",
+        "coordinate": {
+          "latitude": 45.5692076,
+          "longitude": 5.9176953
+        }
+      },
+      {
+        "id": "11525308320",
+        "coordinate": {
+          "latitude": 45.5692256,
+          "longitude": 5.9177117
+        }
+      },
+      {
+        "id": "11525308321",
+        "coordinate": {
+          "latitude": 45.5692162,
+          "longitude": 5.917735
+        }
+      },
+      {
+        "id": "11525308322",
+        "coordinate": {
+          "latitude": 45.5692773,
+          "longitude": 5.9177825
+        }
+      },
+      {
+        "id": "11525308324",
+        "coordinate": {
+          "latitude": 45.5692459,
+          "longitude": 5.9177581
+        }
+      },
+      {
+        "id": "11525308341",
+        "coordinate": {
+          "latitude": 45.5690557,
+          "longitude": 5.9186323
+        }
+      },
+      {
+        "id": "11525308343",
+        "coordinate": {
+          "latitude": 45.5691077,
+          "longitude": 5.9184964
+        }
+      },
+      {
+        "id": "11525308344",
+        "coordinate": {
+          "latitude": 45.5691362,
+          "longitude": 5.9184203
+        }
+      },
+      {
+        "id": "11525308345",
+        "coordinate": {
+          "latitude": 45.5691356,
+          "longitude": 5.9186517
+        }
+      },
+      {
+        "id": "1194630436",
+        "coordinate": {
+          "latitude": 45.5695594,
+          "longitude": 5.9177199
+        }
+      },
+      {
+        "id": "1194630442",
+        "coordinate": {
+          "latitude": 45.5694628,
+          "longitude": 5.9179544
+        }
+      },
+      {
+        "id": "1194630445",
+        "coordinate": {
+          "latitude": 45.5698127,
+          "longitude": 5.9177374
+        }
+      },
+      {
+        "id": "1194630450",
+        "coordinate": {
+          "latitude": 45.5696601,
+          "longitude": 5.9173924
+        }
+      },
+      {
+        "id": "1194630451",
+        "coordinate": {
+          "latitude": 45.569722,
+          "longitude": 5.9176775
+        }
+      },
+      {
+        "id": "1527367094",
+        "coordinate": {
+          "latitude": 45.569111,
+          "longitude": 5.9167985
+        }
+      },
+      {
+        "id": "1527367218",
+        "coordinate": {
+          "latitude": 45.5695356,
+          "longitude": 5.9162915
+        }
+      },
+      {
+        "id": "1527367232",
+        "coordinate": {
+          "latitude": 45.5691601,
+          "longitude": 5.9167034
+        }
+      },
+      {
+        "id": "1527367330",
+        "coordinate": {
+          "latitude": 45.5695134,
+          "longitude": 5.9169045
+        }
+      },
+      {
+        "id": "1527367371",
+        "coordinate": {
+          "latitude": 45.5695277,
+          "longitude": 5.9169909
+        }
+      },
+      {
+        "id": "1527367403",
+        "coordinate": {
+          "latitude": 45.5694811,
+          "longitude": 5.9168193
+        }
+      },
+      {
+        "id": "1527367432",
+        "coordinate": {
+          "latitude": 45.5687249,
+          "longitude": 5.917364
+        }
+      },
+      {
+        "id": "1527367483",
+        "coordinate": {
+          "latitude": 45.5687979,
+          "longitude": 5.9172909
+        }
+      },
+      {
+        "id": "242847294",
+        "coordinate": {
+          "latitude": 45.5688153,
+          "longitude": 5.9169233
+        }
+      },
+      {
+        "id": "269720227",
+        "coordinate": {
+          "latitude": 45.5688185,
+          "longitude": 5.9189683
+        }
+      },
+      {
+        "id": "269720229",
+        "coordinate": {
+          "latitude": 45.5690538,
+          "longitude": 5.9183948
+        }
+      },
+      {
+        "id": "269720231",
+        "coordinate": {
+          "latitude": 45.5688867,
+          "longitude": 5.9188184
+        }
+      },
+      {
+        "id": "269720233",
+        "coordinate": {
+          "latitude": 45.5691213,
+          "longitude": 5.9184612
+        }
+      },
+      {
+        "id": "269720234",
+        "coordinate": {
+          "latitude": 45.5695877,
+          "longitude": 5.9172434
+        }
+      },
+      {
+        "id": "269720236",
+        "coordinate": {
+          "latitude": 45.5695165,
+          "longitude": 5.9171749
+        }
+      },
+      {
+        "id": "269891457",
+        "coordinate": {
+          "latitude": 45.5686122,
+          "longitude": 5.9176127
+        }
+      },
+      {
+        "id": "269891473",
+        "coordinate": {
+          "latitude": 45.5689348,
+          "longitude": 5.916042
+        }
+      },
+      {
+        "id": "269891474",
+        "coordinate": {
+          "latitude": 45.5691129,
+          "longitude": 5.9165408
+        }
+      },
+      {
+        "id": "269891476",
+        "coordinate": {
+          "latitude": 45.5688445,
+          "longitude": 5.9174766
+        }
+      },
+      {
+        "id": "269891479",
+        "coordinate": {
+          "latitude": 45.5690068,
+          "longitude": 5.9176424
+        }
+      },
+      {
+        "id": "269891481",
+        "coordinate": {
+          "latitude": 45.5691495,
+          "longitude": 5.9180044
+        }
+      },
+      {
+        "id": "269891483",
+        "coordinate": {
+          "latitude": 45.5691737,
+          "longitude": 5.9180683
+        }
+      },
+      {
+        "id": "269891484",
+        "coordinate": {
+          "latitude": 45.5689583,
+          "longitude": 5.9170759
+        }
+      },
+      {
+        "id": "269891485",
+        "coordinate": {
+          "latitude": 45.5693932,
+          "longitude": 5.9174757
+        }
+      },
+      {
+        "id": "269891487",
+        "coordinate": {
+          "latitude": 45.5691496,
+          "longitude": 5.9172692
+        }
+      },
+      {
+        "id": "269891489",
+        "coordinate": {
+          "latitude": 45.5692973,
+          "longitude": 5.9173964
+        }
+      },
+      {
+        "id": "269891490",
+        "coordinate": {
+          "latitude": 45.5694459,
+          "longitude": 5.9169648
+        }
+      },
+      {
+        "id": "269891493",
+        "coordinate": {
+          "latitude": 45.5695008,
+          "longitude": 5.916649
+        }
+      },
+      {
+        "id": "269891494",
+        "coordinate": {
+          "latitude": 45.5695312,
+          "longitude": 5.9163637
+        }
+      },
+      {
+        "id": "269891498",
+        "coordinate": {
+          "latitude": 45.5696645,
+          "longitude": 5.9174806
+        }
+      },
+      {
+        "id": "269891499",
+        "coordinate": {
+          "latitude": 45.5693621,
+          "longitude": 5.9181852
+        }
+      },
+      {
+        "id": "269891500",
+        "coordinate": {
+          "latitude": 45.569236,
+          "longitude": 5.9185737
+        }
+      },
+      {
+        "id": "269901369",
+        "coordinate": {
+          "latitude": 45.5692036,
+          "longitude": 5.9182353
+        }
+      },
+      {
+        "id": "269901370",
+        "coordinate": {
+          "latitude": 45.569226,
+          "longitude": 5.9179182
+        }
+      },
+      {
+        "id": "269901371",
+        "coordinate": {
+          "latitude": 45.5693024,
+          "longitude": 5.9179745
+        }
+      },
+      {
+        "id": "269901372",
+        "coordinate": {
+          "latitude": 45.569358,
+          "longitude": 5.91757
+        }
+      },
+      {
+        "id": "269901373",
+        "coordinate": {
+          "latitude": 45.5694338,
+          "longitude": 5.9176302
+        }
+      },
+      {
+        "id": "269901374",
+        "coordinate": {
+          "latitude": 45.5694276,
+          "longitude": 5.9173925
+        }
+      },
+      {
+        "id": "269901375",
+        "coordinate": {
+          "latitude": 45.5695018,
+          "longitude": 5.9174564
+        }
+      },
+      {
+        "id": "278213785",
+        "coordinate": {
+          "latitude": 45.5699705,
+          "longitude": 5.9178447
+        }
+      },
+      {
+        "id": "2942476248",
+        "coordinate": {
+          "latitude": 45.5693402,
+          "longitude": 5.9172211
+        }
+      },
+      {
+        "id": "2942476251",
+        "coordinate": {
+          "latitude": 45.5687661,
+          "longitude": 5.9178464
+        }
+      },
+      {
+        "id": "2942476252",
+        "coordinate": {
+          "latitude": 45.5687449,
+          "longitude": 5.9175662
+        }
+      },
+      {
+        "id": "2942476253",
+        "coordinate": {
+          "latitude": 45.5696313,
+          "longitude": 5.9176989
+        }
+      },
+      {
+        "id": "2942476254",
+        "coordinate": {
+          "latitude": 45.5696763,
+          "longitude": 5.9176882
+        }
+      },
+      {
+        "id": "2952668785",
+        "coordinate": {
+          "latitude": 45.5689583,
+          "longitude": 5.9159911
+        }
+      },
+      {
+        "id": "2952668786",
+        "coordinate": {
+          "latitude": 45.5689829,
+          "longitude": 5.9159327
+        }
+      },
+      {
+        "id": "2952668787",
+        "coordinate": {
+          "latitude": 45.569411,
+          "longitude": 5.9161609
+        }
+      },
+      {
+        "id": "2952668788",
+        "coordinate": {
+          "latitude": 45.569163,
+          "longitude": 5.9159669
+        }
+      },
+      {
+        "id": "2952668789",
+        "coordinate": {
+          "latitude": 45.5692287,
+          "longitude": 5.9153339
+        }
+      },
+      {
+        "id": "2952668790",
+        "coordinate": {
+          "latitude": 45.5690334,
+          "longitude": 5.9157872
+        }
+      },
+      {
+        "id": "2952668791",
+        "coordinate": {
+          "latitude": 45.5689283,
+          "longitude": 5.9162459
+        }
+      },
+      {
+        "id": "2952668793",
+        "coordinate": {
+          "latitude": 45.5692532,
+          "longitude": 5.9152775
+        }
+      },
+      {
+        "id": "2952668794",
+        "coordinate": {
+          "latitude": 45.5689985,
+          "longitude": 5.9159629
+        }
+      },
+      {
+        "id": "2952668795",
+        "coordinate": {
+          "latitude": 45.5694417,
+          "longitude": 5.9161904
+        }
+      },
+      {
+        "id": "2952668796",
+        "coordinate": {
+          "latitude": 45.5688757,
+          "longitude": 5.9162673
+        }
+      },
+      {
+        "id": "2952668798",
+        "coordinate": {
+          "latitude": 45.5689996,
+          "longitude": 5.9158892
+        }
+      },
+      {
+        "id": "2952668799",
+        "coordinate": {
+          "latitude": 45.5690045,
+          "longitude": 5.9162397
+        }
+      },
+      {
+        "id": "2952668801",
+        "coordinate": {
+          "latitude": 45.5690879,
+          "longitude": 5.9159482
+        }
+      },
+      {
+        "id": "2952668802",
+        "coordinate": {
+          "latitude": 45.5690297,
+          "longitude": 5.9159562
+        }
+      },
+      {
+        "id": "2952668803",
+        "coordinate": {
+          "latitude": 45.569285,
+          "longitude": 5.9160555
+        }
+      },
+      {
+        "id": "3060771719",
+        "coordinate": {
+          "latitude": 45.5687837,
+          "longitude": 5.9170685
+        }
+      },
+      {
+        "id": "3077937798",
+        "coordinate": {
+          "latitude": 45.5694898,
+          "longitude": 5.916239
+        }
+      },
+      {
+        "id": "3077937802",
+        "coordinate": {
+          "latitude": 45.5691801,
+          "longitude": 5.9154999
+        }
+      },
+      {
+        "id": "3077937804",
+        "coordinate": {
+          "latitude": 45.5694278,
+          "longitude": 5.9161037
+        }
+      },
+      {
+        "id": "3077937806",
+        "coordinate": {
+          "latitude": 45.5693902,
+          "longitude": 5.9161471
+        }
+      },
+      {
+        "id": "3077937810",
+        "coordinate": {
+          "latitude": 45.5694042,
+          "longitude": 5.9161276
+        }
+      },
+      {
+        "id": "3077973297",
+        "coordinate": {
+          "latitude": 45.5688366,
+          "longitude": 5.9169454
+        }
+      },
+      {
+        "id": "3077973299",
+        "coordinate": {
+          "latitude": 45.5689827,
+          "longitude": 5.9166005
+        }
+      },
+      {
+        "id": "3078086134",
+        "coordinate": {
+          "latitude": 45.5694019,
+          "longitude": 5.9173547
+        }
+      },
+      {
+        "id": "3078086135",
+        "coordinate": {
+          "latitude": 45.5692831,
+          "longitude": 5.9174794
+        }
+      },
+      {
+        "id": "3078086136",
+        "coordinate": {
+          "latitude": 45.569448,
+          "longitude": 5.9173444
+        }
+      },
+      {
+        "id": "3078086137",
+        "coordinate": {
+          "latitude": 45.5691817,
+          "longitude": 5.9175651
+        }
+      },
+      {
+        "id": "3078086139",
+        "coordinate": {
+          "latitude": 45.5693028,
+          "longitude": 5.9175022
+        }
+      },
+      {
+        "id": "3078086140",
+        "coordinate": {
+          "latitude": 45.5693845,
+          "longitude": 5.9173493
+        }
+      },
+      {
+        "id": "3078086141",
+        "coordinate": {
+          "latitude": 45.5693877,
+          "longitude": 5.9171067
+        }
+      },
+      {
+        "id": "3078086143",
+        "coordinate": {
+          "latitude": 45.5692767,
+          "longitude": 5.9174226
+        }
+      },
+      {
+        "id": "3078086144",
+        "coordinate": {
+          "latitude": 45.5693629,
+          "longitude": 5.9173406
+        }
+      },
+      {
+        "id": "3078086146",
+        "coordinate": {
+          "latitude": 45.5693471,
+          "longitude": 5.9175976
+        }
+      },
+      {
+        "id": "3078086147",
+        "coordinate": {
+          "latitude": 45.5693206,
+          "longitude": 5.9175291
+        }
+      },
+      {
+        "id": "3078086149",
+        "coordinate": {
+          "latitude": 45.5692559,
+          "longitude": 5.9174546
+        }
+      },
+      {
+        "id": "3078086150",
+        "coordinate": {
+          "latitude": 45.5693338,
+          "longitude": 5.9175599
+        }
+      },
+      {
+        "id": "3078086151",
+        "coordinate": {
+          "latitude": 45.5691061,
+          "longitude": 5.9177278
+        }
+      },
+      {
+        "id": "3078086152",
+        "coordinate": {
+          "latitude": 45.5693258,
+          "longitude": 5.9173187
+        }
+      },
+      {
+        "id": "3078086153",
+        "coordinate": {
+          "latitude": 45.5694244,
+          "longitude": 5.917354
+        }
+      },
+      {
+        "id": "3078086154",
+        "coordinate": {
+          "latitude": 45.5692098,
+          "longitude": 5.9175092
+        }
+      },
+      {
+        "id": "3078443537",
+        "coordinate": {
+          "latitude": 45.5697496,
+          "longitude": 5.9171344
+        }
+      },
+      {
+        "id": "3078443540",
+        "coordinate": {
+          "latitude": 45.5697083,
+          "longitude": 5.9173168
+        }
+      },
+      {
+        "id": "3078443542",
+        "coordinate": {
+          "latitude": 45.5697383,
+          "longitude": 5.9171934
+        }
+      },
+      {
+        "id": "3078445524",
+        "coordinate": {
+          "latitude": 45.5691116,
+          "longitude": 5.9172354
+        }
+      },
+      {
+        "id": "3078445525",
+        "coordinate": {
+          "latitude": 45.5690385,
+          "longitude": 5.9171664
+        }
+      },
+      {
+        "id": "3594068301",
+        "coordinate": {
+          "latitude": 45.5691638,
+          "longitude": 5.9154845
+        }
+      },
+      {
+        "id": "3594068302",
+        "coordinate": {
+          "latitude": 45.5691397,
+          "longitude": 5.9154618
+        }
+      },
+      {
+        "id": "3873810220",
+        "coordinate": {
+          "latitude": 45.5697581,
+          "longitude": 5.9170729
+        }
+      },
+      {
+        "id": "433728050",
+        "coordinate": {
+          "latitude": 45.5690294,
+          "longitude": 5.9186976
+        }
+      },
+      {
+        "id": "5548323908",
+        "coordinate": {
+          "latitude": 45.5692577,
+          "longitude": 5.918095
+        }
+      },
+      {
+        "id": "8578400627",
+        "coordinate": {
+          "latitude": 45.5696955,
+          "longitude": 5.9173667
+        }
+      },
+      {
+        "id": "8579742082",
+        "coordinate": {
+          "latitude": 45.5690531,
+          "longitude": 5.9163745
+        }
+      },
+      {
+        "id": "8579742084",
+        "coordinate": {
+          "latitude": 45.568998,
+          "longitude": 5.9166223
+        }
+      },
+      {
+        "id": "9415295475",
+        "coordinate": {
+          "latitude": 45.5691334,
+          "longitude": 5.918178
+        }
+      },
+      {
+        "id": "9415295476",
+        "coordinate": {
+          "latitude": 45.5691132,
+          "longitude": 5.9178241
+        }
+      }
+    ],
+    "paths": [
+      {
+        "id": "1020822878:2",
+        "from": "269720227",
+        "to": "269720231",
+        "coordinates": [
+          {
+            "latitude": 45.5688185,
+            "longitude": 5.9189683
+          },
+          {
+            "latitude": 45.5688867,
+            "longitude": 5.9188184
+          }
+        ],
+        "osmWayID": "1020822878"
+      },
+      {
+        "id": "1020822878:3",
+        "from": "269720231",
+        "to": "269720229",
+        "coordinates": [
+          {
+            "latitude": 45.5688867,
+            "longitude": 5.9188184
+          },
+          {
+            "latitude": 45.5690538,
+            "longitude": 5.9183948
+          }
+        ],
+        "osmWayID": "1020822878"
+      },
+      {
+        "id": "1020822878:4",
+        "from": "269720229",
+        "to": "9415295475",
+        "coordinates": [
+          {
+            "latitude": 45.5690538,
+            "longitude": 5.9183948
+          },
+          {
+            "latitude": 45.5691334,
+            "longitude": 5.918178
+          }
+        ],
+        "osmWayID": "1020822878"
+      },
+      {
+        "id": "1020822878:5",
+        "from": "9415295475",
+        "to": "269891483",
+        "coordinates": [
+          {
+            "latitude": 45.5691334,
+            "longitude": 5.918178
+          },
+          {
+            "latitude": 45.5691737,
+            "longitude": 5.9180683
+          }
+        ],
+        "osmWayID": "1020822878"
+      },
+      {
+        "id": "1020822879:0",
+        "from": "269901369",
+        "to": "9415295475",
+        "coordinates": [
+          {
+            "latitude": 45.5692036,
+            "longitude": 5.9182353
+          },
+          {
+            "latitude": 45.5691334,
+            "longitude": 5.918178
+          }
+        ],
+        "osmWayID": "1020822879"
+      },
+      {
+        "id": "1229517330:0",
+        "from": "269891500",
+        "to": "11401589738",
+        "coordinates": [
+          {
+            "latitude": 45.569236,
+            "longitude": 5.9185737
+          },
+          {
+            "latitude": 45.569213,
+            "longitude": 5.9185997
+          }
+        ],
+        "osmWayID": "1229517330"
+      },
+      {
+        "id": "1229517330:1",
+        "from": "11401589738",
+        "to": "11401589727",
+        "coordinates": [
+          {
+            "latitude": 45.569213,
+            "longitude": 5.9185997
+          },
+          {
+            "latitude": 45.5691968,
+            "longitude": 5.9186158
+          }
+        ],
+        "osmWayID": "1229517330"
+      },
+      {
+        "id": "1229517330:2",
+        "from": "11401589727",
+        "to": "11401589728",
+        "coordinates": [
+          {
+            "latitude": 45.5691968,
+            "longitude": 5.9186158
+          },
+          {
+            "latitude": 45.5691647,
+            "longitude": 5.918639
+          }
+        ],
+        "osmWayID": "1229517330"
+      },
+      {
+        "id": "1229517330:3",
+        "from": "11401589728",
+        "to": "11525308345",
+        "coordinates": [
+          {
+            "latitude": 45.5691647,
+            "longitude": 5.918639
+          },
+          {
+            "latitude": 45.5691356,
+            "longitude": 5.9186517
+          }
+        ],
+        "osmWayID": "1229517330"
+      },
+      {
+        "id": "1229517330:4",
+        "from": "11525308345",
+        "to": "11401589729",
+        "coordinates": [
+          {
+            "latitude": 45.5691356,
+            "longitude": 5.9186517
+          },
+          {
+            "latitude": 45.5691016,
+            "longitude": 5.918652
+          }
+        ],
+        "osmWayID": "1229517330"
+      },
+      {
+        "id": "1229517330:5",
+        "from": "11401589729",
+        "to": "11525308341",
+        "coordinates": [
+          {
+            "latitude": 45.5691016,
+            "longitude": 5.918652
+          },
+          {
+            "latitude": 45.5690557,
+            "longitude": 5.9186323
+          }
+        ],
+        "osmWayID": "1229517330"
+      },
+      {
+        "id": "1240505368:0",
+        "from": "3078086151",
+        "to": "11525308297",
+        "coordinates": [
+          {
+            "latitude": 45.5691061,
+            "longitude": 5.9177278
+          },
+          {
+            "latitude": 45.5691387,
+            "longitude": 5.9177568
+          }
+        ],
+        "osmWayID": "1240505368"
+      },
+      {
+        "id": "1240505368:1",
+        "from": "11525308297",
+        "to": "11525308305",
+        "coordinates": [
+          {
+            "latitude": 45.5691387,
+            "longitude": 5.9177568
+          },
+          {
+            "latitude": 45.5691688,
+            "longitude": 5.917782
+          }
+        ],
+        "osmWayID": "1240505368"
+      },
+      {
+        "id": "1240505369:0",
+        "from": "11525308312",
+        "to": "11525308313",
+        "coordinates": [
+          {
+            "latitude": 45.5691865,
+            "longitude": 5.9177607
+          },
+          {
+            "latitude": 45.5691944,
+            "longitude": 5.9177602
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:1",
+        "from": "11525308313",
+        "to": "11525308314",
+        "coordinates": [
+          {
+            "latitude": 45.5691944,
+            "longitude": 5.9177602
+          },
+          {
+            "latitude": 45.5692021,
+            "longitude": 5.9177633
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:10",
+        "from": "11525308308",
+        "to": "11525308309",
+        "coordinates": [
+          {
+            "latitude": 45.5691979,
+            "longitude": 5.9178582
+          },
+          {
+            "latitude": 45.5691867,
+            "longitude": 5.9178419
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:11",
+        "from": "11525308309",
+        "to": "11525308310",
+        "coordinates": [
+          {
+            "latitude": 45.5691867,
+            "longitude": 5.9178419
+          },
+          {
+            "latitude": 45.5691758,
+            "longitude": 5.9178251
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:12",
+        "from": "11525308310",
+        "to": "11525308311",
+        "coordinates": [
+          {
+            "latitude": 45.5691758,
+            "longitude": 5.9178251
+          },
+          {
+            "latitude": 45.5691714,
+            "longitude": 5.9178151
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:13",
+        "from": "11525308311",
+        "to": "11525308303",
+        "coordinates": [
+          {
+            "latitude": 45.5691714,
+            "longitude": 5.9178151
+          },
+          {
+            "latitude": 45.5691679,
+            "longitude": 5.9178045
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:14",
+        "from": "11525308303",
+        "to": "11525308304",
+        "coordinates": [
+          {
+            "latitude": 45.5691679,
+            "longitude": 5.9178045
+          },
+          {
+            "latitude": 45.569167,
+            "longitude": 5.9177931
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:15",
+        "from": "11525308304",
+        "to": "11525308305",
+        "coordinates": [
+          {
+            "latitude": 45.569167,
+            "longitude": 5.9177931
+          },
+          {
+            "latitude": 45.5691688,
+            "longitude": 5.917782
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:16",
+        "from": "11525308305",
+        "to": "11525308306",
+        "coordinates": [
+          {
+            "latitude": 45.5691688,
+            "longitude": 5.917782
+          },
+          {
+            "latitude": 45.5691729,
+            "longitude": 5.9177723
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:17",
+        "from": "11525308306",
+        "to": "11525308307",
+        "coordinates": [
+          {
+            "latitude": 45.5691729,
+            "longitude": 5.9177723
+          },
+          {
+            "latitude": 45.569179,
+            "longitude": 5.9177649
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:18",
+        "from": "11525308307",
+        "to": "11525308312",
+        "coordinates": [
+          {
+            "latitude": 45.569179,
+            "longitude": 5.9177649
+          },
+          {
+            "latitude": 45.5691865,
+            "longitude": 5.9177607
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:2",
+        "from": "11525308314",
+        "to": "11525308315",
+        "coordinates": [
+          {
+            "latitude": 45.5692021,
+            "longitude": 5.9177633
+          },
+          {
+            "latitude": 45.5692087,
+            "longitude": 5.9177698
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:3",
+        "from": "11525308315",
+        "to": "11525308316",
+        "coordinates": [
+          {
+            "latitude": 45.5692087,
+            "longitude": 5.9177698
+          },
+          {
+            "latitude": 45.5692135,
+            "longitude": 5.9177789
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:4",
+        "from": "11525308316",
+        "to": "11525308298",
+        "coordinates": [
+          {
+            "latitude": 45.5692135,
+            "longitude": 5.9177789
+          },
+          {
+            "latitude": 45.569216,
+            "longitude": 5.9177897
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:5",
+        "from": "11525308298",
+        "to": "11525308299",
+        "coordinates": [
+          {
+            "latitude": 45.569216,
+            "longitude": 5.9177897
+          },
+          {
+            "latitude": 45.5692158,
+            "longitude": 5.9178015
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:6",
+        "from": "11525308299",
+        "to": "11525308300",
+        "coordinates": [
+          {
+            "latitude": 45.5692158,
+            "longitude": 5.9178015
+          },
+          {
+            "latitude": 45.569213,
+            "longitude": 5.9178126
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:7",
+        "from": "11525308300",
+        "to": "11525308301",
+        "coordinates": [
+          {
+            "latitude": 45.569213,
+            "longitude": 5.9178126
+          },
+          {
+            "latitude": 45.5692081,
+            "longitude": 5.9178271
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:8",
+        "from": "11525308301",
+        "to": "11525308302",
+        "coordinates": [
+          {
+            "latitude": 45.5692081,
+            "longitude": 5.9178271
+          },
+          {
+            "latitude": 45.5692042,
+            "longitude": 5.9178398
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505369:9",
+        "from": "11525308302",
+        "to": "11525308308",
+        "coordinates": [
+          {
+            "latitude": 45.5692042,
+            "longitude": 5.9178398
+          },
+          {
+            "latitude": 45.5691979,
+            "longitude": 5.9178582
+          }
+        ],
+        "osmWayID": "1240505369"
+      },
+      {
+        "id": "1240505370:0",
+        "from": "11525308318",
+        "to": "11525308319",
+        "coordinates": [
+          {
+            "latitude": 45.5692006,
+            "longitude": 5.9177122
+          },
+          {
+            "latitude": 45.5692076,
+            "longitude": 5.9176953
+          }
+        ],
+        "osmWayID": "1240505370"
+      },
+      {
+        "id": "1240505370:1",
+        "from": "11525308319",
+        "to": "11525308320",
+        "coordinates": [
+          {
+            "latitude": 45.5692076,
+            "longitude": 5.9176953
+          },
+          {
+            "latitude": 45.5692256,
+            "longitude": 5.9177117
+          }
+        ],
+        "osmWayID": "1240505370"
+      },
+      {
+        "id": "1240505370:2",
+        "from": "11525308320",
+        "to": "11525308321",
+        "coordinates": [
+          {
+            "latitude": 45.5692256,
+            "longitude": 5.9177117
+          },
+          {
+            "latitude": 45.5692162,
+            "longitude": 5.917735
+          }
+        ],
+        "osmWayID": "1240505370"
+      },
+      {
+        "id": "1240505370:3",
+        "from": "11525308321",
+        "to": "11525308324",
+        "coordinates": [
+          {
+            "latitude": 45.5692162,
+            "longitude": 5.917735
+          },
+          {
+            "latitude": 45.5692459,
+            "longitude": 5.9177581
+          }
+        ],
+        "osmWayID": "1240505370"
+      },
+      {
+        "id": "1240505370:4",
+        "from": "11525308324",
+        "to": "11525308322",
+        "coordinates": [
+          {
+            "latitude": 45.5692459,
+            "longitude": 5.9177581
+          },
+          {
+            "latitude": 45.5692773,
+            "longitude": 5.9177825
+          }
+        ],
+        "osmWayID": "1240505370"
+      },
+      {
+        "id": "1240505371:0",
+        "from": "11525308307",
+        "to": "11525308317",
+        "coordinates": [
+          {
+            "latitude": 45.569179,
+            "longitude": 5.9177649
+          },
+          {
+            "latitude": 45.5691899,
+            "longitude": 5.9177375
+          }
+        ],
+        "osmWayID": "1240505371"
+      },
+      {
+        "id": "1240505372:0",
+        "from": "11525308317",
+        "to": "11525308318",
+        "coordinates": [
+          {
+            "latitude": 45.5691899,
+            "longitude": 5.9177375
+          },
+          {
+            "latitude": 45.5692006,
+            "longitude": 5.9177122
+          }
+        ],
+        "osmWayID": "1240505372"
+      },
+      {
+        "id": "1240505373:0",
+        "from": "11525308316",
+        "to": "11525308324",
+        "coordinates": [
+          {
+            "latitude": 45.5692135,
+            "longitude": 5.9177789
+          },
+          {
+            "latitude": 45.5692459,
+            "longitude": 5.9177581
+          }
+        ],
+        "osmWayID": "1240505373"
+      },
+      {
+        "id": "139314649:0",
+        "from": "269891476",
+        "to": "1527367483",
+        "coordinates": [
+          {
+            "latitude": 45.5688445,
+            "longitude": 5.9174766
+          },
+          {
+            "latitude": 45.5687979,
+            "longitude": 5.9172909
+          }
+        ],
+        "osmWayID": "139314649"
+      },
+      {
+        "id": "139314649:1",
+        "from": "1527367483",
+        "to": "3060771719",
+        "coordinates": [
+          {
+            "latitude": 45.5687979,
+            "longitude": 5.9172909
+          },
+          {
+            "latitude": 45.5687837,
+            "longitude": 5.9170685
+          }
+        ],
+        "osmWayID": "139314649"
+      },
+      {
+        "id": "139314649:2",
+        "from": "3060771719",
+        "to": "3077973297",
+        "coordinates": [
+          {
+            "latitude": 45.5687837,
+            "longitude": 5.9170685
+          },
+          {
+            "latitude": 45.5688366,
+            "longitude": 5.9169454
+          }
+        ],
+        "osmWayID": "139314649"
+      },
+      {
+        "id": "139314657:0",
+        "from": "269720236",
+        "to": "1527367371",
+        "coordinates": [
+          {
+            "latitude": 45.5695165,
+            "longitude": 5.9171749
+          },
+          {
+            "latitude": 45.5695277,
+            "longitude": 5.9169909
+          }
+        ],
+        "osmWayID": "139314657"
+      },
+      {
+        "id": "139314657:1",
+        "from": "1527367371",
+        "to": "1527367330",
+        "coordinates": [
+          {
+            "latitude": 45.5695277,
+            "longitude": 5.9169909
+          },
+          {
+            "latitude": 45.5695134,
+            "longitude": 5.9169045
+          }
+        ],
+        "osmWayID": "139314657"
+      },
+      {
+        "id": "139314657:2",
+        "from": "1527367330",
+        "to": "1527367403",
+        "coordinates": [
+          {
+            "latitude": 45.5695134,
+            "longitude": 5.9169045
+          },
+          {
+            "latitude": 45.5694811,
+            "longitude": 5.9168193
+          }
+        ],
+        "osmWayID": "139314657"
+      },
+      {
+        "id": "22642195:0",
+        "from": "269891485",
+        "to": "269891489",
+        "coordinates": [
+          {
+            "latitude": 45.5693932,
+            "longitude": 5.9174757
+          },
+          {
+            "latitude": 45.5692973,
+            "longitude": 5.9173964
+          }
+        ],
+        "osmWayID": "22642195"
+      },
+      {
+        "id": "22642195:1",
+        "from": "269891489",
+        "to": "269891487",
+        "coordinates": [
+          {
+            "latitude": 45.5692973,
+            "longitude": 5.9173964
+          },
+          {
+            "latitude": 45.5691496,
+            "longitude": 5.9172692
+          }
+        ],
+        "osmWayID": "22642195"
+      },
+      {
+        "id": "22642195:2",
+        "from": "269891487",
+        "to": "3078445524",
+        "coordinates": [
+          {
+            "latitude": 45.5691496,
+            "longitude": 5.9172692
+          },
+          {
+            "latitude": 45.5691116,
+            "longitude": 5.9172354
+          }
+        ],
+        "osmWayID": "22642195"
+      },
+      {
+        "id": "22642195:3",
+        "from": "3078445524",
+        "to": "3078445525",
+        "coordinates": [
+          {
+            "latitude": 45.5691116,
+            "longitude": 5.9172354
+          },
+          {
+            "latitude": 45.5690385,
+            "longitude": 5.9171664
+          }
+        ],
+        "osmWayID": "22642195"
+      },
+      {
+        "id": "22642195:4",
+        "from": "3078445525",
+        "to": "269891484",
+        "coordinates": [
+          {
+            "latitude": 45.5690385,
+            "longitude": 5.9171664
+          },
+          {
+            "latitude": 45.5689583,
+            "longitude": 5.9170759
+          }
+        ],
+        "osmWayID": "22642195"
+      },
+      {
+        "id": "22642195:5",
+        "from": "269891484",
+        "to": "3077973297",
+        "coordinates": [
+          {
+            "latitude": 45.5689583,
+            "longitude": 5.9170759
+          },
+          {
+            "latitude": 45.5688366,
+            "longitude": 5.9169454
+          }
+        ],
+        "osmWayID": "22642195"
+      },
+      {
+        "id": "22642195:6",
+        "from": "3077973297",
+        "to": "242847294",
+        "coordinates": [
+          {
+            "latitude": 45.5688366,
+            "longitude": 5.9169454
+          },
+          {
+            "latitude": 45.5688153,
+            "longitude": 5.9169233
+          }
+        ],
+        "osmWayID": "22642195"
+      },
+      {
+        "id": "24827162:0",
+        "from": "269891483",
+        "to": "269901370",
+        "coordinates": [
+          {
+            "latitude": 45.5691737,
+            "longitude": 5.9180683
+          },
+          {
+            "latitude": 45.569226,
+            "longitude": 5.9179182
+          }
+        ],
+        "osmWayID": "24827162"
+      },
+      {
+        "id": "24827162:1",
+        "from": "269901370",
+        "to": "11525308322",
+        "coordinates": [
+          {
+            "latitude": 45.569226,
+            "longitude": 5.9179182
+          },
+          {
+            "latitude": 45.5692773,
+            "longitude": 5.9177825
+          }
+        ],
+        "osmWayID": "24827162"
+      },
+      {
+        "id": "24827162:2",
+        "from": "11525308322",
+        "to": "3078086146",
+        "coordinates": [
+          {
+            "latitude": 45.5692773,
+            "longitude": 5.9177825
+          },
+          {
+            "latitude": 45.5693471,
+            "longitude": 5.9175976
+          }
+        ],
+        "osmWayID": "24827162"
+      },
+      {
+        "id": "24827162:3",
+        "from": "3078086146",
+        "to": "269901372",
+        "coordinates": [
+          {
+            "latitude": 45.5693471,
+            "longitude": 5.9175976
+          },
+          {
+            "latitude": 45.569358,
+            "longitude": 5.91757
+          }
+        ],
+        "osmWayID": "24827162"
+      },
+      {
+        "id": "24827162:4",
+        "from": "269901372",
+        "to": "269891485",
+        "coordinates": [
+          {
+            "latitude": 45.569358,
+            "longitude": 5.91757
+          },
+          {
+            "latitude": 45.5693932,
+            "longitude": 5.9174757
+          }
+        ],
+        "osmWayID": "24827162"
+      },
+      {
+        "id": "24827162:5",
+        "from": "269891485",
+        "to": "269901374",
+        "coordinates": [
+          {
+            "latitude": 45.5693932,
+            "longitude": 5.9174757
+          },
+          {
+            "latitude": 45.5694276,
+            "longitude": 5.9173925
+          }
+        ],
+        "osmWayID": "24827162"
+      },
+      {
+        "id": "24827162:6",
+        "from": "269901374",
+        "to": "3078086136",
+        "coordinates": [
+          {
+            "latitude": 45.5694276,
+            "longitude": 5.9173925
+          },
+          {
+            "latitude": 45.569448,
+            "longitude": 5.9173444
+          }
+        ],
+        "osmWayID": "24827162"
+      },
+      {
+        "id": "24827162:7",
+        "from": "3078086136",
+        "to": "269720236",
+        "coordinates": [
+          {
+            "latitude": 45.569448,
+            "longitude": 5.9173444
+          },
+          {
+            "latitude": 45.5695165,
+            "longitude": 5.9171749
+          }
+        ],
+        "osmWayID": "24827162"
+      },
+      {
+        "id": "24827163:0",
+        "from": "269720231",
+        "to": "433728050",
+        "coordinates": [
+          {
+            "latitude": 45.5688867,
+            "longitude": 5.9188184
+          },
+          {
+            "latitude": 45.5690294,
+            "longitude": 5.9186976
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:1",
+        "from": "433728050",
+        "to": "11525308341",
+        "coordinates": [
+          {
+            "latitude": 45.5690294,
+            "longitude": 5.9186976
+          },
+          {
+            "latitude": 45.5690557,
+            "longitude": 5.9186323
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:10",
+        "from": "269901375",
+        "to": "269720234",
+        "coordinates": [
+          {
+            "latitude": 45.5695018,
+            "longitude": 5.9174564
+          },
+          {
+            "latitude": 45.5695877,
+            "longitude": 5.9172434
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:11",
+        "from": "269720234",
+        "to": "269720236",
+        "coordinates": [
+          {
+            "latitude": 45.5695877,
+            "longitude": 5.9172434
+          },
+          {
+            "latitude": 45.5695165,
+            "longitude": 5.9171749
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:2",
+        "from": "11525308341",
+        "to": "11525308343",
+        "coordinates": [
+          {
+            "latitude": 45.5690557,
+            "longitude": 5.9186323
+          },
+          {
+            "latitude": 45.5691077,
+            "longitude": 5.9184964
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:3",
+        "from": "11525308343",
+        "to": "269720233",
+        "coordinates": [
+          {
+            "latitude": 45.5691077,
+            "longitude": 5.9184964
+          },
+          {
+            "latitude": 45.5691213,
+            "longitude": 5.9184612
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:4",
+        "from": "269720233",
+        "to": "11525308344",
+        "coordinates": [
+          {
+            "latitude": 45.5691213,
+            "longitude": 5.9184612
+          },
+          {
+            "latitude": 45.5691362,
+            "longitude": 5.9184203
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:5",
+        "from": "11525308344",
+        "to": "269901369",
+        "coordinates": [
+          {
+            "latitude": 45.5691362,
+            "longitude": 5.9184203
+          },
+          {
+            "latitude": 45.5692036,
+            "longitude": 5.9182353
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:6",
+        "from": "269901369",
+        "to": "5548323908",
+        "coordinates": [
+          {
+            "latitude": 45.5692036,
+            "longitude": 5.9182353
+          },
+          {
+            "latitude": 45.5692577,
+            "longitude": 5.918095
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:7",
+        "from": "5548323908",
+        "to": "269901371",
+        "coordinates": [
+          {
+            "latitude": 45.5692577,
+            "longitude": 5.918095
+          },
+          {
+            "latitude": 45.5693024,
+            "longitude": 5.9179745
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:8",
+        "from": "269901371",
+        "to": "269901373",
+        "coordinates": [
+          {
+            "latitude": 45.5693024,
+            "longitude": 5.9179745
+          },
+          {
+            "latitude": 45.5694338,
+            "longitude": 5.9176302
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24827163:9",
+        "from": "269901373",
+        "to": "269901375",
+        "coordinates": [
+          {
+            "latitude": 45.5694338,
+            "longitude": 5.9176302
+          },
+          {
+            "latitude": 45.5695018,
+            "longitude": 5.9174564
+          }
+        ],
+        "osmWayID": "24827163"
+      },
+      {
+        "id": "24840252:0",
+        "from": "269891474",
+        "to": "1527367232",
+        "coordinates": [
+          {
+            "latitude": 45.5691129,
+            "longitude": 5.9165408
+          },
+          {
+            "latitude": 45.5691601,
+            "longitude": 5.9167034
+          }
+        ],
+        "osmWayID": "24840252"
+      },
+      {
+        "id": "24840252:1",
+        "from": "1527367232",
+        "to": "1527367094",
+        "coordinates": [
+          {
+            "latitude": 45.5691601,
+            "longitude": 5.9167034
+          },
+          {
+            "latitude": 45.569111,
+            "longitude": 5.9167985
+          }
+        ],
+        "osmWayID": "24840252"
+      },
+      {
+        "id": "24840252:2",
+        "from": "1527367094",
+        "to": "269891484",
+        "coordinates": [
+          {
+            "latitude": 45.569111,
+            "longitude": 5.9167985
+          },
+          {
+            "latitude": 45.5689583,
+            "longitude": 5.9170759
+          }
+        ],
+        "osmWayID": "24840252"
+      },
+      {
+        "id": "24840252:3",
+        "from": "269891484",
+        "to": "1527367483",
+        "coordinates": [
+          {
+            "latitude": 45.5689583,
+            "longitude": 5.9170759
+          },
+          {
+            "latitude": 45.5687979,
+            "longitude": 5.9172909
+          }
+        ],
+        "osmWayID": "24840252"
+      },
+      {
+        "id": "24840252:4",
+        "from": "1527367483",
+        "to": "1527367432",
+        "coordinates": [
+          {
+            "latitude": 45.5687979,
+            "longitude": 5.9172909
+          },
+          {
+            "latitude": 45.5687249,
+            "longitude": 5.917364
+          }
+        ],
+        "osmWayID": "24840252"
+      },
+      {
+        "id": "24840252:5",
+        "from": "1527367432",
+        "to": "269891457",
+        "coordinates": [
+          {
+            "latitude": 45.5687249,
+            "longitude": 5.917364
+          },
+          {
+            "latitude": 45.5686122,
+            "longitude": 5.9176127
+          }
+        ],
+        "osmWayID": "24840252"
+      },
+      {
+        "id": "24840253:0",
+        "from": "269891457",
+        "to": "2942476252",
+        "coordinates": [
+          {
+            "latitude": 45.5686122,
+            "longitude": 5.9176127
+          },
+          {
+            "latitude": 45.5687449,
+            "longitude": 5.9175662
+          }
+        ],
+        "osmWayID": "24840253"
+      },
+      {
+        "id": "24840253:1",
+        "from": "2942476252",
+        "to": "269891476",
+        "coordinates": [
+          {
+            "latitude": 45.5687449,
+            "longitude": 5.9175662
+          },
+          {
+            "latitude": 45.5688445,
+            "longitude": 5.9174766
+          }
+        ],
+        "osmWayID": "24840253"
+      },
+      {
+        "id": "24840253:2",
+        "from": "269891476",
+        "to": "11525308296",
+        "coordinates": [
+          {
+            "latitude": 45.5688445,
+            "longitude": 5.9174766
+          },
+          {
+            "latitude": 45.568887,
+            "longitude": 5.9175372
+          }
+        ],
+        "osmWayID": "24840253"
+      },
+      {
+        "id": "24840253:3",
+        "from": "11525308296",
+        "to": "269891479",
+        "coordinates": [
+          {
+            "latitude": 45.568887,
+            "longitude": 5.9175372
+          },
+          {
+            "latitude": 45.5690068,
+            "longitude": 5.9176424
+          }
+        ],
+        "osmWayID": "24840253"
+      },
+      {
+        "id": "24840253:4",
+        "from": "269891479",
+        "to": "3078086151",
+        "coordinates": [
+          {
+            "latitude": 45.5690068,
+            "longitude": 5.9176424
+          },
+          {
+            "latitude": 45.5691061,
+            "longitude": 5.9177278
+          }
+        ],
+        "osmWayID": "24840253"
+      },
+      {
+        "id": "24840255:0",
+        "from": "269891476",
+        "to": "269891487",
+        "coordinates": [
+          {
+            "latitude": 45.5688445,
+            "longitude": 5.9174766
+          },
+          {
+            "latitude": 45.5691496,
+            "longitude": 5.9172692
+          }
+        ],
+        "osmWayID": "24840255"
+      },
+      {
+        "id": "24840255:1",
+        "from": "269891487",
+        "to": "2942476248",
+        "coordinates": [
+          {
+            "latitude": 45.5691496,
+            "longitude": 5.9172692
+          },
+          {
+            "latitude": 45.5693402,
+            "longitude": 5.9172211
+          }
+        ],
+        "osmWayID": "24840255"
+      },
+      {
+        "id": "24840258:0",
+        "from": "269720234",
+        "to": "1069953159",
+        "coordinates": [
+          {
+            "latitude": 45.5695877,
+            "longitude": 5.9172434
+          },
+          {
+            "latitude": 45.5696341,
+            "longitude": 5.9173107
+          }
+        ],
+        "osmWayID": "24840258"
+      },
+      {
+        "id": "24840258:1",
+        "from": "1069953159",
+        "to": "1194630450",
+        "coordinates": [
+          {
+            "latitude": 45.5696341,
+            "longitude": 5.9173107
+          },
+          {
+            "latitude": 45.5696601,
+            "longitude": 5.9173924
+          }
+        ],
+        "osmWayID": "24840258"
+      },
+      {
+        "id": "24840258:2",
+        "from": "1194630450",
+        "to": "269891498",
+        "coordinates": [
+          {
+            "latitude": 45.5696601,
+            "longitude": 5.9173924
+          },
+          {
+            "latitude": 45.5696645,
+            "longitude": 5.9174806
+          }
+        ],
+        "osmWayID": "24840258"
+      },
+      {
+        "id": "24840258:3",
+        "from": "269891498",
+        "to": "1194630451",
+        "coordinates": [
+          {
+            "latitude": 45.5696645,
+            "longitude": 5.9174806
+          },
+          {
+            "latitude": 45.569722,
+            "longitude": 5.9176775
+          }
+        ],
+        "osmWayID": "24840258"
+      },
+      {
+        "id": "24840258:4",
+        "from": "1194630451",
+        "to": "1194630445",
+        "coordinates": [
+          {
+            "latitude": 45.569722,
+            "longitude": 5.9176775
+          },
+          {
+            "latitude": 45.5698127,
+            "longitude": 5.9177374
+          }
+        ],
+        "osmWayID": "24840258"
+      },
+      {
+        "id": "24840258:5",
+        "from": "1194630445",
+        "to": "11401589707",
+        "coordinates": [
+          {
+            "latitude": 45.5698127,
+            "longitude": 5.9177374
+          },
+          {
+            "latitude": 45.5698153,
+            "longitude": 5.917759
+          }
+        ],
+        "osmWayID": "24840258"
+      },
+      {
+        "id": "24840258:6",
+        "from": "11401589707",
+        "to": "278213785",
+        "coordinates": [
+          {
+            "latitude": 45.5698153,
+            "longitude": 5.917759
+          },
+          {
+            "latitude": 45.5699705,
+            "longitude": 5.9178447
+          }
+        ],
+        "osmWayID": "24840258"
+      },
+      {
+        "id": "24840259:1",
+        "from": "3873810220",
+        "to": "3078443537",
+        "coordinates": [
+          {
+            "latitude": 45.5697581,
+            "longitude": 5.9170729
+          },
+          {
+            "latitude": 45.5697496,
+            "longitude": 5.9171344
+          }
+        ],
+        "osmWayID": "24840259"
+      },
+      {
+        "id": "24840259:2",
+        "from": "3078443537",
+        "to": "3078443542",
+        "coordinates": [
+          {
+            "latitude": 45.5697496,
+            "longitude": 5.9171344
+          },
+          {
+            "latitude": 45.5697383,
+            "longitude": 5.9171934
+          }
+        ],
+        "osmWayID": "24840259"
+      },
+      {
+        "id": "24840259:3",
+        "from": "3078443542",
+        "to": "3078443540",
+        "coordinates": [
+          {
+            "latitude": 45.5697383,
+            "longitude": 5.9171934
+          },
+          {
+            "latitude": 45.5697083,
+            "longitude": 5.9173168
+          }
+        ],
+        "osmWayID": "24840259"
+      },
+      {
+        "id": "24840259:4",
+        "from": "3078443540",
+        "to": "8578400627",
+        "coordinates": [
+          {
+            "latitude": 45.5697083,
+            "longitude": 5.9173168
+          },
+          {
+            "latitude": 45.5696955,
+            "longitude": 5.9173667
+          }
+        ],
+        "osmWayID": "24840259"
+      },
+      {
+        "id": "24841203:0",
+        "from": "269901370",
+        "to": "269901371",
+        "coordinates": [
+          {
+            "latitude": 45.569226,
+            "longitude": 5.9179182
+          },
+          {
+            "latitude": 45.5693024,
+            "longitude": 5.9179745
+          }
+        ],
+        "osmWayID": "24841203"
+      },
+      {
+        "id": "24841204:0",
+        "from": "269901372",
+        "to": "269901373",
+        "coordinates": [
+          {
+            "latitude": 45.569358,
+            "longitude": 5.91757
+          },
+          {
+            "latitude": 45.5694338,
+            "longitude": 5.9176302
+          }
+        ],
+        "osmWayID": "24841204"
+      },
+      {
+        "id": "24841205:0",
+        "from": "269901374",
+        "to": "269901375",
+        "coordinates": [
+          {
+            "latitude": 45.5694276,
+            "longitude": 5.9173925
+          },
+          {
+            "latitude": 45.5695018,
+            "longitude": 5.9174564
+          }
+        ],
+        "osmWayID": "24841205"
+      },
+      {
+        "id": "290745018:0",
+        "from": "1194630436",
+        "to": "2942476253",
+        "coordinates": [
+          {
+            "latitude": 45.5695594,
+            "longitude": 5.9177199
+          },
+          {
+            "latitude": 45.5696313,
+            "longitude": 5.9176989
+          }
+        ],
+        "osmWayID": "290745018"
+      },
+      {
+        "id": "290745018:1",
+        "from": "2942476253",
+        "to": "2942476254",
+        "coordinates": [
+          {
+            "latitude": 45.5696313,
+            "longitude": 5.9176989
+          },
+          {
+            "latitude": 45.5696763,
+            "longitude": 5.9176882
+          }
+        ],
+        "osmWayID": "290745018"
+      },
+      {
+        "id": "290745018:2",
+        "from": "2942476254",
+        "to": "1194630451",
+        "coordinates": [
+          {
+            "latitude": 45.5696763,
+            "longitude": 5.9176882
+          },
+          {
+            "latitude": 45.569722,
+            "longitude": 5.9176775
+          }
+        ],
+        "osmWayID": "290745018"
+      },
+      {
+        "id": "290745019:2",
+        "from": "2942476251",
+        "to": "2942476252",
+        "coordinates": [
+          {
+            "latitude": 45.5687661,
+            "longitude": 5.9178464
+          },
+          {
+            "latitude": 45.5687449,
+            "longitude": 5.9175662
+          }
+        ],
+        "osmWayID": "290745019"
+      },
+      {
+        "id": "291771458:0",
+        "from": "2952668802",
+        "to": "2952668794",
+        "coordinates": [
+          {
+            "latitude": 45.5690297,
+            "longitude": 5.9159562
+          },
+          {
+            "latitude": 45.5689985,
+            "longitude": 5.9159629
+          }
+        ],
+        "osmWayID": "291771458"
+      },
+      {
+        "id": "291771458:1",
+        "from": "2952668794",
+        "to": "2952668785",
+        "coordinates": [
+          {
+            "latitude": 45.5689985,
+            "longitude": 5.9159629
+          },
+          {
+            "latitude": 45.5689583,
+            "longitude": 5.9159911
+          }
+        ],
+        "osmWayID": "291771458"
+      },
+      {
+        "id": "291771458:2",
+        "from": "2952668785",
+        "to": "269891473",
+        "coordinates": [
+          {
+            "latitude": 45.5689583,
+            "longitude": 5.9159911
+          },
+          {
+            "latitude": 45.5689348,
+            "longitude": 5.916042
+          }
+        ],
+        "osmWayID": "291771458"
+      },
+      {
+        "id": "291771459:0",
+        "from": "3594068301",
+        "to": "2952668790",
+        "coordinates": [
+          {
+            "latitude": 45.5691638,
+            "longitude": 5.9154845
+          },
+          {
+            "latitude": 45.5690334,
+            "longitude": 5.9157872
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:1",
+        "from": "2952668790",
+        "to": "2952668798",
+        "coordinates": [
+          {
+            "latitude": 45.5690334,
+            "longitude": 5.9157872
+          },
+          {
+            "latitude": 45.5689996,
+            "longitude": 5.9158892
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:10",
+        "from": "3077937798",
+        "to": "1527367218",
+        "coordinates": [
+          {
+            "latitude": 45.5694898,
+            "longitude": 5.916239
+          },
+          {
+            "latitude": 45.5695356,
+            "longitude": 5.9162915
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:2",
+        "from": "2952668798",
+        "to": "2952668802",
+        "coordinates": [
+          {
+            "latitude": 45.5689996,
+            "longitude": 5.9158892
+          },
+          {
+            "latitude": 45.5690297,
+            "longitude": 5.9159562
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:3",
+        "from": "2952668802",
+        "to": "2952668801",
+        "coordinates": [
+          {
+            "latitude": 45.5690297,
+            "longitude": 5.9159562
+          },
+          {
+            "latitude": 45.5690879,
+            "longitude": 5.9159482
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:4",
+        "from": "2952668801",
+        "to": "2952668788",
+        "coordinates": [
+          {
+            "latitude": 45.5690879,
+            "longitude": 5.9159482
+          },
+          {
+            "latitude": 45.569163,
+            "longitude": 5.9159669
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:5",
+        "from": "2952668788",
+        "to": "2952668803",
+        "coordinates": [
+          {
+            "latitude": 45.569163,
+            "longitude": 5.9159669
+          },
+          {
+            "latitude": 45.569285,
+            "longitude": 5.9160555
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:6",
+        "from": "2952668803",
+        "to": "3077937806",
+        "coordinates": [
+          {
+            "latitude": 45.569285,
+            "longitude": 5.9160555
+          },
+          {
+            "latitude": 45.5693902,
+            "longitude": 5.9161471
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:7",
+        "from": "3077937806",
+        "to": "2952668787",
+        "coordinates": [
+          {
+            "latitude": 45.5693902,
+            "longitude": 5.9161471
+          },
+          {
+            "latitude": 45.569411,
+            "longitude": 5.9161609
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:8",
+        "from": "2952668787",
+        "to": "2952668795",
+        "coordinates": [
+          {
+            "latitude": 45.569411,
+            "longitude": 5.9161609
+          },
+          {
+            "latitude": 45.5694417,
+            "longitude": 5.9161904
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771459:9",
+        "from": "2952668795",
+        "to": "3077937798",
+        "coordinates": [
+          {
+            "latitude": 45.5694417,
+            "longitude": 5.9161904
+          },
+          {
+            "latitude": 45.5694898,
+            "longitude": 5.916239
+          }
+        ],
+        "osmWayID": "291771459"
+      },
+      {
+        "id": "291771460:1",
+        "from": "2952668796",
+        "to": "2952668791",
+        "coordinates": [
+          {
+            "latitude": 45.5688757,
+            "longitude": 5.9162673
+          },
+          {
+            "latitude": 45.5689283,
+            "longitude": 5.9162459
+          }
+        ],
+        "osmWayID": "291771460"
+      },
+      {
+        "id": "291771460:2",
+        "from": "2952668791",
+        "to": "2952668799",
+        "coordinates": [
+          {
+            "latitude": 45.5689283,
+            "longitude": 5.9162459
+          },
+          {
+            "latitude": 45.5690045,
+            "longitude": 5.9162397
+          }
+        ],
+        "osmWayID": "291771460"
+      },
+      {
+        "id": "291771461:0",
+        "from": "2952668785",
+        "to": "2952668786",
+        "coordinates": [
+          {
+            "latitude": 45.5689583,
+            "longitude": 5.9159911
+          },
+          {
+            "latitude": 45.5689829,
+            "longitude": 5.9159327
+          }
+        ],
+        "osmWayID": "291771461"
+      },
+      {
+        "id": "291771461:1",
+        "from": "2952668786",
+        "to": "2952668798",
+        "coordinates": [
+          {
+            "latitude": 45.5689829,
+            "longitude": 5.9159327
+          },
+          {
+            "latitude": 45.5689996,
+            "longitude": 5.9158892
+          }
+        ],
+        "osmWayID": "291771461"
+      },
+      {
+        "id": "303435757:0",
+        "from": "3077937806",
+        "to": "3077937810",
+        "coordinates": [
+          {
+            "latitude": 45.5693902,
+            "longitude": 5.9161471
+          },
+          {
+            "latitude": 45.5694042,
+            "longitude": 5.9161276
+          }
+        ],
+        "osmWayID": "303435757"
+      },
+      {
+        "id": "303435757:1",
+        "from": "3077937810",
+        "to": "3077937804",
+        "coordinates": [
+          {
+            "latitude": 45.5694042,
+            "longitude": 5.9161276
+          },
+          {
+            "latitude": 45.5694278,
+            "longitude": 5.9161037
+          }
+        ],
+        "osmWayID": "303435757"
+      },
+      {
+        "id": "303440051:0",
+        "from": "3077973297",
+        "to": "3077973299",
+        "coordinates": [
+          {
+            "latitude": 45.5688366,
+            "longitude": 5.9169454
+          },
+          {
+            "latitude": 45.5689827,
+            "longitude": 5.9166005
+          }
+        ],
+        "osmWayID": "303440051"
+      },
+      {
+        "id": "303450323:0",
+        "from": "3078086136",
+        "to": "3078086153",
+        "coordinates": [
+          {
+            "latitude": 45.569448,
+            "longitude": 5.9173444
+          },
+          {
+            "latitude": 45.5694244,
+            "longitude": 5.917354
+          }
+        ],
+        "osmWayID": "303450323"
+      },
+      {
+        "id": "303450323:1",
+        "from": "3078086153",
+        "to": "3078086134",
+        "coordinates": [
+          {
+            "latitude": 45.5694244,
+            "longitude": 5.917354
+          },
+          {
+            "latitude": 45.5694019,
+            "longitude": 5.9173547
+          }
+        ],
+        "osmWayID": "303450323"
+      },
+      {
+        "id": "303450323:2",
+        "from": "3078086134",
+        "to": "3078086140",
+        "coordinates": [
+          {
+            "latitude": 45.5694019,
+            "longitude": 5.9173547
+          },
+          {
+            "latitude": 45.5693845,
+            "longitude": 5.9173493
+          }
+        ],
+        "osmWayID": "303450323"
+      },
+      {
+        "id": "303450323:3",
+        "from": "3078086140",
+        "to": "3078086144",
+        "coordinates": [
+          {
+            "latitude": 45.5693845,
+            "longitude": 5.9173493
+          },
+          {
+            "latitude": 45.5693629,
+            "longitude": 5.9173406
+          }
+        ],
+        "osmWayID": "303450323"
+      },
+      {
+        "id": "303450323:4",
+        "from": "3078086144",
+        "to": "3078086152",
+        "coordinates": [
+          {
+            "latitude": 45.5693629,
+            "longitude": 5.9173406
+          },
+          {
+            "latitude": 45.5693258,
+            "longitude": 5.9173187
+          }
+        ],
+        "osmWayID": "303450323"
+      },
+      {
+        "id": "303450324:0",
+        "from": "3078086146",
+        "to": "3078086150",
+        "coordinates": [
+          {
+            "latitude": 45.5693471,
+            "longitude": 5.9175976
+          },
+          {
+            "latitude": 45.5693338,
+            "longitude": 5.9175599
+          }
+        ],
+        "osmWayID": "303450324"
+      },
+      {
+        "id": "303450324:1",
+        "from": "3078086150",
+        "to": "3078086147",
+        "coordinates": [
+          {
+            "latitude": 45.5693338,
+            "longitude": 5.9175599
+          },
+          {
+            "latitude": 45.5693206,
+            "longitude": 5.9175291
+          }
+        ],
+        "osmWayID": "303450324"
+      },
+      {
+        "id": "303450324:2",
+        "from": "3078086147",
+        "to": "3078086139",
+        "coordinates": [
+          {
+            "latitude": 45.5693206,
+            "longitude": 5.9175291
+          },
+          {
+            "latitude": 45.5693028,
+            "longitude": 5.9175022
+          }
+        ],
+        "osmWayID": "303450324"
+      },
+      {
+        "id": "303450324:3",
+        "from": "3078086139",
+        "to": "3078086135",
+        "coordinates": [
+          {
+            "latitude": 45.5693028,
+            "longitude": 5.9175022
+          },
+          {
+            "latitude": 45.5692831,
+            "longitude": 5.9174794
+          }
+        ],
+        "osmWayID": "303450324"
+      },
+      {
+        "id": "303450324:4",
+        "from": "3078086135",
+        "to": "3078086149",
+        "coordinates": [
+          {
+            "latitude": 45.5692831,
+            "longitude": 5.9174794
+          },
+          {
+            "latitude": 45.5692559,
+            "longitude": 5.9174546
+          }
+        ],
+        "osmWayID": "303450324"
+      },
+      {
+        "id": "303450325:0",
+        "from": "1527367218",
+        "to": "269891494",
+        "coordinates": [
+          {
+            "latitude": 45.5695356,
+            "longitude": 5.9162915
+          },
+          {
+            "latitude": 45.5695312,
+            "longitude": 5.9163637
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:1",
+        "from": "269891494",
+        "to": "269891493",
+        "coordinates": [
+          {
+            "latitude": 45.5695312,
+            "longitude": 5.9163637
+          },
+          {
+            "latitude": 45.5695008,
+            "longitude": 5.916649
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:10",
+        "from": "3078086149",
+        "to": "3078086154",
+        "coordinates": [
+          {
+            "latitude": 45.5692559,
+            "longitude": 5.9174546
+          },
+          {
+            "latitude": 45.5692098,
+            "longitude": 5.9175092
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:11",
+        "from": "3078086154",
+        "to": "3078086137",
+        "coordinates": [
+          {
+            "latitude": 45.5692098,
+            "longitude": 5.9175092
+          },
+          {
+            "latitude": 45.5691817,
+            "longitude": 5.9175651
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:12",
+        "from": "3078086137",
+        "to": "3078086151",
+        "coordinates": [
+          {
+            "latitude": 45.5691817,
+            "longitude": 5.9175651
+          },
+          {
+            "latitude": 45.5691061,
+            "longitude": 5.9177278
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:13",
+        "from": "3078086151",
+        "to": "9415295476",
+        "coordinates": [
+          {
+            "latitude": 45.5691061,
+            "longitude": 5.9177278
+          },
+          {
+            "latitude": 45.5691132,
+            "longitude": 5.9178241
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:14",
+        "from": "9415295476",
+        "to": "269891481",
+        "coordinates": [
+          {
+            "latitude": 45.5691132,
+            "longitude": 5.9178241
+          },
+          {
+            "latitude": 45.5691495,
+            "longitude": 5.9180044
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:15",
+        "from": "269891481",
+        "to": "269891483",
+        "coordinates": [
+          {
+            "latitude": 45.5691495,
+            "longitude": 5.9180044
+          },
+          {
+            "latitude": 45.5691737,
+            "longitude": 5.9180683
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:2",
+        "from": "269891493",
+        "to": "1527367403",
+        "coordinates": [
+          {
+            "latitude": 45.5695008,
+            "longitude": 5.916649
+          },
+          {
+            "latitude": 45.5694811,
+            "longitude": 5.9168193
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:3",
+        "from": "1527367403",
+        "to": "269891490",
+        "coordinates": [
+          {
+            "latitude": 45.5694811,
+            "longitude": 5.9168193
+          },
+          {
+            "latitude": 45.5694459,
+            "longitude": 5.9169648
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:4",
+        "from": "269891490",
+        "to": "3078086141",
+        "coordinates": [
+          {
+            "latitude": 45.5694459,
+            "longitude": 5.9169648
+          },
+          {
+            "latitude": 45.5693877,
+            "longitude": 5.9171067
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:5",
+        "from": "3078086141",
+        "to": "2942476248",
+        "coordinates": [
+          {
+            "latitude": 45.5693877,
+            "longitude": 5.9171067
+          },
+          {
+            "latitude": 45.5693402,
+            "longitude": 5.9172211
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:6",
+        "from": "2942476248",
+        "to": "3078086152",
+        "coordinates": [
+          {
+            "latitude": 45.5693402,
+            "longitude": 5.9172211
+          },
+          {
+            "latitude": 45.5693258,
+            "longitude": 5.9173187
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:7",
+        "from": "3078086152",
+        "to": "269891489",
+        "coordinates": [
+          {
+            "latitude": 45.5693258,
+            "longitude": 5.9173187
+          },
+          {
+            "latitude": 45.5692973,
+            "longitude": 5.9173964
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:8",
+        "from": "269891489",
+        "to": "3078086143",
+        "coordinates": [
+          {
+            "latitude": 45.5692973,
+            "longitude": 5.9173964
+          },
+          {
+            "latitude": 45.5692767,
+            "longitude": 5.9174226
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "303450325:9",
+        "from": "3078086143",
+        "to": "3078086149",
+        "coordinates": [
+          {
+            "latitude": 45.5692767,
+            "longitude": 5.9174226
+          },
+          {
+            "latitude": 45.5692559,
+            "longitude": 5.9174546
+          }
+        ],
+        "osmWayID": "303450325"
+      },
+      {
+        "id": "353593331:0",
+        "from": "3594068302",
+        "to": "3594068301",
+        "coordinates": [
+          {
+            "latitude": 45.5691397,
+            "longitude": 5.9154618
+          },
+          {
+            "latitude": 45.5691638,
+            "longitude": 5.9154845
+          }
+        ],
+        "osmWayID": "353593331"
+      },
+      {
+        "id": "579317313:0",
+        "from": "269891499",
+        "to": "5548323908",
+        "coordinates": [
+          {
+            "latitude": 45.5693621,
+            "longitude": 5.9181852
+          },
+          {
+            "latitude": 45.5692577,
+            "longitude": 5.918095
+          }
+        ],
+        "osmWayID": "579317313"
+      },
+      {
+        "id": "924103850:0",
+        "from": "8579742084",
+        "to": "269891474",
+        "coordinates": [
+          {
+            "latitude": 45.568998,
+            "longitude": 5.9166223
+          },
+          {
+            "latitude": 45.5691129,
+            "longitude": 5.9165408
+          }
+        ],
+        "osmWayID": "924103850"
+      },
+      {
+        "id": "924122708:0",
+        "from": "8578400627",
+        "to": "269891498",
+        "coordinates": [
+          {
+            "latitude": 45.5696955,
+            "longitude": 5.9173667
+          },
+          {
+            "latitude": 45.5696645,
+            "longitude": 5.9174806
+          }
+        ],
+        "osmWayID": "924122708"
+      },
+      {
+        "id": "924122708:1",
+        "from": "269891498",
+        "to": "1194630436",
+        "coordinates": [
+          {
+            "latitude": 45.5696645,
+            "longitude": 5.9174806
+          },
+          {
+            "latitude": 45.5695594,
+            "longitude": 5.9177199
+          }
+        ],
+        "osmWayID": "924122708"
+      },
+      {
+        "id": "924122708:2",
+        "from": "1194630436",
+        "to": "1194630442",
+        "coordinates": [
+          {
+            "latitude": 45.5695594,
+            "longitude": 5.9177199
+          },
+          {
+            "latitude": 45.5694628,
+            "longitude": 5.9179544
+          }
+        ],
+        "osmWayID": "924122708"
+      },
+      {
+        "id": "924122708:3",
+        "from": "1194630442",
+        "to": "269891499",
+        "coordinates": [
+          {
+            "latitude": 45.5694628,
+            "longitude": 5.9179544
+          },
+          {
+            "latitude": 45.5693621,
+            "longitude": 5.9181852
+          }
+        ],
+        "osmWayID": "924122708"
+      },
+      {
+        "id": "924122708:4",
+        "from": "269891499",
+        "to": "11401589736",
+        "coordinates": [
+          {
+            "latitude": 45.5693621,
+            "longitude": 5.9181852
+          },
+          {
+            "latitude": 45.5692496,
+            "longitude": 5.9185306
+          }
+        ],
+        "osmWayID": "924122708"
+      },
+      {
+        "id": "924122708:5",
+        "from": "11401589736",
+        "to": "269891500",
+        "coordinates": [
+          {
+            "latitude": 45.5692496,
+            "longitude": 5.9185306
+          },
+          {
+            "latitude": 45.569236,
+            "longitude": 5.9185737
+          }
+        ],
+        "osmWayID": "924122708"
+      },
+      {
+        "id": "924129251:2",
+        "from": "2952668793",
+        "to": "2952668789",
+        "coordinates": [
+          {
+            "latitude": 45.5692532,
+            "longitude": 5.9152775
+          },
+          {
+            "latitude": 45.5692287,
+            "longitude": 5.9153339
+          }
+        ],
+        "osmWayID": "924129251"
+      },
+      {
+        "id": "924129251:3",
+        "from": "2952668789",
+        "to": "3594068301",
+        "coordinates": [
+          {
+            "latitude": 45.5692287,
+            "longitude": 5.9153339
+          },
+          {
+            "latitude": 45.5691638,
+            "longitude": 5.9154845
+          }
+        ],
+        "osmWayID": "924129251"
+      },
+      {
+        "id": "924129803:0",
+        "from": "269891473",
+        "to": "2952668799",
+        "coordinates": [
+          {
+            "latitude": 45.5689348,
+            "longitude": 5.916042
+          },
+          {
+            "latitude": 45.5690045,
+            "longitude": 5.9162397
+          }
+        ],
+        "osmWayID": "924129803"
+      },
+      {
+        "id": "924129803:1",
+        "from": "2952668799",
+        "to": "8579742082",
+        "coordinates": [
+          {
+            "latitude": 45.5690045,
+            "longitude": 5.9162397
+          },
+          {
+            "latitude": 45.5690531,
+            "longitude": 5.9163745
+          }
+        ],
+        "osmWayID": "924129803"
+      },
+      {
+        "id": "924129803:2",
+        "from": "8579742082",
+        "to": "269891474",
+        "coordinates": [
+          {
+            "latitude": 45.5690531,
+            "longitude": 5.9163745
+          },
+          {
+            "latitude": 45.5691129,
+            "longitude": 5.9165408
+          }
+        ],
+        "osmWayID": "924129803"
+      },
+      {
+        "id": "924441515:0",
+        "from": "3594068301",
+        "to": "3077937802",
+        "coordinates": [
+          {
+            "latitude": 45.5691638,
+            "longitude": 5.9154845
+          },
+          {
+            "latitude": 45.5691801,
+            "longitude": 5.9154999
+          }
+        ],
+        "osmWayID": "924441515"
+      },
+      {
+        "id": "924441516:0",
+        "from": "8579742084",
+        "to": "3077973299",
+        "coordinates": [
+          {
+            "latitude": 45.568998,
+            "longitude": 5.9166223
+          },
+          {
+            "latitude": 45.5689827,
+            "longitude": 5.9166005
+          }
+        ],
+        "osmWayID": "924441516"
+      }
+    ],
+    "supportedModes": [
+      "explore"
+    ],
+    "estimatedMinutes": 26,
+    "fieldVerified": false,
+    "sourceURL": "https://www.openstreetmap.org/way/37562187",
+    "sourceDate": "2026-11-10"
+  }
+}
