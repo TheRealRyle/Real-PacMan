@@ -40,10 +40,6 @@ final class GameStore {
         guard archive.activeSession == nil, canSave else { return }
         do { try route.validate() }
         catch { message = error.localizedDescription; return }
-        guard route.parcours?.fieldVerified != false else {
-            message = "This parcours is a map draft. Its paths and pellet positions need an on-foot check before play."
-            return
-        }
         archive.activeSession = GameSession(id: UUID(), route: route, startedAt: Date())
         isPlaying = true
         previousLocation = nil

@@ -11,7 +11,13 @@ struct GameplayView: View {
         Group {
             if let session = game.archive.activeSession {
                 VStack(spacing: 0) {
-                    RouteMapView(route: session.route, collected: session.collectedPelletIDs)
+                    if session.route.parcours?.fieldVerified == false {
+                        ParcoursPreview(route: session.route, collected: session.collectedPelletIDs,
+                                        player: location.coordinate, height: nil)
+                            .background(Color.indigo)
+                    } else {
+                        RouteMapView(route: session.route, collected: session.collectedPelletIDs)
+                    }
                     VStack(spacing: 12) {
                         HStack {
                             Label("\(session.score) points", systemImage: "star.fill")
@@ -47,7 +53,7 @@ struct GameplayView: View {
         }
         .onDisappear { ArcadeAudio.shared.setGameplayVisible(false); location.wantsUpdates = false; game.pause() }
         .onChange(of: scenePhase) {
-            if scenePhase != .active { location.wantsUpdates = false; game.pause() }
+            if scenePhase == .background { location.wantsUpdates = false; game.pause() }
         }
         .onChange(of: game.archive.activeSession?.id) {
             if game.archive.activeSession == nil { location.wantsUpdates = false }

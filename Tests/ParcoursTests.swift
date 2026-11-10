@@ -76,14 +76,19 @@ struct ParcoursTests {
         #expect(throws: (any Error).self) { try invalid.validate() }
     }
 
-    @Test("Draft parcours cannot accidentally start a GPS game")
-    @MainActor func draftCannotStart() throws {
+    @Test("Explore can start on the bundled Verney layout")
+    @MainActor func draftCanStart() throws {
         let file = URL.temporaryDirectory.appending(path: UUID().uuidString).appending(path: "progress.json")
         let store = GameStore(fileURL: file)
-        store.start(try verney())
-        #expect(store.archive.activeSession == nil)
-        #expect(!store.isPlaying)
-        #expect(store.message != nil)
+        let route = try verney()
+        store.start(route)
+        #expect(store.archive.activeSession?.route.id == route.id)
+        #expect(store.isPlaying)
+        let pellet = try #require(route.pellets.first)
+        store.collect(at: CLLocation(coordinate: pellet.coordinate.coordinate, altitude: 0,
+                                     horizontalAccuracy: 5, verticalAccuracy: 5, timestamp: Date()))
+        #expect(store.archive.activeSession?.collectedPelletIDs.contains(pellet.id) == true)
+
     }
 
     @Test("Server data replaces the bundled draft by stable ID")
