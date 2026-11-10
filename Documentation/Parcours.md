@@ -19,7 +19,7 @@ The three planned locations appear in the existing bouncy carousel:
 
 The vector preview is fully local and shows separate paths, the park boundary,
 proposed pellets and proposed start. There is no network request for this preview.
-The draft cannot start GPS gameplay or trigger a basemap download.
+Explore uses the bundled vector layout for GPS play on the draft.
 
 ## Verney: evidence versus proposed game content
 
@@ -62,7 +62,7 @@ to 10 when reading older payloads. Existing progress and queued results stay rea
 
 The bundled catalogue is a development seed, not a substitute for the server.
 Server definitions with the same stable IDs take precedence. Field review is a
-publication flag, not an anti-cheat guarantee. Review all payloads server-side too.
+map review status. Review all payloads server-side too.
 
 MapLibre renders individual graph edges and sizes offline map regions around
 all geometry. Offline storage startup is awaited before deciding a pack is absent,
@@ -92,7 +92,7 @@ Do not change fieldVerified to bypass that remaining integration work.
 python3 Scripts/test_parcours.py runs Swift Testing on the actual core app sources
 inside a temporary Swift package. Tests cover the real bundled graph, invalid
 references/disconnection/outside pellets/invalid values, old JSON and saved-session
-compatibility, server override, draft start protection and versioned scoring.
+compatibility, server override, draft Explore collection and versioned scoring.
 The Xcode app is separately built against the iOS Simulator SDK.
 
 No screen sharing or computer-control session was started for this branch.

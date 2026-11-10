@@ -70,7 +70,7 @@ The existing route envelope remains compatible. New routes can include an option
 - paths: stable string id, from/to junction ids, coordinate polyline, optional osmWayID
 - supportedModes: currently ["explore"]; future values timed, ghosts, timedGhosts
 - estimatedMinutes: rough planning estimate, not a measured completion time
-- fieldVerified: publication gate; false means inspectable map draft, not playable
+- fieldVerified: map review status; drafts support Explore with the bundled layout
 - sourceURL, sourceDate: data provenance
 
 Pellets now also encode value (1–1000); omitted values decode as 10.

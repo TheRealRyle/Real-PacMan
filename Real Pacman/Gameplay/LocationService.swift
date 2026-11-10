@@ -6,6 +6,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     private let manager = CLLocationManager()
     private(set) var status: CLAuthorizationStatus = .notDetermined
     private(set) var message = "Start a game to enable GPS."
+    private(set) var coordinate: RouteCoordinate?
     var onLocation: ((CLLocation) -> Void)?
 
     override init() {
@@ -41,6 +42,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
         guard wantsUpdates, let location = locations.last else { return }
         message = location.horizontalAccuracy >= 0 && location.horizontalAccuracy <= 20
             ? "GPS ready · collect within 15 m" : "GPS accuracy is low. Move to an open area."
+        coordinate = RouteCoordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         onLocation?(location)
     }
 

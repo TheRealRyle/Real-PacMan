@@ -33,8 +33,6 @@ struct RouteDetailView: View {
                     if isDraft {
                         ArcadePanel(title: "MAP DRAFT") {
                             Text("These are mapped park paths with proposed pellets. The starting point, access and spacing still need an on-foot review.")
-                            Text("The preview works offline. Play and map downloads will unlock for a published, checked parcours.")
-                                .font(.subheadline).foregroundStyle(.white.opacity(0.85))
                         }
                     } else {
                         RouteMapView(route: route, collected: [])
@@ -47,22 +45,16 @@ struct RouteDetailView: View {
                             }
                             .buttonStyle(ArcadeButtonStyle(color: .cyan))
                             .disabled(offline.isDownloading)
-                            if game.archive.activeSession == nil {
-                                ArcadeNavigationLink {
-                                    GameplayView(startingRoute: route).toolbar(.visible, for: .navigationBar)
-                                } label: {
-                                    Label("START WALK", systemImage: "play.fill").frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(ArcadeButtonStyle(color: .green))
-                            } else {
-                                Text("Finish your saved game before starting another parcours.").font(.caption)
-                                ArcadeNavigationLink {
-                                    GameplayView().toolbar(.visible, for: .navigationBar)
-                                } label: { Text("RESUME SAVED WALK") }
-                                .buttonStyle(ArcadeButtonStyle())
-                            }
                         }
                     }
+                    ArcadeNavigationLink {
+                        GameplayView(startingRoute: game.archive.activeSession == nil ? route : nil)
+                            .toolbar(.visible, for: .navigationBar)
+                    } label: {
+                        Label(game.archive.activeSession == nil ? "START WALK" : "RESUME SAVED WALK",
+                              systemImage: "play.fill").frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(ArcadeButtonStyle(color: .green))
                 }
                 .padding(24)
                 .frame(maxWidth: 620).frame(maxWidth: .infinity)

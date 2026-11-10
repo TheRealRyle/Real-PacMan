@@ -3,6 +3,9 @@ import SwiftUI
 /// Bundled vector preview, available with no tile cache or network connection.
 struct ParcoursPreview: View {
     let route: GameRoute
+    var collected: Set<UUID> = []
+    var player: RouteCoordinate?
+    var height: CGFloat? = 180
 
     var body: some View {
         Canvas { context, size in
@@ -32,7 +35,7 @@ struct ParcoursPreview: View {
                 let path = Path { $0.addLines(line.map(project)) }
                 context.stroke(path, with: .color(.cyan), style: StrokeStyle(lineWidth: 4, lineCap: .round))
             }
-            for pellet in route.pellets {
+            for pellet in route.pellets where !collected.contains(pellet.id) {
                 let center = project(pellet.coordinate)
                 context.fill(Path(ellipseIn: CGRect(x: center.x - 2.5, y: center.y - 2.5, width: 5, height: 5)),
                              with: .color(.yellow))
@@ -42,8 +45,14 @@ struct ParcoursPreview: View {
                 context.fill(Path(ellipseIn: CGRect(x: center.x - 6, y: center.y - 6, width: 12, height: 12)),
                              with: .color(.white))
             }
+            if let player {
+                let center = project(player)
+                let dot = Path(ellipseIn: CGRect(x: center.x - 5, y: center.y - 5, width: 10, height: 10))
+                context.fill(dot, with: .color(.blue))
+                context.stroke(dot, with: .color(.white), lineWidth: 2)
+            }
         }
-        .frame(height: 180)
+        .frame(height: height)
         .background(.black.opacity(0.25), in: RoundedRectangle(cornerRadius: 16))
         .accessibilityLabel("Parcours preview: paths in blue, pellets in yellow, proposed start in white.")
     }
