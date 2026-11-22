@@ -59,3 +59,11 @@ including when GPS is unavailable or the player is away from the parcours. The
 whole-parcours fit is an explicit map-button action in gameplay. Native GPS-follow
 startup reapplies the selected zoom after tracking begins and its first valid fix;
 manual gestures remain available. Route-detail maps retain their overview framing.
+
+Stage two adds a mode chooser for Explore, Timed, Ghosts and Timed + Ghosts on
+supported parcours, with walking and demo entry points for each. The mode HUD
+shows the active countdown and/or remaining lives. Virtual ghosts are visible on
+both the street map and saved-layout fallback. Timeout, final-life loss and final
+pellet collection lead to the score screen; history records the selected mode and
+outcome. Clocks run only in active non-Explore gameplay and reset their tick origin
+on resume, treating intervals over 60 seconds as a discontinuity.

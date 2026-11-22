@@ -43,7 +43,7 @@ POST /api/v1/results receives a GameSession:
 - startedAt, finishedAt: numeric dates
 - collectedPelletIDs: array of pellet UUID strings
 - distanceMeters: Double
-- mode: currently "explore"; absent on legacy sessions
+- mode: "explore", "timed", "ghosts" or "timedGhosts"; absent on legacy Explore sessions
 - syncedAt: absent for an unsynced result
 
 Client score is derived by summing the collected pellets' versioned values (10 per pellet for legacy routes) and is not sent separately. Server must validate pellet membership and route/version, recompute score, and validate timestamps and distance. Treat client data as untrusted.
@@ -68,7 +68,7 @@ The existing route envelope remains compatible. New routes can include an option
 - description, boundary (open polygon ring), startJunctionID
 - junctions: stable string id and coordinate
 - paths: stable string id, from/to junction ids, coordinate polyline, optional osmWayID
-- supportedModes: currently ["explore"]; future values timed, ghosts, timedGhosts
+- supportedModes: advertised capabilities; Verney version two supports all four modes
 - estimatedMinutes: rough planning estimate, not a measured completion time
 - fieldVerified: map review status; drafts support Explore with the bundled layout
 - sourceURL, sourceDate: data provenance
@@ -82,7 +82,7 @@ Old sessions without mode remain readable and represent the original Explore gam
 Validation rejects missing/duplicate IDs, disconnected networks, invalid endpoints,
 invalid coordinates, outside-boundary nodes/pellets, and pellets over 2 m off a path.
 A valid graph does not establish real-world access. fieldVerified must only be set
-after human review. Supported future modes are not enabled by this client.
+after human review. The client enables only modes advertised by the selected route version.
 
 Published versions with the same ID override the bundled draft in the catalogue.
 In-progress sessions still retain their original route snapshots. Download packs
@@ -103,3 +103,9 @@ The backend currently exposes a local prototype API without player authenticatio
 ## Verified integration outcome
 
 The combined simulator build passed. All 24 app/core tests (including the enabled live GameStore HTTP test) and the standalone GPS/persistence checks passed. All seven backend HTTP/database tests passed using SQLite, including concurrent retries. The live client test verified canonical route download, failed-upload queue durability, successful sync/reload, identical replay and conflicting UUID rejection. A separate non-Debug endpoint check confirmed all HTTP URLs are rejected. Settings and the updated demo map were opened in the iPhone17 simulator. Physical GPS/heading and PostgreSQL runtime are not verified on this host; Docker/PostgreSQL are not installed. The explicitly named IntegrationServer uses temporary in-memory storage and is for testing only.
+
+## Stage 2 mode results
+
+GameSession.mode now supports explore, timed, ghosts and timedGhosts on route versions advertising those modes. The optional rules object records activeElapsed, timeLimitSeconds, livesRemaining, collisionCooldownUntil, ghosts and outcome. Each ghost records id, pathID, distanceAlongPath, isReversed and coordinate. Outcomes are completed, timedOut, caught and stopped. The server validates these fields against canonical mode capabilities and timing, then calculates points from canonical collected pellets. Metadata is client-reported game state, not proof of physical movement or protection against cheating. Legacy Explore uploads omit rules and keep their original retry identity.
+
+Stage-two verification: the simulator build passed; 34 app/core test functions in seven suites passed, including live uploads for timed, ghosts and timedGhosts, plus the existing GPS/persistence checks. Twelve backend HTTP/database test functions passed against isolated SQLite. The combined-mode demo was checked in the simulator for its countdown, three lives, ghost markers and paused state. Physical GPS/heading and PostgreSQL runtime still require device/host testing. The isolated stage-two test listener uses port 8082; an older listener on 8080 must be restarted with the updated server before accepting new-mode results.
