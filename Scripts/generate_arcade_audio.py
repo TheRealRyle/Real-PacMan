@@ -86,6 +86,12 @@ def generate():
         for i, note in enumerate(notes):
             tone(samples, i * .045, .065, note, .22)
         write(name, samples)
+    samples = [0.] * round(.45 * RATE)
+    tone(samples, 0, .11, 67, .20)
+    tone(samples, .08, .14, 60, .22)
+    tone(samples, .18, .24, 48, .28, "bass")
+    drum(samples, 0, "kick")
+    write("life_lost", samples)
     for path in sorted(OUT.glob("*.wav")):
         with wave.open(str(path)) as file:
             print(path.name, round(file.getnframes() / RATE, 3), "seconds")

@@ -14,8 +14,7 @@ struct ModeHUD: View {
                         .accessibilityLabel("\(remaining) seconds remaining")
                 }
                 if mode.hasGhosts {
-                    Label("\(rules.livesRemaining)", systemImage: "heart.fill").foregroundStyle(.pink)
-                        .accessibilityLabel("\(rules.livesRemaining) lives remaining")
+                    LivesIndicator(remaining: rules.livesRemaining)
                 }
             }
             .font(.caption.bold()).foregroundStyle(.white)

@@ -51,6 +51,8 @@ struct GameplayView: View {
             }
         }
         .background(Color(red: 0.025, green: 0.05, blue: 0.12).ignoresSafeArea())
+        .modifier(LifeLostFeedback(lives: game.archive.activeSession?.rules?.livesRemaining
+                                  ?? (game.latestFinishedSession?.id == sessionID ? game.latestFinishedSession?.rules?.livesRemaining : nil)))
         .navigationTitle("Collect pellets")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color(red: 0.025, green: 0.05, blue: 0.12), for: .navigationBar)

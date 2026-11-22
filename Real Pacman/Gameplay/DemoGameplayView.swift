@@ -21,6 +21,7 @@ struct DemoGameplayView: View {
             }
         }
         .background(Color(red: 0.025, green: 0.05, blue: 0.12).ignoresSafeArea())
+        .modifier(LifeLostFeedback(lives: demo.rules.livesRemaining))
         .navigationTitle(demo.isComplete ? "Demo score" : "Demo mode")
         .toolbarBackground(Color(red: 0.025, green: 0.05, blue: 0.12), for: .navigationBar)
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)

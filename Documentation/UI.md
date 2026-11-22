@@ -75,3 +75,11 @@ cyan and orange ghost sprites. A pink edge arrow shows the nearest ghost's dista
 and direction when it is outside the unobscured viewport; it follows map rotation.
 The route banner also reports the active ghost count. Resumed runs retain their
 saved positions; restarting a demo or starting a new run uses the nearby spawns.
+
+Losing a life triggers a 360 ms horizontal shake, a brief red tint, a “Life lost”
+notice and the hit sound. The three-heart health display animates the lost heart
+upward into an empty outline. Reduce Motion removes translation and scaling and
+softens the tint while retaining the notice, fading heart and VoiceOver announcement.
+Feedback observes lives above the gameplay/score switch, so the final hit still
+plays immediately without delaying the score screen. Restoring or restarting a
+run does not trigger damage feedback.

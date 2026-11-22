@@ -3,4 +3,5 @@ enum ArcadeSound: String, CaseIterable {
     case level = "ui_level"
     case toggle = "ui_toggle"
     case adjust = "ui_adjust"
+    case lifeLost = "life_lost"
 }
