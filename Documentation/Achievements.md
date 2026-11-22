@@ -3,6 +3,9 @@
 Home → Achievements opens eight badges with requirements, progress, locked/earned
 states and first-earned dates. Completing or stopping a real run evaluates new
 unlocks, which appear on its score screen with a link to the achievement page.
+New unlocks take the leading position on that screen with a medal reveal, a
+finite gold burst and one fanfare for the group. Additional earned badges appear
+under the featured badge. There is no forced viewing time or delayed navigation.
 
 | Badge | Requirement |
 | --- | --- |

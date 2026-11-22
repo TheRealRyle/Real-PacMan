@@ -1,6 +1,6 @@
 # Arcade audio
 
-All six WAV files in Real Pacman/Audio are original synthesized assets. No Pac-Man recording or melody is sampled. Scripts/generate_arcade_audio.py regenerates them deterministically using Python's standard library.
+All seven WAV files in Real Pacman/Audio are original synthesized assets. No Pac-Man recording or melody is sampled. Scripts/generate_arcade_audio.py regenerates them deterministically using Python's standard library.
 
 - menu_loop: eight bars at 128 BPM, A-minor pulse lead, arpeggios, bass and drums; 15 seconds, no vocals.
 - ui_press: short rising confirmation chirp, played on activation before the navigation delay.
@@ -8,6 +8,7 @@ All six WAV files in Real Pacman/Audio are original synthesized assets. No Pac-M
 - ui_toggle: bright two-note toggle feedback.
 - ui_adjust: short slider-release preview.
 - life_lost: 450 ms descending hit cue with a soft bass impact, played once when lives decrease in real or demo gameplay, including the final hit. Uses the Sound volume and existing Silent Mode/interruption behavior.
+- achievement_unlocked: 1.2-second ascending arpeggio and warm chord for the achievement reveal. Plays once for the award group and respects Sound volume, Silent Mode and interruptions.
 
 ArcadeAudio preloads one looping music player and three voices per effect. Music and Sound settings independently adjust playback immediately; zero mutes that channel. Effects remain available during gameplay, but menu music pauses. Music resumes at its paused position on return.
 
