@@ -122,11 +122,7 @@ final class GameStore {
     }
 
     private func endpoint(_ server: String, path: String) throws -> URL {
-        guard let url = URL(string: server), url.scheme == "https", url.host != nil,
-              url.user == nil, url.password == nil, url.query == nil, url.fragment == nil else {
-            throw URLError(.badURL)
-        }
-        return url.appending(path: "api/v1/\(path)")
+        try ServerEndpoint.url(server, path: path)
     }
 
     private func check(_ response: URLResponse) throws {
