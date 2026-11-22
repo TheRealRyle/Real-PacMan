@@ -62,8 +62,7 @@ struct RouteLibraryView: View {
                                     }, previewRoute: entry.route)
                                     .scrollTransition(.interactive, axis: .horizontal) { [reduceMotion] content, phase in
                                         content
-                                            .scaleEffect(reduceMotion ? 1 : (phase.isIdentity ? 1 : 0.92))
-                                            .rotationEffect(.degrees(reduceMotion ? 0 : phase.value * 3))
+                                            .scaleEffect(reduceMotion ? 1 : (phase.isIdentity ? 1 : 0.97))
                                     }
                                     .containerRelativeFrame(.horizontal)
                                     .id(entry.id)
@@ -73,17 +72,13 @@ struct RouteLibraryView: View {
                         .padding(.bottom, 12)
                     }
                     .scrollTargetBehavior(.viewAligned)
+                    // Native scrolling preserves flick velocity and supplies progressive
+                    // resistance and spring-back at both boundaries.
+                    .scrollBounceBehavior(.always, axes: .horizontal)
                     .scrollPosition(id: $selectedID)
                     .scrollIndicators(.hidden)
                     .contentMargins(.horizontal, 28, for: .scrollContent)
                     .scrollClipDisabled()
-                    .phaseAnimator([0, 1, 2], trigger: selectedID) { [reduceMotion] content, phase in
-                        content
-                            .scaleEffect(reduceMotion ? 1 : (phase == 1 ? 1.025 : 1))
-                            .offset(y: reduceMotion ? 0 : (phase == 1 ? -5 : 0))
-                    } animation: { _ in
-                        reduceMotion ? .linear(duration: 0) : .spring(response: 0.32, dampingFraction: 0.45)
-                    }
                     .arcadeEntrance(delay: 0.12)
 
                     HStack(spacing: 24) {
@@ -172,7 +167,7 @@ struct RouteLibraryView: View {
 
     private func move(_ offset: Int) {
         let index = min(max(currentIndex + offset, 0), ids.count - 1)
-        withAnimation(reduceMotion ? nil : .spring(response: 0.5, dampingFraction: 0.62)) { selectedID = ids[index] }
+        withAnimation(reduceMotion ? nil : .spring(duration: 0.5, bounce: 0)) { selectedID = ids[index] }
     }
 
     private func bestProgress(_ route: GameRoute) -> Double {
