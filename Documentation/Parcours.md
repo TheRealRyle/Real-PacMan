@@ -17,9 +17,24 @@ The three planned locations appear in the existing bouncy carousel:
 - Chambéry Station: named location; layout not yet prepared.
 - USMB, Le Bourget-du-Lac: named location; layout not yet prepared.
 
+Choose **DEMO · ARROW CONTROLS** on the mode screen to practice without GPS.
+The player begins at the proposed start, with four cardinal-direction buttons.
+Each tap moves five metres; holding an arrow repeats. Movement is free, including
+off the path network. Nearby pellets use the same 8 m collection radius as a walk.
+Pause stops movement; Restart resets the demo. Completing all pellets stops the
+session until restarted. Leaving the screen or backgrounding the app pauses it.
+
+DemoSession is independent of GameStore and lives only in memory. Demo points
+never enter Statistics, saved walk progress or the upload queue, and an existing
+walk can remain saved while a demo runs. The demo map disables native GPS and
+uses a separate blue player marker. It stays north-up so arrows match the map;
+camera follow, overview and saved-layout fallback work with the simulated player.
+
 The vector preview is fully local and shows separate paths, the park boundary,
 proposed pellets and proposed start. There is no network request for this preview.
-Explore uses the bundled vector layout for GPS play on the draft.
+Explore now uses the street basemap during gameplay, including for the draft.
+The saved vector layout remains the fallback when the street map fails to load
+or has not loaded after 15 seconds. Catalogue previews remain fully local.
 
 ## Verney: evidence versus proposed game content
 
@@ -68,13 +83,21 @@ MapLibre renders individual graph edges and sizes offline map regions around
 all geometry. Offline storage startup is awaited before deciding a pack is absent,
 avoiding duplicate packs after relaunch. An unfinished pack can be resumed.
 
-The bundled draft carries an OpenFreeMap Liberty style URL for future review;
-it is not fetched by the draft preview. Before publishing it for online/offline
-use, configure request identification/concurrency/download budgets to meet
-https://openfreemap.org/tos/ and retain attribution. Current provider terms limit
-offline packs to 3,000 tiles or 50 MB and four parallel requests, with an app User-Agent.
-This branch does not claim to enforce that provider policy or enable draft downloads.
-Do not change fieldVerified to bypass that remaining integration work.
+The bundled draft carries an OpenFreeMap Liberty style URL, used by the gameplay
+street map; it is not fetched by the catalogue preview. MapLibre requests identify
+the app with a versioned User-Agent and use at most four connections per host.
+The map retains its built-in provider/data attribution. Offline pack limits still
+need enforcement before enabling draft downloads: see https://openfreemap.org/tos/.
+Draft downloads remain disabled and fieldVerified remains false.
+
+The gameplay map supports native pan, pinch zoom, compass and scale. Yellow dots
+mark remaining pellets, a blue flag marks the proposed start, and the native blue
+location dot shows the player and GPS accuracy. Controls restore the whole parcours
+or follow the player at walking scale. The first GPS fix automatically enables
+following only when it is within 500 m of the parcours. Panning interrupts native
+following; the location button restores it. Camera requests are handled separately
+from pellet updates, so collecting a pellet does not reset the camera. Reduce Motion
+disables animated camera changes. A draft label remains visible during online play.
 
 ## Next practical steps
 
@@ -95,6 +118,20 @@ references/disconnection/outside pellets/invalid values, old JSON and saved-sess
 compatibility, server override, draft Explore collection and versioned scoring.
 The Xcode app is separately built against the iOS Simulator SDK.
 
+Demo checks also cover five-metre cardinal movement, repeat collection prevention,
+pause/resume, completion/restart, the bundled starting point, and preserving the
+real walk file and result queue. The simulator build includes the demo entry,
+street-map player marker, direction pad and completed-demo state.
+
 No screen sharing or computer-control session was started for this branch.
 Physical-device GPS, offline basemap downloads and backend integration remain
 follow-up checks.
+
+
+Gameplay polish: both real and demo sessions automatically show the score screen
+on final collection. Collection now uses a shared eight-metre radius. Settings
+provide follow zoom 16–19, with original 17.5 as the midpoint/default. A projected
+edge marker points to the nearest remaining offscreen pellet and shows its direct
+distance, updating as the map rotates, moves or zooms. The marker does not prescribe
+a route across obstacles. Gameplay tests cover collection thresholds, automatic
+completion/result handoff, nearest remaining selection and edge geometry.
