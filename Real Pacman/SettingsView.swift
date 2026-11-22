@@ -21,6 +21,20 @@ struct SettingsView: View {
             }
             .arcadeEntrance(delay: 0.12)
 
+            ArcadePanel(title: "MAP ZOOM") {
+                Text("Choose how close the map follows your player.").font(.subheadline)
+                Slider(value: $settings.mapZoom, in: GameplayRules.zoomRange, step: 0.25) {
+                    Text("Following zoom")
+                }.tint(.yellow)
+                HStack { Text("Wider"); Spacer(); Text("Medium"); Spacer(); Text("Closer") }
+                    .font(.caption)
+                Button("RESET TO MEDIUM") { settings.mapZoom = GameplayRules.defaultZoom }
+                    .buttonStyle(ArcadeButtonStyle(color: .cyan))
+                Text("Medium is the original zoom and the default. Pinch to explore; Follow restores your chosen zoom.")
+                    .font(.caption).foregroundStyle(.white.opacity(0.8))
+            }
+            .arcadeEntrance(delay: 0.18)
+
             ArcadePanel(title: "CONNECTION", color: Color(red: 0.05, green: 0.3, blue: 0.5)) {
                 Label("Route server", systemImage: "network")
                 TextField("https://your-server.example", text: $settings.serverURL)

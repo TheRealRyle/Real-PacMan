@@ -6,18 +6,14 @@ struct GameplayView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var location = LocationService()
     @State private var confirmFinish = false
+    @State private var sessionID: UUID?
 
     var body: some View {
         Group {
             if let session = game.archive.activeSession {
                 VStack(spacing: 0) {
-                    if session.route.parcours?.fieldVerified == false {
-                        ParcoursPreview(route: session.route, collected: session.collectedPelletIDs,
-                                        player: location.coordinate, height: nil)
-                            .background(Color.indigo)
-                    } else {
-                        RouteMapView(route: session.route, collected: session.collectedPelletIDs)
-                    }
+                    GameplayMapView(route: session.route, collected: session.collectedPelletIDs,
+                                    player: location.coordinate)
                     VStack(spacing: 12) {
                         HStack {
                             Label("\(session.score) points", systemImage: "star.fill")
@@ -31,13 +27,16 @@ struct GameplayView: View {
                                 ArcadeAudio.shared.play(.press)
                                 if game.isPlaying { game.pause() } else { game.resume() }
                                 location.wantsUpdates = game.isPlaying
-                            }.buttonStyle(.borderedProminent)
-                            Button("Finish walk") { ArcadeAudio.shared.play(.press); confirmFinish = true }.buttonStyle(.bordered)
+                            }.buttonStyle(ArcadeButtonStyle(color: .green))
+                            Button("Finish walk") { ArcadeAudio.shared.play(.press); confirmFinish = true }.buttonStyle(ArcadeButtonStyle(color: .yellow))
                         }
                         Text("Stay on public paths and watch your surroundings. GPS runs while this screen is active.")
                             .font(.caption2).foregroundStyle(.secondary)
                     }.padding()
                 }
+            } else if let result = game.latestFinishedSession, result.id == sessionID {
+                CompletionScoreView(score: result.score, collected: result.collectedPelletIDs.count,
+                                    total: result.route.pellets.count, distance: result.distanceMeters)
             } else {
                 ContentUnavailableView("Walk saved", systemImage: "checkmark.circle",
                                        description: Text("Your result is in Statistics and ready to sync."))
@@ -48,6 +47,7 @@ struct GameplayView: View {
             ArcadeAudio.shared.setGameplayVisible(true)
             if let startingRoute { game.start(startingRoute) }
             location.onLocation = { game.collect(at: $0) }
+            sessionID = game.archive.activeSession?.id
             game.resume()
             location.wantsUpdates = game.archive.activeSession != nil
         }

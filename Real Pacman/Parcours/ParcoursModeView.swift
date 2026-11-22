@@ -8,6 +8,15 @@ struct ParcoursModeView: View {
             ArcadePanel(title: route.name.uppercased()) {
                 Text(route.parcours?.description ?? "Choose how you want to explore this parcours.")
                     .font(.subheadline)
+                ArcadeNavigationLink {
+                    DemoGameplayView(route: route).toolbar(.visible, for: .navigationBar)
+                } label: {
+                    Label("DEMO · ARROW CONTROLS", systemImage: "dpad.fill")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(ArcadeButtonStyle(color: .cyan))
+                Text("Practice with arrow buttons. No GPS needed. Demo scores do not count toward Statistics.")
+                    .font(.caption).foregroundStyle(.white.opacity(0.8))
                 ForEach(ParcoursMode.allCases) { mode in
                     if mode == .explore && (route.parcours?.supportedModes.contains(.explore) ?? true) {
                         ArcadeNavigationLink {

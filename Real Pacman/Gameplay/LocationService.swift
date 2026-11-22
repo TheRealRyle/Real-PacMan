@@ -41,7 +41,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard wantsUpdates, let location = locations.last else { return }
         message = location.horizontalAccuracy >= 0 && location.horizontalAccuracy <= 20
-            ? "GPS ready · collect within 15 m" : "GPS accuracy is low. Move to an open area."
+            ? "GPS ready · collect within 8 m" : "GPS accuracy is low. Move to an open area."
         coordinate = RouteCoordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         onLocation?(location)
     }
