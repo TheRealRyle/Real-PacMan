@@ -4,18 +4,38 @@ import MapLibre
 
 @MainActor @Observable
 final class OfflineMapStore {
-    private(set) var status = "Download the route map before heading offline."
+    private(set) var status = "Checking offline download…"
+    private(set) var isChecking = true
     private(set) var isDownloading = false
+    private(set) var isDownloaded = false
+    private(set) var canResume = false
+    private(set) var progress: Double?
     private var pack: MLNOfflinePack?
 
     func refreshStatus(for route: GameRoute) async {
+        guard !isDownloading else { return }
+        isChecking = true
+        isDownloaded = false
+        canResume = false
+        defer { isChecking = false }
         do {
             try await waitForPacks()
+            try Task.checkCancellation()
             let context = Data("\(route.id.uuidString):\(route.version)".utf8)
             if let existing = MLNOfflineStorage.shared.packs?.first(where: { $0.context == context }) {
                 existing.requestProgress()
-                status = existing.state == .complete ? "Map downloaded · available offline" : "Map partially downloaded · tap to resume"
-            } else { status = "Layout saved · map not downloaded" }
+                // Persisted pack states are initially unknown; requestProgress is asynchronous.
+                for _ in 0..<100 {
+                    if existing.state != .unknown { break }
+                    try await Task.sleep(for: .milliseconds(50))
+                }
+                guard existing.state != .unknown else { throw URLError(.timedOut) }
+                isDownloaded = existing.state == .complete
+                canResume = !isDownloaded
+                status = isDownloaded ? "Street map saved on this device." : "Map partially downloaded · resume to finish."
+            } else { status = "Not downloaded · save the street map for offline play." }
+        } catch is CancellationError {
+            return
         } catch { status = "Offline map storage is unavailable. Try again." }
     }
 
@@ -29,29 +49,28 @@ final class OfflineMapStore {
     }
 
     func download(_ route: GameRoute) async {
-        guard !isDownloading else { return }
+        guard !isDownloading, !isChecking else { return }
         isDownloading = true
+        isDownloaded = false
+        progress = nil
+        status = "Preparing download…"
         defer { isDownloading = false }
-        do { try await waitForPacks() }
+        do { try await waitForPacks(); try Task.checkCancellation() }
+        catch is CancellationError { status = "Download paused. Tap to resume."; return }
         catch { status = "Offline map storage is unavailable. Try again."; return }
         let context = Data("\(route.id.uuidString):\(route.version)".utf8)
         if let existing = MLNOfflineStorage.shared.packs?.first(where: { $0.context == context }) {
             pack = existing
         } else {
-            let points = route.mapCoordinates
-            guard let first = points.first else { return }
-            let south = max(-85, (points.map(\.latitude).min() ?? first.latitude) - 0.003)
-            let north = min(85, (points.map(\.latitude).max() ?? first.latitude) + 0.003)
-            let west = max(-180, (points.map(\.longitude).min() ?? first.longitude) - 0.003)
-            let east = min(180, (points.map(\.longitude).max() ?? first.longitude) + 0.003)
-            guard north - south < 0.25, east - west < 0.25 else {
+            guard let area = OfflineMapBounds(route: route) else {
                 status = "This route is too large for a walking map download."; return
             }
             let bounds = MLNCoordinateBounds(
-                sw: CLLocationCoordinate2D(latitude: south, longitude: west),
-                ne: CLLocationCoordinate2D(latitude: north, longitude: east))
+                sw: CLLocationCoordinate2D(latitude: area.south, longitude: area.west),
+                ne: CLLocationCoordinate2D(latitude: area.north, longitude: area.east))
             let region = MLNTilePyramidOfflineRegion(styleURL: route.mapStyleURL, bounds: bounds,
-                                                     fromZoomLevel: 12, toZoomLevel: 17)
+                                                     fromZoomLevel: Double(OfflineMapBounds.minimumZoom),
+                                                     toZoomLevel: Double(OfflineMapBounds.maximumZoom))
             do {
                 pack = try await withCheckedThrowingContinuation { continuation in
                     MLNOfflineStorage.shared.addPack(for: region, withContext: context) { pack, error in
@@ -63,6 +82,10 @@ final class OfflineMapStore {
             } catch { status = error.localizedDescription; return }
         }
         guard let pack else { return }
+        canResume = true
+        guard !Task.isCancelled else {
+            pack.suspend(); status = "Download paused. Tap to resume."; return
+        }
         pack.resume()
         // Poll only while this view's download task remains alive. MapLibre owns persistent packs.
         let deadline = Date().addingTimeInterval(300)
@@ -73,9 +96,19 @@ final class OfflineMapStore {
                 return
             }
             pack.requestProgress()
-            if pack.state == .complete { status = "Map downloaded · available offline"; return }
-            let progress = pack.progress
-            status = "Downloading map: \(progress.countOfResourcesCompleted) / \(progress.countOfResourcesExpected) resources"
+            if pack.state == .complete {
+                isDownloaded = true
+                canResume = false
+                progress = 1
+                status = "Street map saved on this device."
+                return
+            }
+            let counts = pack.progress
+            progress = counts.countOfResourcesExpected > 0
+                ? min(0.99, Double(counts.countOfResourcesCompleted) / Double(counts.countOfResourcesExpected)) : nil
+            status = counts.countOfResourcesExpected > 0
+                ? "Downloading map: \(counts.countOfResourcesCompleted) / \(counts.countOfResourcesExpected) resources"
+                : "Preparing offline map resources…"
             do { try await Task.sleep(for: .seconds(1)) }
             catch { pack.suspend(); status = "Download paused. Tap to resume."; return }
         }
