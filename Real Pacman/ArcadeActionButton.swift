@@ -19,7 +19,7 @@ struct ArcadeActionButton<Label: View>: View {
         .task(id: pending) {
             guard pending else { return }
             if !reduceMotion {
-                do { try await Task.sleep(for: .milliseconds(360)) }
+                do { try await Task.sleep(for: .milliseconds(180)) }
                 catch { return }
             }
             guard !Task.isCancelled else { return }
