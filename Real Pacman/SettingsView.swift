@@ -49,6 +49,14 @@ struct SettingsView: View {
                 Text("Your route server supplies levels and receives saved results.")
                     .font(.caption)
                     .foregroundStyle(.white.opacity(0.8))
+                #if DEBUG && targetEnvironment(simulator)
+                Button("Use local development server", systemImage: "desktopcomputer") {
+                    settings.serverURL = "http://127.0.0.1:8080"
+                }
+                .buttonStyle(ArcadeButtonStyle(color: .cyan))
+                Text("Run the server on this Mac, then refresh parcours in Play.")
+                    .font(.caption).foregroundStyle(.white.opacity(0.8))
+                #endif
             }
             .arcadeEntrance(delay: 0.22)
         }
