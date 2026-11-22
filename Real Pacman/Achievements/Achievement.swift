@@ -36,7 +36,7 @@ enum Achievement: String, CaseIterable, Identifiable {
         case .pocketful: "circle.grid.3x3.fill"
         case .quickClear: "stopwatch.fill"
         case .doubleFeature: "2.circle.fill"
-        case .untouchable: "heart.shield.fill"
+        case .untouchable: "heart.fill"
         case .beatTheClock: "timer"
         }
     }

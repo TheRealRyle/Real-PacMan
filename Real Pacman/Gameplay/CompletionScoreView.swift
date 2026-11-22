@@ -16,9 +16,13 @@ struct CompletionScoreView: View {
             ArcadeBackground()
             ScrollView {
                 VStack(spacing: 24) {
-                    Image(systemName: collected == total ? "trophy.fill" : "checkmark.circle.fill")
-                        .font(.system(size: 72)).foregroundStyle(.yellow)
-                        .accessibilityHidden(true)
+                    if !isDemo, !unlockedAchievements.isEmpty {
+                        AchievementUnlocksView(achievements: unlockedAchievements)
+                    } else {
+                        Image(systemName: collected == total ? "trophy.fill" : "checkmark.circle.fill")
+                            .font(.system(size: 72)).foregroundStyle(.yellow)
+                            .accessibilityHidden(true)
+                    }
                     Text(rules?.outcome?.title ?? (collected == total ? "PARCOURS COMPLETE!" : "WALK SAVED"))
                         .font(.largeTitle.bold()).multilineTextAlignment(.center)
                     Text("\(score) \(isDemo ? "demo points" : "points")")
@@ -32,9 +36,6 @@ struct CompletionScoreView: View {
                     }
                     Text(isDemo ? "Practice score · not saved to Statistics" : "Your result is saved in Statistics and queued for sync.")
                         .font(.subheadline).multilineTextAlignment(.center)
-                    if !isDemo, !unlockedAchievements.isEmpty {
-                        AchievementUnlocksView(achievements: unlockedAchievements)
-                    }
                     if let restart {
                         Button("PLAY AGAIN", action: restart).buttonStyle(ArcadeButtonStyle(color: .green))
                     }

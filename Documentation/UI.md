@@ -105,3 +105,11 @@ At rest it retains direction, and camera rotation is subtracted from the bearing
 The native GPS location view draws a soft blue accuracy halo scaled in map metres;
 demo play has no accuracy halo. The saved-layout fallback draws the same vector
 asset at 32 points. There is no looping pulse or position/rotation animation.
+
+Newly earned achievements lead the score screen with a gold medallion, halo,
+large badge title, gold particles and a short fanfare. The shared 0.97 entrance
+settles before a finite 900 ms medal burst; controls remain interactive. Multiple
+unlocks share one reveal and show the additional badges beneath the featured one.
+The reveal and sound run once per presentation, cancel pending playback when
+leaving or backgrounding, and do not replay on returning from the trophy cabinet.
+Reduce Motion keeps the static medal/glow and omits movement, rotation and particles.

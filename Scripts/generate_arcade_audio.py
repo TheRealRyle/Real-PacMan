@@ -92,6 +92,14 @@ def generate():
     tone(samples, .18, .24, 48, .28, "bass")
     drum(samples, 0, "kick")
     write("life_lost", samples)
+    samples = [0.] * round(1.2 * RATE)
+    for i, note in enumerate([72, 76, 79, 84]):
+        tone(samples, i * .095, .16, note, .18)
+    for note in [72, 76, 79, 84]:
+        tone(samples, .40, .65, note, .08)
+    tone(samples, .40, .70, 48, .18, "bass")
+    tone(samples, .74, .30, 91, .12)
+    write("achievement_unlocked", samples)
     for path in sorted(OUT.glob("*.wav")):
         with wave.open(str(path)) as file:
             print(path.name, round(file.getnframes() / RATE, 3), "seconds")
