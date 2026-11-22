@@ -17,7 +17,7 @@ struct GameplayMapView: View {
     var body: some View {
         RouteMapView(route: route, collected: collected, cameraRequest: cameraRequest,
                      simulatedPlayer: isDemo ? player : nil, usesDeviceLocation: !isDemo,
-                     followZoom: settings.mapZoom, guidancePlayer: player,
+                     followZoom: settings.mapZoom, isGameplay: true, guidancePlayer: player,
                      onIndicatorChange: { indicator = $0 }) { available in
             streetMapLoaded = available
             showsSavedMap = !available
