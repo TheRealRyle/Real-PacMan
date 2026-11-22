@@ -1,16 +1,16 @@
 # Real Pac-Man client and API
 
-The existing project was a menu/settings prototype with MapLibre 6.31 already added. The client now supports route storage, foreground GPS collection, resumable sessions, map packs, result uploads and local statistics. Existing user edits were retained as the starting point. No backend exists in this folder yet.
+The existing project was a menu/settings prototype with MapLibre 6.31 already added. The client now supports route storage, foreground GPS collection, resumable sessions, map packs, result uploads and local statistics. Existing user edits were retained as the starting point. The local Vapor/PostgreSQL backend is in `Server/`; see its setup instructions.
 
 ## Run
 
-Open Real Pacman.xcodeproj. The deployment target remains iOS 26.5. In Settings enter an HTTPS server base URL without a query or fragment. Choose Play → Refresh parcours. Parc du Verney is available immediately as a bundled map draft. Download a route's offline map while connected, then start walking. Routes and progress live in Application Support/RealPacman/progress.json. MapLibre owns a separate persistent map database.
+Open Real Pacman.xcodeproj. The deployment target remains iOS 26.5. In Settings enter an HTTPS server base URL without a query or fragment. Debug simulator builds offer a local development server button for `http://127.0.0.1:8080`. Existing connection preferences are retained; select the development server explicitly before refreshing or syncing. Only loopback HTTP is accepted in Debug; Release requires HTTPS. Start the backend using `Server/README.md`, then refresh parcours. Choose Play → Refresh parcours. Parc du Verney is available immediately as a bundled map draft. Download a route's offline map while connected, then start walking. Routes and progress live in Application Support/RealPacman/progress.json. MapLibre owns a separate persistent map database.
 
-GPS must be fresh (within 10 seconds), horizontal accuracy must be 20 m or better, and pellets are collected within 15 m. Each pellet counts once per session. Jumps over 12 m/s are rejected. Gameplay pauses when leaving the gameplay screen or foreground; resume explicitly. These are basic collection filters, not server-side anti-cheat. Distance is an estimate from accepted fixes. Partial walks can be finished and appear in history.
+GPS must be fresh (within 10 seconds), horizontal accuracy must be 20 m or better, and pellets are collected within 8 m. Each pellet counts once per session. Jumps over 12 m/s are rejected. Gameplay pauses when leaving the gameplay screen or foreground; resume explicitly. These are basic collection filters, not server-side anti-cheat. Distance is an estimate from accepted fixes. Partial walks can be finished and appear in history.
 
 Offline gameplay does not require networking once a route is saved. Detailed basemap rendering additionally requires completing its map download. Map downloads cover route/pellet bounds with padding, zooms 12–17; oversized areas are rejected. Downloads pause when the detail view closes, and can resume. A five minute timeout permits connection recovery. MapLibre's default attribution control remains visible. The server must provide an OSM-derived style and properly attributed tiles with permission for offline downloads; do not use the public OSM raster tile service for bulk downloads.
 
-## Planned Vapor/PostgreSQL contract
+## Vapor/PostgreSQL contract
 
 All JSON uses Swift Codable keys. UUIDs are strings. Dates use the default JSONEncoder representation: seconds since 2001-01-01T00:00:00Z. Change both client/server together if adopting ISO 8601.
 
@@ -50,7 +50,7 @@ Client score is derived by summing the collected pellets' versioned values (10 p
 
 The Idempotency-Key header equals the session id. PostgreSQL must enforce uniqueness on that id. Persist within a transaction before returning 2xx. A replay of a previously accepted identical result must return 2xx without creating another result. Non-2xx responses keep the item queued. The client retries on launch, foreground activation, and manual sync. A response lost after server commit is safe only if the server implements this rule.
 
-Suggested tables: routes, route_versions (geometry/style), pellets (route_version foreign key), results (unique client_session_id), result_pellets (unique result_id/pellet_id). Authentication, accounts, migrations, deployed server, server statistics and conflict policies remain to implement. Current statistics summarize this device's saved results.
+The backend stores immutable route_versions as canonical JSON and results keyed by client session UUID, with a foreign key to the exact route version. Migrations seed the bundled draft. Authentication, accounts, deployed hosting and server statistics remain to implement. Current statistics summarize this device's saved results. See Server/README.md for storage and validation details.
 
 ## Verification
 
@@ -93,3 +93,13 @@ Recommended PostgreSQL additions: route_versions.description/boundary/start_junc
 supported_modes/estimated_minutes/field_verified/source; junctions and paths keyed
 by route_version; paths.from/to foreign keys; pellets.value. Publish a version
 transactionally only after graph and field-review checks.
+
+## Client/server integration verification
+
+Run `REALPACMAN_INTEGRATION_URL=http://127.0.0.1:8080 python3 Scripts/test_parcours.py` against a running local backend to exercise the actual app GameStore: download and validate the canonical parcours, finish a walk, retain queued results after an HTTP failure, sync and restore the accepted result, replay an identical upload, and reject a conflicting session UUID. Without that environment variable the live test is skipped; endpoint and gameplay checks still run. This test creates temporary client progress and a new test result on the selected server. Use a development server.
+
+The backend currently exposes a local prototype API without player authentication. It stores versioned route snapshots and server-calculated results. Public hosting, accounts and per-player access are separate work; this setup is intended to run on loopback during development. Demo scores never enter the upload queue.
+
+## Verified integration outcome
+
+The combined simulator build passed. All 24 app/core tests (including the enabled live GameStore HTTP test) and the standalone GPS/persistence checks passed. All seven backend HTTP/database tests passed using SQLite, including concurrent retries. The live client test verified canonical route download, failed-upload queue durability, successful sync/reload, identical replay and conflicting UUID rejection. A separate non-Debug endpoint check confirmed all HTTP URLs are rejected. Settings and the updated demo map were opened in the iPhone17 simulator. Physical GPS/heading and PostgreSQL runtime are not verified on this host; Docker/PostgreSQL are not installed. The explicitly named IntegrationServer uses temporary in-memory storage and is for testing only.
