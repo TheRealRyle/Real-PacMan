@@ -7,6 +7,7 @@ struct GameplayMapView: View {
     let player: RouteCoordinate?
     var isDemo = false
     var ghosts: [GhostState] = []
+    var playerBearing = 90.0
     @Environment(GameSettings.self) private var settings
     @State private var indicator: PelletIndicator?
     @State private var ghostIndicator: PelletIndicator?
@@ -19,7 +20,7 @@ struct GameplayMapView: View {
     var body: some View {
         RouteMapView(route: route, collected: collected, cameraRequest: cameraRequest,
                      simulatedPlayer: isDemo ? player : nil, usesDeviceLocation: !isDemo,
-                     ghosts: ghosts, followZoom: settings.mapZoom, isGameplay: true, guidancePlayer: player,
+                     ghosts: ghosts, playerBearing: playerBearing, followZoom: settings.mapZoom, isGameplay: true, guidancePlayer: player,
                      onIndicatorChange: { indicator = $0 }, onGhostIndicatorChange: { ghostIndicator = $0 }) { available in
             streetMapLoaded = available
             showsSavedMap = !available
@@ -27,7 +28,8 @@ struct GameplayMapView: View {
         .id(mapGeneration)
         .overlay {
             if showsSavedMap {
-                ParcoursPreview(route: route, collected: collected, player: player, height: nil, ghosts: ghosts)
+                ParcoursPreview(route: route, collected: collected, player: player, height: nil, ghosts: ghosts,
+                                playerBearing: playerBearing)
                     .background(.indigo)
             }
         }

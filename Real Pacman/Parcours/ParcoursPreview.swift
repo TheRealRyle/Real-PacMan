@@ -7,6 +7,7 @@ struct ParcoursPreview: View {
     var player: RouteCoordinate?
     var height: CGFloat? = 180
     var ghosts: [GhostState] = []
+    var playerBearing = 90.0
 
     var body: some View {
         Canvas { context, size in
@@ -54,13 +55,16 @@ struct ParcoursPreview: View {
             }
             if let player {
                 let center = project(player)
-                let dot = Path(ellipseIn: CGRect(x: center.x - 5, y: center.y - 5, width: 10, height: 10))
-                context.fill(dot, with: .color(.blue))
-                context.stroke(dot, with: .color(.white), lineWidth: 2)
+                var marker = context
+                marker.translateBy(x: center.x, y: center.y)
+                marker.rotate(by: .degrees(playerBearing - 90))
+                marker.draw(Image("PlayerMarker").renderingMode(.original), in: CGRect(x: -16, y: -16, width: 32, height: 32))
             }
         }
         .frame(height: height)
         .background(.black.opacity(0.25), in: RoundedRectangle(cornerRadius: 16))
-        .accessibilityLabel("Parcours preview: paths in blue, pellets in yellow, proposed start in white.")
+        .accessibilityLabel(player == nil
+            ? "Parcours preview: paths in blue, pellets in yellow, proposed start in white."
+            : "Parcours map: your player is the large yellow character, paths in blue, pellets are small yellow dots.")
     }
 }

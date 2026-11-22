@@ -97,3 +97,11 @@ requirements, progress, earned dates and distinct locked/unlocked states. A navy
 and gold summary counts unlocked badges; adaptive cards reflow on larger displays.
 The score screen shows achievements newly earned on a real run. Buttons and
 entrances use the shared motion rules. See Achievements.md for the actual rules.
+
+The player is a 40-point yellow arcade character with a navy outline, white outer
+ring and a mouth facing movement. Demo arrows set its bearing; real maps use
+valid walking GPS course, falling back to movement of at least three metres.
+At rest it retains direction, and camera rotation is subtracted from the bearing.
+The native GPS location view draws a soft blue accuracy halo scaled in map metres;
+demo play has no accuracy halo. The saved-layout fallback draws the same vector
+asset at 32 points. There is no looping pulse or position/rotation animation.

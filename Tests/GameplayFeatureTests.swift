@@ -5,6 +5,40 @@ import CoreLocation
 @testable import ParcoursCore
 
 struct GameplayFeatureTests {
+    @Test("Player facing follows compass movement and ignores small GPS jitter")
+    func playerHeading() {
+        var heading = PlayerHeading()
+        let origin = RouteCoordinate(latitude: 45, longitude: 5)
+        heading.update(coordinate: origin)
+        heading.update(coordinate: RouteCoordinate(latitude: 45.000001, longitude: 5))
+        #expect(heading.degrees == 90)
+        heading.update(coordinate: RouteCoordinate(latitude: 45.000045, longitude: 5))
+        #expect(abs(heading.degrees) < 0.1)
+        heading.update(coordinate: RouteCoordinate(latitude: 45.000045, longitude: 4.999936))
+        #expect(abs(heading.degrees - 270) < 0.1)
+    }
+
+    @Test("Valid moving GPS course takes priority, then holds its direction at rest")
+    func playerCourse() {
+        var heading = PlayerHeading()
+        let origin = RouteCoordinate(latitude: 45, longitude: 5)
+        heading.update(coordinate: origin, course: 225, speed: 1)
+        #expect(heading.degrees == 225)
+        heading.update(coordinate: origin, course: 0, speed: 0)
+        #expect(heading.degrees == 225)
+        heading.update(coordinate: origin, course: .nan, speed: 1)
+        heading.update(coordinate: RouteCoordinate(latitude: .nan, longitude: 5), course: 90, speed: 1)
+        #expect(heading.degrees == 225)
+    }
+
+    @Test("Player facing stays correct when the camera rotates", arguments: [
+        (0.0, 0.0, -90.0), (90, 0, 0), (180, 0, 90), (270, 0, 180),
+        (90, 90, -90), (0, 270, 0)
+    ])
+    func playerCameraDirection(bearing: Double, camera: Double, expected: Double) {
+        #expect(abs(PlayerHeading.screenRotation(bearing: bearing, mapDirection: camera) - expected) < 0.001)
+    }
+
     @Test("Verney offline download covers its whole layout within the tile budget")
     func offlineBounds() throws {
         let route = try ParcoursCatalogue.loadVerney(bundle: .module)

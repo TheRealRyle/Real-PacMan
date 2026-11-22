@@ -38,7 +38,8 @@ struct DemoGameplayView: View {
     private var gameplay: some View {
         VStack(spacing: 0) {
             GameplayMapView(route: demo.route, collected: demo.collectedPelletIDs,
-                            player: demo.player, isDemo: true, ghosts: demo.rules.ghosts)
+                            player: demo.player, isDemo: true, ghosts: demo.rules.ghosts,
+                            playerBearing: demo.playerBearing)
                 .id(cameraReset)
                 .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay { RoundedRectangle(cornerRadius: 24).strokeBorder(.cyan.opacity(0.25), lineWidth: 1) }

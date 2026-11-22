@@ -9,6 +9,7 @@ struct RouteMapView: UIViewRepresentable {
     var simulatedPlayer: RouteCoordinate? = nil
     var usesDeviceLocation = true
     var ghosts: [GhostState] = []
+    var playerBearing = 90.0
     var followZoom: Double = GameplayRules.defaultZoom
     var isGameplay = false
     var guidancePlayer: RouteCoordinate? = nil
@@ -40,6 +41,7 @@ struct RouteMapView: UIViewRepresentable {
         context.coordinator.onGhostIndicatorChange = onGhostIndicatorChange
         context.coordinator.ghostStates = ghosts
         context.coordinator.guidancePlayer = guidancePlayer
+        context.coordinator.playerBearing = playerBearing
         let zoomChanged = context.coordinator.followZoom != followZoom
         context.coordinator.followZoom = followZoom
         map.showsUserLocation = usesDeviceLocation
@@ -54,6 +56,7 @@ struct RouteMapView: UIViewRepresentable {
         }
         context.coordinator.updateGhosts(ghosts, on: map)
         context.coordinator.updateSimulatedPlayer(simulatedPlayer, on: map, animated: !reduceMotion)
+        context.coordinator.updatePlayerDirection(on: map)
         if let cameraRequest, context.coordinator.cameraRequestID != cameraRequest.id {
             context.coordinator.cameraRequestID = cameraRequest.id
             switch cameraRequest.target {
@@ -147,6 +150,9 @@ struct RouteMapView: UIViewRepresentable {
         var needsInitialFraming = false
         var onMapAvailabilityChange: ((Bool) -> Void)?
         var simulatedPlayerAnnotation: MLNPointAnnotation?
+        var playerBearing = 90.0
+        private weak var demoPlayerView: PlayerAnnotationView?
+        private weak var livePlayerView: PlayerLocationAnnotationView?
         var followsSimulatedPlayer = false
         var followZoom = GameplayRules.defaultZoom
         var pendingTrackingZoom = false
@@ -231,8 +237,35 @@ struct RouteMapView: UIViewRepresentable {
             DispatchQueue.main.async { [weak self] in self?.onIndicatorChange?(indicator) }
         }
 
-        func mapViewRegionIsChanging(_ mapView: MLNMapView) { updateIndicator(on: mapView) }
-        func mapView(_ mapView: MLNMapView, regionDidChangeAnimated animated: Bool) { updateIndicator(on: mapView) }
+        func mapViewRegionIsChanging(_ mapView: MLNMapView) {
+            updateIndicator(on: mapView)
+            updatePlayerDirection(on: mapView)
+        }
+        func mapView(_ mapView: MLNMapView, regionDidChangeAnimated animated: Bool) {
+            updateIndicator(on: mapView)
+            updatePlayerDirection(on: mapView)
+        }
+
+        func updatePlayerDirection(on map: MLNMapView) {
+            demoPlayerView?.update(bearing: playerBearing, mapDirection: map.direction)
+            livePlayerView?.update()
+        }
+
+        func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation) -> MLNAnnotationView? {
+            if annotation is MLNUserLocation {
+                let view = PlayerLocationAnnotationView(reuseIdentifier: "live-player")
+                livePlayerView = view
+                return view
+            }
+            if (annotation as AnyObject) === simulatedPlayerAnnotation {
+                let view = mapView.dequeueReusableAnnotationView(withIdentifier: "demo-player") as? PlayerAnnotationView
+                    ?? PlayerAnnotationView(reuseIdentifier: "demo-player")
+                view.update(bearing: playerBearing, mapDirection: mapView.direction)
+                demoPlayerView = view
+                return view
+            }
+            return nil
+        }
 
         func mapView(_ mapView: MLNMapView, didUpdate userLocation: MLNUserLocation?) {
             guard pendingTrackingZoom, mapView.userTrackingMode != .none,
@@ -300,8 +333,9 @@ struct RouteMapView: UIViewRepresentable {
         }
 
         func mapView(_ mapView: MLNMapView, imageFor annotation: MLNAnnotation) -> MLNAnnotationImage? {
-            // Keep MapLibre's blue location dot and its accuracy indicator.
             guard annotation is MLNPointAnnotation else { return nil }
+            // The player uses a rotating view; pellets and ghosts use cached images.
+            if (annotation as AnyObject) === simulatedPlayerAnnotation { return nil }
             if let ghostID = ghostAnnotations.first(where: { ($0.value as AnyObject) === (annotation as AnyObject) })?.key {
                 let identifier = "chasing-ghost-\(ghostID)"
                 if let image = mapView.dequeueReusableAnnotationImage(withIdentifier: identifier) { return image }
@@ -309,16 +343,15 @@ struct RouteMapView: UIViewRepresentable {
                                           reuseIdentifier: identifier)
             }
             let isStart = (annotation as AnyObject) === startAnnotation
-            let isPlayer = (annotation as AnyObject) === simulatedPlayerAnnotation
-            let identifier = isPlayer ? "demo-player" : isStart ? "parcours-start" : "pellet"
+            let identifier = isStart ? "parcours-start" : "pellet"
             if let image = mapView.dequeueReusableAnnotationImage(withIdentifier: identifier) { return image }
-            let diameter: CGFloat = isPlayer ? 22 : isStart ? 28 : 16
+            let diameter: CGFloat = isStart ? 28 : 16
             let size = CGSize(width: diameter, height: diameter)
             let format = UIGraphicsImageRendererFormat()
             format.scale = mapView.traitCollection.displayScale
             let image = UIGraphicsImageRenderer(size: size, format: format).image { _ in
                 let circle = UIBezierPath(ovalIn: CGRect(origin: .zero, size: size).insetBy(dx: 2, dy: 2))
-                (isStart || isPlayer ? UIColor.systemBlue : UIColor.systemYellow).setFill()
+                (isStart ? UIColor.systemBlue : UIColor.systemYellow).setFill()
                 circle.fill()
                 UIColor.white.setStroke()
                 circle.lineWidth = 3
