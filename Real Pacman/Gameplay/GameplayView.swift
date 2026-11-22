@@ -14,25 +14,31 @@ struct GameplayView: View {
                 VStack(spacing: 0) {
                     GameplayMapView(route: session.route, collected: session.collectedPelletIDs,
                                     player: location.coordinate)
-                    VStack(spacing: 12) {
-                        HStack {
-                            Label("\(session.score) points", systemImage: "star.fill")
-                            Spacer()
-                            Text("\(session.collectedPelletIDs.count) / \(session.route.pellets.count)")
-                        }.font(.headline)
-                        Text(game.isPlaying ? location.message : "Paused · progress saved")
-                            .font(.caption).foregroundStyle(.secondary)
-                        HStack {
-                            Button(game.isPlaying ? "Pause" : "Resume") {
+                        .clipShape(RoundedRectangle(cornerRadius: 24))
+                        .overlay { RoundedRectangle(cornerRadius: 24).strokeBorder(.cyan.opacity(0.25), lineWidth: 1) }
+                        .padding(.horizontal, 12).padding(.top, 8)
+                    GameplayDashboard(score: session.score, collected: session.collectedPelletIDs.count,
+                                      total: session.route.pellets.count, distance: session.distanceMeters,
+                                      isPlaying: game.isPlaying,
+                                      status: game.isPlaying ? location.message : "Progress saved · ready when you are") {
+                        HStack(spacing: 12) {
+                            Button {
                                 ArcadeAudio.shared.play(.press)
                                 if game.isPlaying { game.pause() } else { game.resume() }
                                 location.wantsUpdates = game.isPlaying
+                            } label: {
+                                Label(game.isPlaying ? "Pause" : "Resume", systemImage: game.isPlaying ? "pause.fill" : "play.fill")
+                                    .frame(maxWidth: .infinity)
                             }.buttonStyle(ArcadeButtonStyle(color: .green))
-                            Button("Finish walk") { ArcadeAudio.shared.play(.press); confirmFinish = true }.buttonStyle(ArcadeButtonStyle(color: .yellow))
+                            Button {
+                                ArcadeAudio.shared.play(.press)
+                                confirmFinish = true
+                            } label: {
+                                Label("Finish", systemImage: "flag.checkered").frame(maxWidth: .infinity)
+                            }.buttonStyle(ArcadeButtonStyle(color: .yellow))
+                                .accessibilityLabel("Finish walk")
                         }
-                        Text("Stay on public paths and watch your surroundings. GPS runs while this screen is active.")
-                            .font(.caption2).foregroundStyle(.secondary)
-                    }.padding()
+                    }
                 }
             } else if let result = game.latestFinishedSession, result.id == sessionID {
                 CompletionScoreView(score: result.score, collected: result.collectedPelletIDs.count,
@@ -42,7 +48,12 @@ struct GameplayView: View {
                                        description: Text("Your result is in Statistics and ready to sync."))
             }
         }
+        .background(Color(red: 0.025, green: 0.05, blue: 0.12).ignoresSafeArea())
         .navigationTitle("Collect pellets")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(Color(red: 0.025, green: 0.05, blue: 0.12), for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .onAppear {
             ArcadeAudio.shared.setGameplayVisible(true)
             if let startingRoute { game.start(startingRoute) }

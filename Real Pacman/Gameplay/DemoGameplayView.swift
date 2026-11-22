@@ -20,7 +20,11 @@ struct DemoGameplayView: View {
                 gameplay
             }
         }
+        .background(Color(red: 0.025, green: 0.05, blue: 0.12).ignoresSafeArea())
         .navigationTitle(demo.isComplete ? "Demo score" : "Demo mode")
+        .toolbarBackground(Color(red: 0.025, green: 0.05, blue: 0.12), for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { ArcadeAudio.shared.setGameplayVisible(true) }
         .onDisappear { demo.pause(); ArcadeAudio.shared.setGameplayVisible(false) }
@@ -34,16 +38,15 @@ struct DemoGameplayView: View {
             GameplayMapView(route: demo.route, collected: demo.collectedPelletIDs,
                             player: demo.player, isDemo: true)
                 .id(cameraReset)
-            VStack(spacing: 10) {
-                HStack {
-                    Label("\(demo.score) demo points", systemImage: "star.fill")
-                    Spacer()
-                    Text("\(demo.collectedPelletIDs.count) / \(demo.route.pellets.count)").monospacedDigit()
-                }.font(.headline)
-                Text(demo.isPlaying ? "Tap or hold an arrow to move · no GPS needed" : "Demo paused · tap Resume to continue")
-                    .font(.caption).foregroundStyle(.secondary)
+                .clipShape(RoundedRectangle(cornerRadius: 24))
+                .overlay { RoundedRectangle(cornerRadius: 24).strokeBorder(.cyan.opacity(0.25), lineWidth: 1) }
+                .padding(.horizontal, 12).padding(.top, 8)
+            GameplayDashboard(score: demo.score, collected: demo.collectedPelletIDs.count,
+                              total: demo.route.pellets.count, distance: demo.distanceMeters,
+                              isPlaying: demo.isPlaying, isDemo: true,
+                              status: demo.isPlaying ? "Hold an arrow to move · GPS-free" : "Paused · tap Resume to continue") {
                 ViewThatFits(in: .horizontal) {
-                    HStack(spacing: 20) {
+                    HStack(spacing: 8) {
                         directionPad
                         Spacer(minLength: 0)
                         sessionControls
@@ -53,9 +56,7 @@ struct DemoGameplayView: View {
                         sessionControls
                     }
                 }
-                Text("Practice only · scores are not saved to Statistics")
-                    .font(.caption2).foregroundStyle(.secondary)
-            }.padding()
+            }
         }
     }
 

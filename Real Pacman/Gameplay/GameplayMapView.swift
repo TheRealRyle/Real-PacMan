@@ -55,8 +55,11 @@ struct GameplayMapView: View {
                     Text("Map draft · paths awaiting on-foot review").font(.caption)
                 }
             }
-            .padding(10)
-            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+            .foregroundStyle(.white)
+            .padding(12)
+            .background(Color(red: 0.04, green: 0.09, blue: 0.18).opacity(0.95),
+                        in: RoundedRectangle(cornerRadius: 16))
+            .overlay { RoundedRectangle(cornerRadius: 16).strokeBorder(.white.opacity(0.15), lineWidth: 1) }
             .padding(12)
         }
         .overlay(alignment: .bottomTrailing) {
@@ -74,7 +77,7 @@ struct GameplayMapView: View {
                 .accessibilityHint(isDemo ? "Centers the map on the demo player." : "Tap again to rotate the map with your heading.")
             }
             .labelStyle(.iconOnly)
-            .buttonStyle(ArcadeButtonStyle(color: .white))
+            .buttonStyle(GameplayMapButtonStyle())
             .padding(12)
             .padding(.bottom, 32)
             .allowsHitTesting(!showsSavedMap)
