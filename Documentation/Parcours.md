@@ -4,13 +4,13 @@
 
 MapLibre 6.31 and the arcade selection UI; a linear route JSON model; local GPS
 collection; JSON session/result persistence; a result upload queue; MapLibre map
-pack downloads. No running Vapor/PostgreSQL service is present in this repository.
+pack downloads. The Vapor API now lives in Server/; its PostgreSQL runtime still needs host setup.
 
 ## What this branch adds
 
 Play → choose parcours → choose mode → inspect/download → start for published
-routes. Explore is implemented. Timed, Ghosts and Timed + ghosts are shown as
-future modes, not selectable features.
+routes. Explore, Timed, Ghosts and Timed + ghosts are selectable on the version-two
+Verney draft, in both walking and GPS-free practice sessions.
 
 The three planned locations appear in the existing bouncy carousel:
 - Parc du Verney, Chambéry: a bundled, inspectable map draft.
@@ -105,10 +105,10 @@ disables animated camera changes. A draft label remains visible during online pl
    an actual start, walk the area, and tune pellets using observed GPS accuracy.
 2. Finalize the tile provider configuration and enforce its offline download limits;
    verify map completeness in airplane mode before publishing the parcours.
-3. Add an explicit GPS start gate and Explore HUD/result completion polish.
-4. Implement Vapor/PostgreSQL catalogue/version storage and result validation.
+3. Validate the GPS start experience and on-device mode behavior.
+4. Exercise PostgreSQL migrations and deploy the API behind HTTPS and authentication.
 5. Prepare and field-check the station and USMB networks using the same schema.
-6. Add timed rules; ghosts/achievements follow later.
+6. Field-test Timed and Ghosts balancing; achievements follow later.
 
 ## Verification
 
@@ -123,9 +123,8 @@ pause/resume, completion/restart, the bundled starting point, and preserving the
 real walk file and result queue. The simulator build includes the demo entry,
 street-map player marker, direction pad and completed-demo state.
 
-No screen sharing or computer-control session was started for this branch.
-Physical-device GPS, offline basemap downloads and backend integration remain
-follow-up checks.
+Physical-device GPS and offline basemap downloads remain follow-up checks.
+Local API integration has been exercised; PostgreSQL still needs runtime verification.
 
 
 Gameplay polish: both real and demo sessions automatically show the score screen
@@ -135,3 +134,11 @@ edge marker points to the nearest remaining offscreen pellet and shows its direc
 distance, updating as the map rotates, moves or zooms. The marker does not prescribe
 a route across obstacles. Gameplay tests cover collection thresholds, automatic
 completion/result handoff, nearest remaining selection and edge geometry.
+
+## Stage 2 modes
+
+Timed runs use the parcours estimated duration (at least one minute) as an active-play countdown. Ghost modes spawn up to three virtual enemies on the authoritative path network. They chase at 0.9 m/s and remain on mapped paths. The player has three lives, an initial grace period, and eight seconds of immunity after a hit within eight metres. Combined mode applies both constraints. Physical running is never required.
+
+All-pellet collection, timeout, losing the final life, or manually stopping lead to the score screen with the appropriate outcome. Pausing, leaving gameplay and backgrounding stop the clock and ghosts. Active elapsed time, lives and ghost state are saved with real sessions; practice remains local and separate from Statistics.
+
+Version two advertises all four modes. Older cached catalogue entries cannot replace a newer bundled version; active sessions retain their original snapshots. The server migration keeps version one for existing saved results and adds version two without rewriting it. New result payloads carry optional rules metadata; old Explore results without that field remain supported.

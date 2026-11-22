@@ -28,6 +28,29 @@ struct ServerEndpointTests {
 
 @MainActor
 struct ServerIntegrationTests {
+    @Test("Stage two modes sync their real session metadata",
+          .enabled(if: ProcessInfo.processInfo.environment["REALPACMAN_INTEGRATION_URL"] != nil),
+          arguments: [ParcoursMode.timed, .ghosts, .timedGhosts])
+    func stageTwoRoundTrip(mode: ParcoursMode) async throws {
+        let base = try #require(ProcessInfo.processInfo.environment["REALPACMAN_INTEGRATION_URL"])
+        let file = URL.temporaryDirectory.appending(path: UUID().uuidString).appending(path: "progress.json")
+        let game = GameStore(fileURL: file)
+        await game.fetchRoutes(server: base)
+        let route = try #require(game.archive.routes.first)
+        #expect(route.version >= 2)
+        game.start(route, mode: mode)
+        let session = try #require(game.archive.activeSession)
+        #expect(session.mode == mode)
+        #expect(session.rules != nil)
+        game.finish()
+        await game.sync(server: base)
+        #expect(game.message == nil)
+        #expect(game.pendingResults == 0)
+        let restored = GameStore(fileURL: file)
+        #expect(restored.archive.results.first?.mode == mode)
+        #expect(restored.archive.results.first?.rules?.outcome == .stopped)
+    }
+
     @Test("Real GameStore downloads routes and safely syncs a completed walk",
           .enabled(if: ProcessInfo.processInfo.environment["REALPACMAN_INTEGRATION_URL"] != nil))
     func clientServerRoundTrip() async throws {
