@@ -9,6 +9,7 @@ final class DemoSession {
     let mode: ParcoursMode
     private(set) var rules: ModeProgress
     private(set) var player: RouteCoordinate
+    private(set) var playerBearing = 90.0
     private(set) var collectedPelletIDs: Set<UUID> = []
     private(set) var isPlaying = true
     private(set) var distanceMeters: Double = 0
@@ -30,6 +31,7 @@ final class DemoSession {
 
     func move(_ direction: DemoDirection) {
         guard isPlaying, !isComplete else { return }
+        playerBearing = direction.rawValue
         // Five metres per tap. A geodesic step keeps arrow speed consistent at any latitude.
         let distance = 5.0 / 6_371_000
         let bearing = direction.rawValue * .pi / 180
@@ -55,6 +57,7 @@ final class DemoSession {
     func pause() { isPlaying = false }
 
     func restart() {
+        playerBearing = 90
         player = route.parcours?.start ?? route.coordinates.first ?? route.pellets.first?.coordinate
             ?? RouteCoordinate(latitude: 0, longitude: 0)
         rules = ModeProgress(route: route, mode: mode)

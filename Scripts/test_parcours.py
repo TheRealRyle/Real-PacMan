@@ -17,7 +17,7 @@ files = [
     "Routes/GameRoute.swift", "Routes/RouteCoordinate.swift", "Routes/Pellet.swift", "Routes/OfflineMapBounds.swift",
     "Gameplay/GameSession.swift", "Gameplay/GameArchive.swift", "Gameplay/GameStore.swift",
     "Gameplay/ModeProgress.swift", "Gameplay/GhostState.swift", "Gameplay/GhostChase.swift",
-    "Gameplay/DemoSession.swift", "Gameplay/DemoDirection.swift",
+    "Gameplay/DemoSession.swift", "Gameplay/DemoDirection.swift", "Gameplay/PlayerHeading.swift",
     "Gameplay/GameplayRules.swift", "Gameplay/PelletGuidance.swift", "Gameplay/ServerEndpoint.swift",
     "Parcours/ParcoursMode.swift", "Parcours/ParcoursJunction.swift", "Parcours/ParcoursPath.swift",
     "Parcours/ParcoursDefinition.swift", "Parcours/ParcoursValidationError.swift",

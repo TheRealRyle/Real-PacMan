@@ -31,7 +31,7 @@ session until restarted. Leaving the screen or backgrounding the app pauses it.
 DemoSession is independent of GameStore and lives only in memory. Demo points
 never enter Statistics, saved walk progress or the upload queue, and an existing
 walk can remain saved while a demo runs. The demo map disables native GPS and
-uses a separate blue player marker. It stays north-up so arrows match the map;
+uses the yellow player character without an accuracy halo. It stays north-up so arrows match the map;
 camera follow, overview and saved-layout fallback work with the simulated player.
 
 The vector preview is fully local and shows separate paths, the park boundary,
@@ -99,8 +99,8 @@ review label remains visible. Downloads pause on departure/backgrounding and can
 be resumed. Completed packs remain stored by the map SDK across app launches.
 
 The gameplay map supports native pan, pinch zoom, compass and scale. Yellow dots
-mark remaining pellets, a blue flag marks the proposed start, and the native blue
-location dot shows the player and GPS accuracy. Controls restore the whole parcours
+mark remaining pellets, a blue flag marks the proposed start, and a yellow arcade
+character marks the player with a blue GPS accuracy halo. Controls restore the whole parcours
 or follow the player at walking scale. The first GPS fix automatically enables
 following only when it is within 500 m of the parcours. Panning interrupts native
 following; the location button restores it. Camera requests are handled separately

@@ -14,7 +14,8 @@ struct GameplayView: View {
             if let session = game.archive.activeSession {
                 VStack(spacing: 0) {
                     GameplayMapView(route: session.route, collected: session.collectedPelletIDs,
-                                    player: location.coordinate, ghosts: session.rules?.ghosts ?? [])
+                                    player: location.coordinate, ghosts: session.rules?.ghosts ?? [],
+                                    playerBearing: location.heading.degrees)
                         .clipShape(RoundedRectangle(cornerRadius: 24))
                         .overlay { RoundedRectangle(cornerRadius: 24).strokeBorder(.cyan.opacity(0.25), lineWidth: 1) }
                         .padding(.horizontal, 12).padding(.top, 8)

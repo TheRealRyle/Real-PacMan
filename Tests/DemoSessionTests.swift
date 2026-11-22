@@ -28,6 +28,7 @@ struct DemoSessionTests {
         #expect(abs(demo.player.latitude - latitude) < 0.000001)
         #expect(abs(demo.player.longitude - longitude) < 0.000001)
         #expect((4.9...5.1).contains(start.location.distance(from: demo.player.location)))
+        #expect(demo.playerBearing == direction.rawValue)
     }
 
     @Test("Moving collects nearby pellets once, including when retracing steps")
@@ -46,10 +47,12 @@ struct DemoSessionTests {
     func pauseAndResume() {
         let demo = DemoSession(route: route())
         let start = demo.player
+        let bearing = demo.playerBearing
         demo.pause()
         demo.move(.north)
         #expect(demo.player == start)
         #expect(demo.distanceMeters == 0)
+        #expect(demo.playerBearing == bearing)
         demo.togglePause()
         demo.move(.north)
         #expect(demo.player != start)
@@ -74,6 +77,7 @@ struct DemoSessionTests {
         #expect(demo.score == 10)
         #expect(demo.isPlaying)
         #expect(!demo.isComplete)
+        #expect(demo.playerBearing == 90)
     }
 
     @Test("Demo play preserves the real walk file, active session and result queue")
