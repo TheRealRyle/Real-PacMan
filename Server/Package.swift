@@ -13,7 +13,7 @@ let package = Package(name: "RealPacmanServer", platforms: [.macOS(.v14)], produ
         .product(name: "Vapor", package: "vapor"),
         .product(name: "Fluent", package: "fluent"),
         .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver")
-    ], resources: [.copy("Resources/verney-draft.json")]),
+    ], resources: [.copy("Resources/verney-draft.json"), .copy("Resources/verney-v1.json")]),
     .executableTarget(name: "Run", dependencies: ["App"]),
     .executableTarget(name: "IntegrationServer", dependencies: ["App",
         .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver")], path: "Tests/IntegrationServer"),

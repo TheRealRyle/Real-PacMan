@@ -4,7 +4,7 @@ import Fluent
 import FluentSQLiteDriver
 @testable import App
 
-private func withServer(_ body: (Application) async throws -> Void) async throws {
+func withServer(_ body: (Application) async throws -> Void) async throws {
     try await withApp(configure: { app in
         app.databases.use(.sqlite(.memory), as: .sqlite)
         try await configure(app, configureDatabase: false)
@@ -12,8 +12,8 @@ private func withServer(_ body: (Application) async throws -> Void) async throws
     }, body)
 }
 
-private func fixture(_ app: Application) async throws -> RoutePayload {
-    let row = try #require(try await RouteVersion.query(on: app.db).first())
+func fixture(_ app: Application, version: Int = 2) async throws -> RoutePayload {
+    let row = try #require(try await RouteVersion.query(on: app.db).filter(\.$version == version).first())
     return try row.route()
 }
 
@@ -38,7 +38,7 @@ struct APITests {
                 let route = try #require(routes.first)
                 #expect(routes.count == 1)
                 #expect(route.id == UUID(uuidString: "7DAB402C-797E-4B41-A47D-54D01D1CF361"))
-                #expect(route.version == 1)
+                #expect(route.version == 2)
                 #expect(route.parcours != nil)
                 #expect(route.pellets.count == 25)
             }
@@ -169,14 +169,14 @@ struct APITests {
     @Test("New catalogue version does not invalidate a walk recorded on the previous version")
     func oldVersionResult() async throws {
         try await withServer { app in
-            let old = try await fixture(app)
-            let newer = RoutePayload(id: old.id, name: "Updated Verney", version: 2,
+            let old = try await fixture(app, version: 1)
+            let newer = RoutePayload(id: old.id, name: "Updated Verney", version: 3,
                 coordinates: old.coordinates, pellets: old.pellets, mapStyleURL: old.mapStyleURL, parcours: old.parcours)
             try await RouteVersion(route: newer).create(on: app.db)
             try await app.testing().test(.GET, "/api/v1/routes") { response async throws in
                 let routes = try response.content.decode([RoutePayload].self)
                 #expect(routes.count == 1)
-                #expect(routes.first?.version == 2)
+                #expect(routes.first?.version == 3)
             }
             let payload = result(old)
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
