@@ -9,6 +9,7 @@ struct RouteMapView: UIViewRepresentable {
     var simulatedPlayer: RouteCoordinate? = nil
     var usesDeviceLocation = true
     var followZoom: Double = GameplayRules.defaultZoom
+    var isGameplay = false
     var guidancePlayer: RouteCoordinate? = nil
     var onIndicatorChange: ((PelletIndicator?) -> Void)? = nil
     var onMapAvailabilityChange: ((Bool) -> Void)? = nil
@@ -22,7 +23,7 @@ struct RouteMapView: UIViewRepresentable {
         map.minimumZoomLevel = 12
         map.maximumZoomLevel = 19
         if let start = route.parcours?.start ?? route.coordinates.first {
-            map.setCenter(start.coordinate, zoomLevel: 16.5, animated: false)
+            map.setCenter(start.coordinate, zoomLevel: isGameplay ? followZoom : 16.5, animated: false)
         }
         map.showsScale = true
         map.scaleBarMargins = CGPoint(x: 16, y: 86)
@@ -37,15 +38,15 @@ struct RouteMapView: UIViewRepresentable {
         context.coordinator.guidancePlayer = guidancePlayer
         let zoomChanged = context.coordinator.followZoom != followZoom
         context.coordinator.followZoom = followZoom
-        if zoomChanged, context.coordinator.followsSimulatedPlayer || map.userTrackingMode != .none {
-            map.setZoomLevel(followZoom, animated: !reduceMotion)
-        }
         map.showsUserLocation = usesDeviceLocation
         let ids = Set(route.pellets.filter { !collected.contains($0.id) }.map(\.id))
         let routeChanged = context.coordinator.route != route
         if routeChanged { context.coordinator.invalidateGuidance() }
         if routeChanged || context.coordinator.visibleIDs != ids {
             updateAnnotations(map, coordinator: context.coordinator, ids: ids, routeChanged: routeChanged)
+        }
+        if zoomChanged, isGameplay || context.coordinator.followsSimulatedPlayer || map.userTrackingMode != .none {
+            map.setZoomLevel(followZoom, animated: !reduceMotion)
         }
         context.coordinator.updateSimulatedPlayer(simulatedPlayer, on: map, animated: !reduceMotion)
         if let cameraRequest, context.coordinator.cameraRequestID != cameraRequest.id {
@@ -54,15 +55,22 @@ struct RouteMapView: UIViewRepresentable {
             case .player:
                 context.coordinator.needsInitialFraming = false
                 if usesDeviceLocation {
+                    context.coordinator.pendingTrackingZoom = true
                     map.setZoomLevel(followZoom, animated: false)
                     let tracking: MLNUserTrackingMode = map.userTrackingMode == .follow ? .followWithHeading : .follow
-                    map.setUserTrackingMode(tracking, animated: !reduceMotion, completionHandler: nil)
+                    let coordinator = context.coordinator
+                    map.setUserTrackingMode(tracking, animated: !reduceMotion) { [weak map, weak coordinator] in
+                        guard let map, let coordinator, map.userTrackingMode != .none else { return }
+                        // Native tracking may adjust zoom while acquiring its first GPS fix.
+                        map.setZoomLevel(coordinator.followZoom, animated: false)
+                    }
                 } else if let simulatedPlayer {
                     context.coordinator.followsSimulatedPlayer = true
                     map.setDirection(0, animated: false)
                     map.setCenter(simulatedPlayer.coordinate, zoomLevel: followZoom, animated: !reduceMotion)
                 }
             case .parcours:
+                context.coordinator.pendingTrackingZoom = false
                 context.coordinator.followsSimulatedPlayer = false
                 map.setUserTrackingMode(.none, animated: false, completionHandler: nil)
                 map.setDirection(0, animated: false)
@@ -104,8 +112,12 @@ struct RouteMapView: UIViewRepresentable {
         map.addAnnotations(annotations)
         if routeChanged {
             if map.styleURL != route.mapStyleURL { map.styleURL = route.mapStyleURL }
-            coordinator.needsInitialFraming = true
-            coordinator.showParcours(on: map, animated: false)
+            coordinator.needsInitialFraming = !isGameplay
+            if isGameplay, let start = route.parcours?.start ?? route.coordinates.first {
+                map.setCenter(start.coordinate, zoomLevel: followZoom, animated: false)
+            } else {
+                coordinator.showParcours(on: map, animated: false)
+            }
         }
     }
 
@@ -129,6 +141,7 @@ struct RouteMapView: UIViewRepresentable {
         var simulatedPlayerAnnotation: MLNPointAnnotation?
         var followsSimulatedPlayer = false
         var followZoom = GameplayRules.defaultZoom
+        var pendingTrackingZoom = false
         var guidancePlayer: RouteCoordinate?
         var onIndicatorChange: ((PelletIndicator?) -> Void)?
         private var lastIndicator: PelletIndicator?
@@ -171,6 +184,13 @@ struct RouteMapView: UIViewRepresentable {
         func mapViewRegionIsChanging(_ mapView: MLNMapView) { updateIndicator(on: mapView) }
         func mapView(_ mapView: MLNMapView, regionDidChangeAnimated animated: Bool) { updateIndicator(on: mapView) }
 
+        func mapView(_ mapView: MLNMapView, didUpdate userLocation: MLNUserLocation?) {
+            guard pendingTrackingZoom, mapView.userTrackingMode != .none,
+                  let location = userLocation?.location, location.horizontalAccuracy >= 0 else { return }
+            pendingTrackingZoom = false
+            mapView.setZoomLevel(followZoom, animated: false)
+        }
+
 
         func updateSimulatedPlayer(_ coordinate: RouteCoordinate?, on map: MLNMapView, animated: Bool) {
             guard let coordinate else {
@@ -196,7 +216,10 @@ struct RouteMapView: UIViewRepresentable {
         func mapView(_ mapView: MLNMapView, regionWillChangeWith reason: MLNCameraChangeReason, animated: Bool) {
             let gestures: MLNCameraChangeReason = [.gesturePan, .gesturePinch, .gestureZoomIn,
                                                    .gestureZoomOut, .gestureOneFingerZoom]
-            if !reason.intersection(gestures).isEmpty { followsSimulatedPlayer = false }
+            if !reason.intersection(gestures).isEmpty {
+                followsSimulatedPlayer = false
+                pendingTrackingZoom = false
+            }
         }
 
         func mapViewDidFinishLoadingMap(_ mapView: MLNMapView) {
