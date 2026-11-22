@@ -83,3 +83,11 @@ softens the tint while retaining the notice, fading heart and VoiceOver announce
 Feedback observes lives above the gameplay/score switch, so the final hit still
 plays immediately without delaying the score screen. Restoring or restarting a
 run does not trigger damage feedback.
+
+Parcours selection cards own their offline-map download controls and status.
+Download Parcours starts from the card, with progress and Pause/Resume controls;
+completion replaces the action with a green “Downloaded · Ready Offline” badge.
+Opening selection checks persistent packs, awaiting the SDK's initially unknown
+state before showing completion. Downloads are matched by route ID and version,
+and the saved layout is distinguished from downloaded street-map resources.
+Walk details retain their preview/start controls; downloads live on selection.

@@ -4,8 +4,6 @@ struct RouteDetailView: View {
     let route: GameRoute
     var mode: ParcoursMode = .explore
     @Environment(GameStore.self) private var game
-    @State private var offline = OfflineMapStore()
-    @State private var downloadRequested = false
     private var isDraft: Bool { route.parcours?.fieldVerified == false }
 
     var body: some View {
@@ -40,14 +38,6 @@ struct RouteDetailView: View {
                         RouteMapView(route: route, collected: [])
                             .frame(height: 260)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
-                        ArcadePanel(title: mode.title.uppercased()) {
-                            Text(offline.status).font(.caption)
-                            ArcadeActionButton { downloadRequested = true } label: {
-                                Label(offline.isDownloading ? "DOWNLOADING…" : "DOWNLOAD MAP", systemImage: "arrow.down.circle.fill")
-                            }
-                            .buttonStyle(ArcadeButtonStyle(color: .cyan))
-                            .disabled(offline.isDownloading)
-                        }
                     }
                     ArcadeNavigationLink {
                         GameplayView(startingRoute: game.archive.activeSession == nil ? route : nil, startingMode: mode)
@@ -64,12 +54,5 @@ struct RouteDetailView: View {
         }
         .navigationTitle(mode.title)
         .toolbar(.visible, for: .navigationBar)
-        .task { if !isDraft { await offline.refreshStatus(for: route) } }
-        .task(id: downloadRequested) {
-            if downloadRequested {
-                await offline.download(route)
-                downloadRequested = false
-            }
-        }
     }
 }

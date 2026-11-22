@@ -8,8 +8,12 @@ pack downloads. The Vapor API now lives in Server/; its PostgreSQL runtime still
 
 ## What this branch adds
 
-Play → choose parcours → choose mode → inspect/download → start for published
-routes. Explore, Timed, Ghosts and Timed + ghosts are selectable on the version-two
+Play → choose/download parcours → choose mode → inspect → start for published
+routes. The selection card offers Download Parcours, progress, Pause/Resume and a
+Downloaded · Ready Offline badge. Status comes from MapLibre's persistent pack
+for that route ID and version, so an older pack does not mark an updated parcours
+as downloaded. The bundled layout alone does not mark the street map downloaded.
+Explore, Timed, Ghosts and Timed + ghosts are selectable on the version-two
 Verney draft, in both walking and GPS-free practice sessions.
 
 The three planned locations appear in the existing bouncy carousel:
@@ -86,9 +90,13 @@ avoiding duplicate packs after relaunch. An unfinished pack can be resumed.
 The bundled draft carries an OpenFreeMap Liberty style URL, used by the gameplay
 street map; it is not fetched by the catalogue preview. MapLibre requests identify
 the app with a versioned User-Agent and use at most four connections per host.
-The map retains its built-in provider/data attribution. Offline pack limits still
-need enforcement before enabling draft downloads: see https://openfreemap.org/tos/.
-Draft downloads remain disabled and fieldVerified remains false.
+The map retains its built-in provider/data attribution. Walking downloads use a
+padded region at zooms 12–17, reject invalid/oversized areas and reject estimated
+tile coverage over 3,000 before creating a pack. The app uses four connections and
+an identifying User-Agent; see https://openfreemap.org/tos/. Draft maps can now be
+downloaded from selection, while fieldVerified remains false and the on-foot
+review label remains visible. Downloads pause on departure/backgrounding and can
+be resumed. Completed packs remain stored by the map SDK across app launches.
 
 The gameplay map supports native pan, pinch zoom, compass and scale. Yellow dots
 mark remaining pellets, a blue flag marks the proposed start, and the native blue
@@ -103,8 +111,8 @@ disables animated camera changes. A draft label remains visible during online pl
 
 1. Review Verney's mapped network and remove unsuitable segments; choose and check
    an actual start, walk the area, and tune pellets using observed GPS accuracy.
-2. Finalize the tile provider configuration and enforce its offline download limits;
-   verify map completeness in airplane mode before publishing the parcours.
+2. Verify map completeness across supported zoom settings in airplane mode before
+   publishing the parcours; review source counts and budgets when adding styles.
 3. Validate the GPS start experience and on-device mode behavior.
 4. Exercise PostgreSQL migrations and deploy the API behind HTTPS and authentication.
 5. Prepare and field-check the station and USMB networks using the same schema.

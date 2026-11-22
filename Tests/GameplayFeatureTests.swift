@@ -5,6 +5,26 @@ import CoreLocation
 @testable import ParcoursCore
 
 struct GameplayFeatureTests {
+    @Test("Verney offline download covers its whole layout within the tile budget")
+    func offlineBounds() throws {
+        let route = try ParcoursCatalogue.loadVerney(bundle: .module)
+        let bounds = try #require(OfflineMapBounds(route: route))
+        #expect(bounds.estimatedTileCount > 0)
+        #expect(bounds.estimatedTileCount <= OfflineMapBounds.tileLimit)
+        #expect(route.mapCoordinates.allSatisfy {
+            $0.latitude > bounds.south && $0.latitude < bounds.north &&
+            $0.longitude > bounds.west && $0.longitude < bounds.east
+        })
+    }
+
+    @Test("Large or invalid regions are refused before downloading", arguments: [0.2, 0.5, Double.nan])
+    func rejectsOfflineBounds(span: Double) {
+        let route = GameRoute(id: UUID(), name: "Oversize", version: 1,
+            coordinates: [RouteCoordinate(latitude: 45, longitude: 5), RouteCoordinate(latitude: 45 + span, longitude: 5 + span)],
+            pellets: [], mapStyleURL: URL(string: "https://example.com/style.json")!)
+        #expect(OfflineMapBounds(route: route) == nil)
+    }
+
     @Test("Offscreen targets attach to the correct edge", arguments: [
         (CGPoint(x: 250, y: 100), CGPoint(x: 200, y: 100)),
         (CGPoint(x: -50, y: 100), CGPoint(x: 0, y: 100)),

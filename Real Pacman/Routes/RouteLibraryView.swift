@@ -111,8 +111,8 @@ struct RouteLibraryView: View {
                         .buttonStyle(ArcadeButtonStyle(color: .green))
                         .padding(.horizontal, 28)
                         Text(route.parcours?.fieldVerified == false
-                             ? "Layout bundled offline · awaiting on-foot review"
-                             : "Layout saved · download the map before going offline")
+                             ? "Map draft · paths awaiting on-foot review"
+                             : "Download this parcours above for offline play")
                             .font(.caption).foregroundStyle(.white.opacity(0.8))
                             .multilineTextAlignment(.center).padding(.horizontal, 28)
                     } else {
@@ -135,7 +135,7 @@ struct RouteLibraryView: View {
                     .disabled(game.isLoading || settings.serverURL.isEmpty)
                     .opacity(settings.serverURL.isEmpty ? 0.5 : 1)
                     if settings.serverURL.isEmpty {
-                        Text("Add a route server in Settings to download published parcours.")
+                        Text("Add a route server in Settings to load more published parcours.")
                             .font(.caption).foregroundStyle(.white.opacity(0.8)).padding(.horizontal, 28)
                     }
 

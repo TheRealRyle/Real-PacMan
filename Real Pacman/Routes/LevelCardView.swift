@@ -76,6 +76,10 @@ struct LevelCardView: View {
                     }
                     .foregroundStyle(.white)
                 }
+                if let previewRoute {
+                    ParcoursDownloadView(route: previewRoute)
+                        .id("\(previewRoute.id):\(previewRoute.version)")
+                }
             } else {
                 Label("LAYOUT COMING SOON", systemImage: "map")
                     .font(.caption.weight(.heavy)).foregroundStyle(.yellow)
