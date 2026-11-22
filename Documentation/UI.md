@@ -91,3 +91,9 @@ Opening selection checks persistent packs, awaiting the SDK's initially unknown
 state before showing completion. Downloads are matched by route ID and version,
 and the saved layout is distinguished from downloaded street-map resources.
 Walk details retain their preview/start controls; downloads live on selection.
+
+Home includes an Achievements button. Its trophy cabinet shows eight badges with
+requirements, progress, earned dates and distinct locked/unlocked states. A navy
+and gold summary counts unlocked badges; adaptive cards reflow on larger displays.
+The score screen shows achievements newly earned on a real run. Buttons and
+entrances use the shared motion rules. See Achievements.md for the actual rules.

@@ -43,6 +43,13 @@ struct MainMenuView: View {
                         .buttonStyle(ArcadeButtonStyle(color: .green))
                         .arcadeEntrance(delay: 0.22)
 
+                        ArcadeNavigationLink { AchievementsView() } label: {
+                            Label("Achievements", systemImage: "trophy.fill")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(ArcadeButtonStyle(color: .yellow))
+                        .arcadeEntrance(delay: 0.26)
+
                         HStack(spacing: 20) {
                             ArcadeNavigationLink { StatisticsView() } label: {
                                 Label("Stats", systemImage: "chart.bar.fill")

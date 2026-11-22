@@ -44,7 +44,8 @@ struct GameplayView: View {
                 }
             } else if let result = game.latestFinishedSession, result.id == sessionID {
                 CompletionScoreView(score: result.score, collected: result.collectedPelletIDs.count,
-                                    total: result.route.pellets.count, distance: result.distanceMeters, rules: result.rules)
+                                    total: result.route.pellets.count, distance: result.distanceMeters, rules: result.rules,
+                                    unlockedAchievements: game.latestUnlockedAchievements)
             } else {
                 ContentUnavailableView("Walk saved", systemImage: "checkmark.circle",
                                        description: Text("Your result is in Statistics and ready to sync."))
