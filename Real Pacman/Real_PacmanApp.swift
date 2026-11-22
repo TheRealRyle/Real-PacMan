@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import MapLibre
 
 @main
 struct Real_PacmanApp: App {
     @Environment(\.scenePhase) private var scenePhase
     @State private var settings = GameSettings()
     @State private var game = GameStore()
+
+    init() {
+        let configuration = URLSessionConfiguration.default
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
+        configuration.httpAdditionalHeaders = ["User-Agent": "RealPacman/\(version) (iOS; coconut-factory.Real-Pacman)"]
+        configuration.httpMaximumConnectionsPerHost = 4
+        MLNNetworkConfiguration.sharedManager.sessionConfiguration = configuration
+    }
     
     var body: some Scene {
         WindowGroup {

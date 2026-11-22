@@ -9,6 +9,7 @@ final class GameStore {
     private(set) var isLoading = false
     private(set) var isSyncing = false
     private(set) var isPlaying = false
+    private(set) var latestFinishedSession: GameSession?
     private var previousLocation: CLLocation?
     private let fileURL: URL
     private var canSave = true
@@ -40,6 +41,7 @@ final class GameStore {
         guard archive.activeSession == nil, canSave else { return }
         do { try route.validate() }
         catch { message = error.localizedDescription; return }
+        latestFinishedSession = nil
         archive.activeSession = GameSession(id: UUID(), route: route, startedAt: Date())
         isPlaying = true
         previousLocation = nil
@@ -61,7 +63,7 @@ final class GameStore {
             if distance >= 3 { session.distanceMeters += distance; previousLocation = location }
         } else { previousLocation = location }
         for pellet in session.route.pellets where !session.collectedPelletIDs.contains(pellet.id) {
-            if location.distance(from: pellet.coordinate.location) <= 15 {
+            if location.distance(from: pellet.coordinate.location) <= GameplayRules.collectionRadiusMeters {
                 session.collectedPelletIDs.insert(pellet.id)
             }
         }
@@ -73,6 +75,7 @@ final class GameStore {
     func finish() {
         guard var session = archive.activeSession else { return }
         session.finishedAt = Date()
+        latestFinishedSession = session
         archive.results.append(session)
         archive.activeSession = nil
         pause()
