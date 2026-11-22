@@ -15,7 +15,7 @@ struct ParcoursTests {
         #expect(graph.paths.count > 1)
         #expect(graph.junctions.contains { $0.id == graph.startJunctionID })
         #expect(graph.fieldVerified == false)
-        #expect(graph.supportedModes == [.explore])
+        #expect(graph.supportedModes == ParcoursMode.allCases)
         #expect(route.pathLines.count == graph.paths.count)
         #expect(route.mapCoordinates.count > route.coordinates.count)
         #expect(route.distanceMeters > 1000 && route.distanceMeters < 2000)

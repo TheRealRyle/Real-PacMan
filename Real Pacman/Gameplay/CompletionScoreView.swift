@@ -7,6 +7,7 @@ struct CompletionScoreView: View {
     let distance: Double
     var isDemo = false
     var restart: (() -> Void)? = nil
+    var rules: ModeProgress? = nil
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -17,13 +18,17 @@ struct CompletionScoreView: View {
                     Image(systemName: collected == total ? "trophy.fill" : "checkmark.circle.fill")
                         .font(.system(size: 72)).foregroundStyle(.yellow)
                         .accessibilityHidden(true)
-                    Text(collected == total ? "PARCOURS COMPLETE!" : "WALK SAVED")
+                    Text(rules?.outcome?.title ?? (collected == total ? "PARCOURS COMPLETE!" : "WALK SAVED"))
                         .font(.largeTitle.bold()).multilineTextAlignment(.center)
                     Text("\(score) \(isDemo ? "demo points" : "points")")
                         .font(.largeTitle.weight(.black)).foregroundStyle(.yellow)
                     Text("\(collected) / \(total) pellets collected")
                         .font(.title3)
                     Text("\(Int(distance.rounded())) m travelled").font(.headline)
+                    if let rules {
+                        Text("\(Int(rules.activeElapsed)) seconds of active play").font(.subheadline)
+                        if !rules.ghosts.isEmpty { Text("\(rules.livesRemaining) lives remaining").font(.headline) }
+                    }
                     Text(isDemo ? "Practice score · not saved to Statistics" : "Your result is saved in Statistics and queued for sync.")
                         .font(.subheadline).multilineTextAlignment(.center)
                     if let restart {

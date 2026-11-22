@@ -6,6 +6,7 @@ struct ParcoursPreview: View {
     var collected: Set<UUID> = []
     var player: RouteCoordinate?
     var height: CGFloat? = 180
+    var ghosts: [GhostState] = []
 
     var body: some View {
         Canvas { context, size in
@@ -44,6 +45,12 @@ struct ParcoursPreview: View {
                 let center = project(start)
                 context.fill(Path(ellipseIn: CGRect(x: center.x - 6, y: center.y - 6, width: 12, height: 12)),
                              with: .color(.white))
+            }
+            for ghost in ghosts {
+                let center = project(ghost.coordinate)
+                let dot = Path(ellipseIn: CGRect(x: center.x - 7, y: center.y - 7, width: 14, height: 14))
+                context.fill(dot, with: .color(.pink))
+                context.stroke(dot, with: .color(.white), lineWidth: 2)
             }
             if let player {
                 let center = project(player)

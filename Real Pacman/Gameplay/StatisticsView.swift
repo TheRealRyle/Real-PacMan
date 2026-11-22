@@ -7,7 +7,7 @@ struct StatisticsView: View {
     var body: some View {
         ArcadePage(title: "STATS", symbol: "chart.bar.fill") {
             ArcadePanel(title: "YOUR SCOREBOARD") {
-                stat("Walks completed", symbol: "flag.checkered",
+                stat("Runs saved", symbol: "flag.checkered",
                      value: "\(game.archive.results.count)")
                 Divider().overlay(.white.opacity(0.3))
                 stat("Total points", symbol: "star.fill",
@@ -45,6 +45,10 @@ struct StatisticsView: View {
                 ForEach(game.archive.results.reversed()) { result in
                     VStack(alignment: .leading, spacing: 8) {
                         Text(result.route.name).font(.headline)
+                        Label((result.mode ?? .explore).title, systemImage: (result.mode ?? .explore).symbol)
+                            .font(.subheadline)
+                        Text(result.rules?.outcome?.title ?? (result.collectedPelletIDs.count == result.route.pellets.count ? "PARCOURS COMPLETE!" : "WALK SAVED"))
+                            .font(.caption.weight(.bold)).foregroundStyle(.cyan)
                         Label("\(result.score) points", systemImage: "star.fill")
                             .foregroundStyle(.yellow)
                         Text(result.startedAt, style: .date)

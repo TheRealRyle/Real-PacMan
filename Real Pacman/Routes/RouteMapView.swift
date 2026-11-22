@@ -8,6 +8,7 @@ struct RouteMapView: UIViewRepresentable {
     var cameraRequest: RouteMapCameraRequest? = nil
     var simulatedPlayer: RouteCoordinate? = nil
     var usesDeviceLocation = true
+    var ghosts: [GhostState] = []
     var followZoom: Double = GameplayRules.defaultZoom
     var isGameplay = false
     var guidancePlayer: RouteCoordinate? = nil
@@ -48,6 +49,7 @@ struct RouteMapView: UIViewRepresentable {
         if zoomChanged, isGameplay || context.coordinator.followsSimulatedPlayer || map.userTrackingMode != .none {
             map.setZoomLevel(followZoom, animated: !reduceMotion)
         }
+        context.coordinator.updateGhosts(ghosts, on: map)
         context.coordinator.updateSimulatedPlayer(simulatedPlayer, on: map, animated: !reduceMotion)
         if let cameraRequest, context.coordinator.cameraRequestID != cameraRequest.id {
             context.coordinator.cameraRequestID = cameraRequest.id
@@ -146,6 +148,25 @@ struct RouteMapView: UIViewRepresentable {
         var pendingTrackingZoom = false
         var guidancePlayer: RouteCoordinate?
         var onIndicatorChange: ((PelletIndicator?) -> Void)?
+        var ghostAnnotations: [Int: MLNPointAnnotation] = [:]
+
+        func updateGhosts(_ ghosts: [GhostState], on map: MLNMapView) {
+            let ids = Set(ghosts.map(\.id))
+            for id in Array(ghostAnnotations.keys) where !ids.contains(id) {
+                if let annotation = ghostAnnotations.removeValue(forKey: id) { map.removeAnnotation(annotation) }
+            }
+            for ghost in ghosts {
+                if let annotation = ghostAnnotations[ghost.id] { annotation.coordinate = ghost.coordinate.coordinate }
+                else {
+                    let annotation = MLNPointAnnotation()
+                    annotation.coordinate = ghost.coordinate.coordinate
+                    annotation.title = "Virtual ghost \(ghost.id + 1)"
+                    ghostAnnotations[ghost.id] = annotation
+                    map.addAnnotation(annotation)
+                }
+            }
+        }
+
         private var lastIndicator: PelletIndicator?
         private var nearestTarget: Pellet?
         private var nearestPlayer: RouteCoordinate?
@@ -254,6 +275,13 @@ struct RouteMapView: UIViewRepresentable {
         func mapView(_ mapView: MLNMapView, imageFor annotation: MLNAnnotation) -> MLNAnnotationImage? {
             // Keep MapLibre's blue location dot and its accuracy indicator.
             guard annotation is MLNPointAnnotation else { return nil }
+            if ghostAnnotations.values.contains(where: { ($0 as AnyObject) === (annotation as AnyObject) }) {
+                let identifier = "chasing-ghost"
+                if let image = mapView.dequeueReusableAnnotationImage(withIdentifier: identifier) { return image }
+                let symbol = UIImage(systemName: "eye.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .bold))!
+                    .withTintColor(.systemPink, renderingMode: .alwaysOriginal)
+                return MLNAnnotationImage(image: symbol, reuseIdentifier: identifier)
+            }
             let isStart = (annotation as AnyObject) === startAnnotation
             let isPlayer = (annotation as AnyObject) === simulatedPlayerAnnotation
             let identifier = isPlayer ? "demo-player" : isStart ? "parcours-start" : "pellet"

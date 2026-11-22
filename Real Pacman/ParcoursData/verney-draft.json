@@ -1,7 +1,7 @@
 {
   "id": "7DAB402C-797E-4B41-A47D-54D01D1CF361",
   "name": "Parc du Verney",
-  "version": 1,
+  "version": 2,
   "coordinates": [
     {
       "latitude": 45.5688185,
@@ -4084,7 +4084,10 @@
       }
     ],
     "supportedModes": [
-      "explore"
+      "explore",
+      "timed",
+      "ghosts",
+      "timedGhosts"
     ],
     "estimatedMinutes": 26,
     "fieldVerified": false,

@@ -6,6 +6,8 @@ import Observation
 @MainActor @Observable
 final class DemoSession {
     let route: GameRoute
+    let mode: ParcoursMode
+    private(set) var rules: ModeProgress
     private(set) var player: RouteCoordinate
     private(set) var collectedPelletIDs: Set<UUID> = []
     private(set) var isPlaying = true
@@ -15,10 +17,12 @@ final class DemoSession {
         route.pellets.filter { collectedPelletIDs.contains($0.id) }.reduce(0) { $0 + $1.value }
     }
 
-    var isComplete: Bool { collectedPelletIDs.count == route.pellets.count }
+    var isComplete: Bool { rules.outcome != nil }
 
-    init(route: GameRoute) {
+    init(route: GameRoute, mode: ParcoursMode = .explore) {
         self.route = route
+        self.mode = mode
+        rules = ModeProgress(route: route, mode: mode)
         player = route.parcours?.start ?? route.coordinates.first ?? route.pellets.first?.coordinate
             ?? RouteCoordinate(latitude: 0, longitude: 0)
         collectNearbyPellets()
@@ -53,10 +57,18 @@ final class DemoSession {
     func restart() {
         player = route.parcours?.start ?? route.coordinates.first ?? route.pellets.first?.coordinate
             ?? RouteCoordinate(latitude: 0, longitude: 0)
+        rules = ModeProgress(route: route, mode: mode)
         collectedPelletIDs = []
         distanceMeters = 0
         isPlaying = true
         collectNearbyPellets()
+    }
+
+    func advance(by seconds: Double) {
+        guard seconds.isFinite, seconds > 0 else { return }
+        guard isPlaying, mode != .explore else { return }
+        rules.advance(by: seconds, route: route, player: player)
+        if rules.outcome != nil { isPlaying = false }
     }
 
     private func collectNearbyPellets() {
@@ -65,6 +77,7 @@ final class DemoSession {
                 collectedPelletIDs.insert(pellet.id)
             }
         }
+        if collectedPelletIDs.count == route.pellets.count { rules.outcome = .completed }
         if isComplete { isPlaying = false }
     }
 }
