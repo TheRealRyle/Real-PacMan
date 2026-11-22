@@ -84,6 +84,14 @@ struct GameplayMapView: View {
             .opacity(showsSavedMap ? 0 : 1)
             .accessibilityHidden(showsSavedMap)
         }
+        .onAppear {
+            // Navigation can retain the native map and its camera between screens.
+            // Reapply Settings even when the coordinator has already seen this value.
+            cameraRequest = RouteMapCameraRequest(target: .savedZoom)
+        }
+        .onChange(of: settings.mapZoom) {
+            cameraRequest = RouteMapCameraRequest(target: .savedZoom)
+        }
         .task(id: mapGeneration) {
             // Keep the fully bundled layout usable if the basemap cannot finish loading.
             do { try await Task.sleep(for: .seconds(15)) }
