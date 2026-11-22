@@ -54,7 +54,9 @@ private func receipt(for existing: StoredResult, matching payload: String, id: U
 
 func validate(_ result: ResultPayload, against route: RoutePayload, now: Date = Date()) throws -> Int {
     guard result.route == route else { throw Abort(.unprocessableEntity, reason: "Route snapshot differs from published version") }
-    guard result.mode == nil || result.mode == "explore" else { throw Abort(.unprocessableEntity, reason: "Unsupported mode") }
+    guard ["explore", "timed", "ghosts", "timedGhosts"].contains(result.mode ?? "explore") else {
+        throw Abort(.unprocessableEntity, reason: "Unsupported mode")
+    }
     guard Set(result.collectedPelletIDs).count == result.collectedPelletIDs.count else {
         throw Abort(.unprocessableEntity, reason: "Duplicate collected pellet IDs")
     }
@@ -72,5 +74,6 @@ func validate(_ result: ResultPayload, against route: RoutePayload, now: Date = 
         throw Abort(.unprocessableEntity, reason: "Invalid timestamps or implausible distance")
     }
     let collected = Set(result.collectedPelletIDs)
+    try validateRules(result, route: route, finish: finish, allCollected: collected.count == route.pellets.count)
     return route.pellets.filter { collected.contains($0.id) }.reduce(0) { $0 + $1.value }
 }

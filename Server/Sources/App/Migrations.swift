@@ -19,20 +19,31 @@ struct CreateGameSchema: AsyncMigration {
 
 struct SeedVerney: AsyncMigration {
     func prepare(on database: any Database) async throws {
-        guard let url = Bundle.module.url(forResource: "verney-draft", withExtension: "json") else {
-            throw Abort(.internalServerError, reason: "Bundled parcours missing")
-        }
-        let route = try JSONDecoder().decode(RoutePayload.self, from: Data(contentsOf: url))
-        if let existing = try await RouteVersion.query(on: database)
-            .filter(\.$routeID == route.id).filter(\.$version == route.version).first() {
-            guard try existing.route() == route else {
-                throw Abort(.internalServerError, reason: "Bundled route version conflicts with stored canonical version")
-            }
-            return
-        }
-        try await RouteVersion(route: route).create(on: database)
+        try await seedVerney(resource: "verney-v1", on: database)
     }
     func revert(on database: any Database) async throws {
         // Retain published versions and attached results; schema rollback handles deletion.
     }
+}
+
+struct SeedStageTwoVerney: AsyncMigration {
+    func prepare(on database: any Database) async throws {
+        try await seedVerney(resource: "verney-draft", on: database)
+    }
+    func revert(on database: any Database) async throws {}
+}
+
+private func seedVerney(resource: String, on database: any Database) async throws {
+    guard let url = Bundle.module.url(forResource: resource, withExtension: "json") else {
+        throw Abort(.internalServerError, reason: "Bundled parcours missing")
+    }
+    let route = try JSONDecoder().decode(RoutePayload.self, from: Data(contentsOf: url))
+    if let existing = try await RouteVersion.query(on: database)
+        .filter(\.$routeID == route.id).filter(\.$version == route.version).first() {
+        guard try existing.route() == route else {
+            throw Abort(.internalServerError, reason: "Bundled route version conflicts with stored canonical version")
+        }
+        return
+    }
+    try await RouteVersion(route: route).create(on: database)
 }

@@ -13,6 +13,7 @@ public func configure(_ app: Application, configureDatabase: Bool = true) async 
     }
     app.migrations.add(CreateGameSchema())
     app.migrations.add(SeedVerney())
+    app.migrations.add(SeedStageTwoVerney())
     try routes(app)
     if Environment.get("AUTO_MIGRATE") == "true" { try await app.autoMigrate() }
 }
