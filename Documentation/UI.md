@@ -67,3 +67,11 @@ both the street map and saved-layout fallback. Timeout, final-life loss and fina
 pellet collection lead to the score screen; history records the selected mode and
 outcome. Clocks run only in active non-Explore gameplay and reset their tick origin
 on resume, treating intervals over 60 seconds as a discontinuity.
+
+New ghost runs spawn enemies on legal paths roughly 40–70 metres from the start,
+with an initial collision grace period. Ghosts re-plan toward the player's latest
+position each tick and can reverse mid-path. Street-map markers use large pink,
+cyan and orange ghost sprites. A pink edge arrow shows the nearest ghost's distance
+and direction when it is outside the unobscured viewport; it follows map rotation.
+The route banner also reports the active ghost count. Resumed runs retain their
+saved positions; restarting a demo or starting a new run uses the nearby spawns.
