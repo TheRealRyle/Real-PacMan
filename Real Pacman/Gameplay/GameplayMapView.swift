@@ -9,6 +9,7 @@ struct GameplayMapView: View {
     var ghosts: [GhostState] = []
     @Environment(GameSettings.self) private var settings
     @State private var indicator: PelletIndicator?
+    @State private var ghostIndicator: PelletIndicator?
     @State private var cameraRequest: RouteMapCameraRequest?
     @State private var mapGeneration = UUID()
     @State private var streetMapLoaded = false
@@ -19,7 +20,7 @@ struct GameplayMapView: View {
         RouteMapView(route: route, collected: collected, cameraRequest: cameraRequest,
                      simulatedPlayer: isDemo ? player : nil, usesDeviceLocation: !isDemo,
                      ghosts: ghosts, followZoom: settings.mapZoom, isGameplay: true, guidancePlayer: player,
-                     onIndicatorChange: { indicator = $0 }) { available in
+                     onIndicatorChange: { indicator = $0 }, onGhostIndicatorChange: { ghostIndicator = $0 }) { available in
             streetMapLoaded = available
             showsSavedMap = !available
         }
@@ -32,6 +33,13 @@ struct GameplayMapView: View {
         }
         .overlay(alignment: .topLeading) {
             if let indicator, !showsSavedMap { NextPelletIndicator(indicator: indicator) }
+            if let ghostIndicator, !showsSavedMap {
+                NextGhostIndicator(indicator: ghostIndicator)
+                    .offset(y: indicator.map {
+                        abs($0.position.x - ghostIndicator.position.x) < 90 &&
+                        abs($0.position.y - ghostIndicator.position.y) < 44 ? -44 : 0
+                    } ?? 0)
+            }
         }
         .overlay(alignment: .topLeading) {
             VStack(alignment: .leading, spacing: 4) {
@@ -40,6 +48,10 @@ struct GameplayMapView: View {
                     Label("DEMO · arrow controls", systemImage: "dpad.fill")
                         .font(.caption.weight(.bold))
                 }
+                if !ghosts.isEmpty {
+                    Label("\(ghosts.count) ghosts chasing", systemImage: "eye.fill")
+                        .font(.caption.weight(.bold)).foregroundStyle(.pink)
+                }
                 if showsSavedMap {
                     Text("Street map unavailable · saved layout shown")
                         .font(.caption)
@@ -47,6 +59,7 @@ struct GameplayMapView: View {
                         streetMapLoaded = false
                         showsSavedMap = false
                         indicator = nil
+                        ghostIndicator = nil
                         mapGeneration = UUID()
                     }
                     .buttonStyle(ArcadeButtonStyle(color: .cyan))

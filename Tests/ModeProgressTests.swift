@@ -74,6 +74,61 @@ struct ModeProgressTests {
         #expect(abs(ghosts[0].distanceAlongPath - path.lengthMeters / 2) < 0.1)
     }
 
+    @Test("New ghosts spawn nearby on paths and visibly advance toward the player")
+    func nearbyMovingGhosts() throws {
+        let route = try route()
+        let start = try #require(route.parcours?.start)
+        var ghosts = GhostChase.spawn(on: route)
+        #expect(ghosts.count == 3)
+        let initial = ghosts
+        for ghost in ghosts {
+            let distance = ghost.coordinate.location.distance(from: start.location)
+            #expect(distance >= 24 && distance < 100)
+        }
+        GhostChase.advance(&ghosts, on: route, toward: start, seconds: 5)
+        for (before, after) in zip(initial, ghosts) {
+            #expect(before.coordinate.location.distance(from: after.coordinate.location) > 1)
+            #expect(route.pathLines.contains { line in zip(line, line.dropFirst()).contains {
+                after.coordinate.distanceToSegment($0.0, $0.1) < 0.1
+            } })
+        }
+    }
+
+    @Test("Chasing ghosts reverse mid-path when the player moves to the other side")
+    func retargetsMovingPlayer() throws {
+        let route = linearRoute(spacing: 0.001)
+        let graph = try #require(route.parcours)
+        let path = graph.paths[1]
+        let middle = GhostChase.point(on: path.coordinates, distance: path.lengthMeters / 2)
+        var ghosts = [GhostState(id: 0, pathID: path.id, distanceAlongPath: path.lengthMeters / 2,
+                                 isReversed: false, coordinate: middle)]
+        GhostChase.advance(&ghosts, on: route, toward: graph.junctions[0].coordinate, seconds: 2)
+        let firstPosition = ghosts[0].coordinate
+        #expect(firstPosition.latitude < middle.latitude)
+        #expect(ghosts[0].isReversed)
+        GhostChase.advance(&ghosts, on: route, toward: graph.junctions[3].coordinate, seconds: 2)
+        #expect(ghosts[0].coordinate.latitude > firstPosition.latitude)
+        #expect(!ghosts[0].isReversed)
+        #expect(ghosts[0].pathID == path.id)
+    }
+
+    @Test("Small parcours still spawn a ghost instead of silently playing without enemies")
+    func smallRouteGhost() {
+        #expect(!GhostChase.spawn(on: linearRoute(spacing: 0.00004)).isEmpty)
+    }
+
+    private func linearRoute(spacing: Double) -> GameRoute {
+        let points = (0...3).map { RouteCoordinate(latitude: 45 + Double($0) * spacing, longitude: 5) }
+        let junctions = points.enumerated().map { ParcoursJunction(id: "j\($0.offset)", coordinate: $0.element) }
+        let paths = (0...2).map { ParcoursPath(id: "p\($0)", from: "j\($0)", to: "j\($0 + 1)",
+                                             coordinates: [points[$0], points[$0 + 1]], osmWayID: nil) }
+        let graph = ParcoursDefinition(description: "Linear chase fixture", boundary: [], startJunctionID: "j0",
+            junctions: junctions, paths: paths, supportedModes: [.ghosts], estimatedMinutes: 1,
+            fieldVerified: false, sourceURL: URL(string: "https://example.com")!, sourceDate: "2026-11-22")
+        return GameRoute(id: UUID(), name: "Chase fixture", version: 1, coordinates: points, pellets: [],
+                         mapStyleURL: URL(string: "https://example.com/style.json")!, parcours: graph)
+    }
+
     @Test("Ghosts remain on paths and collision cooldown ends after three hits")
     func collisions() throws {
         let route = try route()

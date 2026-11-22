@@ -13,6 +13,7 @@ struct RouteMapView: UIViewRepresentable {
     var isGameplay = false
     var guidancePlayer: RouteCoordinate? = nil
     var onIndicatorChange: ((PelletIndicator?) -> Void)? = nil
+    var onGhostIndicatorChange: ((PelletIndicator?) -> Void)? = nil
     var onMapAvailabilityChange: ((Bool) -> Void)? = nil
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -36,6 +37,8 @@ struct RouteMapView: UIViewRepresentable {
     func updateUIView(_ map: MLNMapView, context: Context) {
         context.coordinator.onMapAvailabilityChange = onMapAvailabilityChange
         context.coordinator.onIndicatorChange = onIndicatorChange
+        context.coordinator.onGhostIndicatorChange = onGhostIndicatorChange
+        context.coordinator.ghostStates = ghosts
         context.coordinator.guidancePlayer = guidancePlayer
         let zoomChanged = context.coordinator.followZoom != followZoom
         context.coordinator.followZoom = followZoom
@@ -130,6 +133,7 @@ struct RouteMapView: UIViewRepresentable {
     static func dismantleUIView(_ map: MLNMapView, coordinator: Coordinator) {
         coordinator.onMapAvailabilityChange = nil
         coordinator.onIndicatorChange = nil
+        coordinator.onGhostIndicatorChange = nil
         map.delegate = nil
         map.showsUserLocation = false
     }
@@ -149,6 +153,28 @@ struct RouteMapView: UIViewRepresentable {
         var guidancePlayer: RouteCoordinate?
         var onIndicatorChange: ((PelletIndicator?) -> Void)?
         var ghostAnnotations: [Int: MLNPointAnnotation] = [:]
+        var ghostStates: [GhostState] = []
+        var onGhostIndicatorChange: ((PelletIndicator?) -> Void)?
+        private var lastGhostIndicator: PelletIndicator?
+
+        func updateGhostIndicator(on map: MLNMapView) {
+            var indicator: PelletIndicator?
+            if let player = guidancePlayer,
+               let ghost = ghostStates.min(by: {
+                   $0.coordinate.location.distance(from: player.location) < $1.coordinate.location.distance(from: player.location)
+               }) {
+                let target = map.convert(ghost.coordinate.coordinate, toPointTo: map)
+                let visible = CGRect(x: 48, y: 116, width: map.bounds.width - 96, height: map.bounds.height - 164)
+                if let edge = PelletGuidance.edgePoint(target: target, visibleRect: visible) {
+                    indicator = PelletIndicator(position: edge,
+                        angleDegrees: atan2(target.y - visible.midY, target.x - visible.midX) * 180 / .pi + 90,
+                        distanceMeters: Int(player.location.distance(from: ghost.coordinate.location).rounded()))
+                }
+            }
+            guard indicator != lastGhostIndicator else { return }
+            lastGhostIndicator = indicator
+            DispatchQueue.main.async { [weak self] in self?.onGhostIndicatorChange?(indicator) }
+        }
 
         func updateGhosts(_ ghosts: [GhostState], on map: MLNMapView) {
             let ids = Set(ghosts.map(\.id))
@@ -188,6 +214,7 @@ struct RouteMapView: UIViewRepresentable {
         }
 
         func updateIndicator(on map: MLNMapView) {
+            updateGhostIndicator(on: map)
             var indicator: PelletIndicator?
             if let player = guidancePlayer, let pellet = nearestTarget {
                 let target = map.convert(pellet.coordinate.coordinate, toPointTo: map)
@@ -275,12 +302,11 @@ struct RouteMapView: UIViewRepresentable {
         func mapView(_ mapView: MLNMapView, imageFor annotation: MLNAnnotation) -> MLNAnnotationImage? {
             // Keep MapLibre's blue location dot and its accuracy indicator.
             guard annotation is MLNPointAnnotation else { return nil }
-            if ghostAnnotations.values.contains(where: { ($0 as AnyObject) === (annotation as AnyObject) }) {
-                let identifier = "chasing-ghost"
+            if let ghostID = ghostAnnotations.first(where: { ($0.value as AnyObject) === (annotation as AnyObject) })?.key {
+                let identifier = "chasing-ghost-\(ghostID)"
                 if let image = mapView.dequeueReusableAnnotationImage(withIdentifier: identifier) { return image }
-                let symbol = UIImage(systemName: "eye.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .bold))!
-                    .withTintColor(.systemPink, renderingMode: .alwaysOriginal)
-                return MLNAnnotationImage(image: symbol, reuseIdentifier: identifier)
+                return MLNAnnotationImage(image: GhostAnnotationImage.make(id: ghostID, scale: mapView.traitCollection.displayScale),
+                                          reuseIdentifier: identifier)
             }
             let isStart = (annotation as AnyObject) === startAnnotation
             let isPlayer = (annotation as AnyObject) === simulatedPlayerAnnotation

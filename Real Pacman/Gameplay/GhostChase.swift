@@ -7,18 +7,38 @@ enum GhostChase {
 
     static func spawn(on route: GameRoute) -> [GhostState] {
         guard let graph = route.parcours, let start = graph.start else { return [] }
-        let junctions = graph.junctions.sorted {
-            $0.coordinate.location.distance(from: start.location) > $1.coordinate.location.distance(from: start.location)
+        // Sample legal paths near the start rather than hiding every ghost at the
+        // far end of the park. Stay outside the collection/collision radius.
+        var candidates: [GhostState] = []
+        for path in graph.paths {
+            let length = path.lengthMeters
+            let count = max(1, Int(ceil(length / 10)))
+            for sample in 0...count {
+                let offset = length * Double(sample) / Double(count)
+                let coordinate = point(on: path.coordinates, distance: offset)
+                candidates.append(GhostState(id: 0, pathID: path.id, distanceAlongPath: offset,
+                                             isReversed: false, coordinate: coordinate))
+            }
         }
-        // Separate spawns where possible, rather than three overlapping markers.
-        var chosen: [RouteCoordinate] = []
+        let nearby = candidates.filter { $0.coordinate.location.distance(from: start.location) >= 24 }
+        // Tiny routes still get a ghost; the initial collision grace period applies.
+        if nearby.isEmpty {
+            return candidates.max(by: {
+                $0.coordinate.location.distance(from: start.location) < $1.coordinate.location.distance(from: start.location)
+            }).map { [$0] } ?? []
+        }
         var result: [GhostState] = []
-        for node in junctions where result.count < 3 {
-            guard chosen.allSatisfy({ $0.location.distance(from: node.coordinate.location) >= 35 }),
-                  let path = graph.paths.first(where: { $0.from == node.id || $0.to == node.id }) else { continue }
-            result.append(GhostState(id: result.count, pathID: path.id, distanceAlongPath: 0,
-                                     isReversed: path.to == node.id, coordinate: node.coordinate))
-            chosen.append(node.coordinate)
+        for desiredDistance in [40.0, 55.0, 70.0] {
+            let ordered = nearby.sorted {
+                abs($0.coordinate.location.distance(from: start.location) - desiredDistance)
+                < abs($1.coordinate.location.distance(from: start.location) - desiredDistance)
+            }
+            guard let candidate = ordered.first(where: { candidate in
+                result.allSatisfy { $0.coordinate.location.distance(from: candidate.coordinate.location) >= 18 }
+            }) else { continue }
+            result.append(GhostState(id: result.count, pathID: candidate.pathID,
+                                     distanceAlongPath: candidate.distanceAlongPath,
+                                     isReversed: candidate.isReversed, coordinate: candidate.coordinate))
         }
         return result
     }
@@ -47,6 +67,16 @@ enum GhostChase {
                 if ghosts[index].pathID == target.pathID {
                     let targetDistance = ghosts[index].isReversed ? path.lengthMeters - target.offset : target.offset
                     if targetDistance < ghosts[index].distanceAlongPath {
+                        ghosts[index].distanceAlongPath = path.lengthMeters - ghosts[index].distanceAlongPath
+                        ghosts[index].isReversed.toggle()
+                    }
+                } else {
+                    let offset = ghosts[index].isReversed ? path.lengthMeters - ghosts[index].distanceAlongPath : ghosts[index].distanceAlongPath
+                    let viaFrom = offset + distances[path.from, default: .infinity]
+                    let viaTo = path.lengthMeters - offset + distances[path.to, default: .infinity]
+                    // Re-plan at the current position, including reversing mid-path.
+                    let reverse = ghosts[index].isReversed ? viaTo + 0.01 < viaFrom : viaFrom + 0.01 < viaTo
+                    if reverse {
                         ghosts[index].distanceAlongPath = path.lengthMeters - ghosts[index].distanceAlongPath
                         ghosts[index].isReversed.toggle()
                     }
