@@ -15,6 +15,7 @@ tests.mkdir(parents=True)
 files = [
     "Routes/GameRoute.swift", "Routes/RouteCoordinate.swift", "Routes/Pellet.swift",
     "Gameplay/GameSession.swift", "Gameplay/GameArchive.swift", "Gameplay/GameStore.swift",
+    "Gameplay/ModeProgress.swift", "Gameplay/GhostState.swift", "Gameplay/GhostChase.swift",
     "Gameplay/DemoSession.swift", "Gameplay/DemoDirection.swift",
     "Gameplay/GameplayRules.swift", "Gameplay/PelletGuidance.swift", "Gameplay/ServerEndpoint.swift",
     "Parcours/ParcoursMode.swift", "Parcours/ParcoursJunction.swift", "Parcours/ParcoursPath.swift",
@@ -27,6 +28,8 @@ shutil.copy2(root / "Tests/ParcoursTests.swift", tests)
 shutil.copy2(root / "Tests/DemoSessionTests.swift", tests)
 shutil.copy2(root / "Tests/GameplayFeatureTests.swift", tests)
 shutil.copy2(root / "Tests/ServerIntegrationTests.swift", tests)
+shutil.copy2(root / "Tests/ModeProgressTests.swift", tests)
+shutil.copy2(root / "Tests/CatalogueVersionTests.swift", tests)
 shutil.copy2(root / "Real Pacman/ParcoursData/verney-draft.json", tests)
 (package / "Package.swift").write_text('''// swift-tools-version: 6.0
 import PackageDescription

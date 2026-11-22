@@ -13,7 +13,13 @@ enum ParcoursCatalogue {
     }
 
     static func entries(saved: [GameRoute], prototype: GameRoute?) -> [ParcoursCandidate] {
-        let verney = saved.first { $0.id == verneyID } ?? prototype
+        let cachedVerney = saved.filter { $0.id == verneyID }.max { $0.version < $1.version }
+        let verney: GameRoute?
+        if let prototype, prototype.version > (cachedVerney?.version ?? 0) {
+            verney = prototype
+        } else {
+            verney = cachedVerney ?? prototype
+        }
         var entries = [
             ParcoursCandidate(id: verneyID, name: "Parc du Verney",
                               description: "Chambéry · first map prototype", route: verney),
@@ -25,7 +31,8 @@ enum ParcoursCatalogue {
                               description: "Planned location · walking network not defined yet", route: nil)
         ]
         entries = entries.map { entry in
-            guard let route = saved.first(where: { $0.id == entry.id }) else { return entry }
+            guard let route = saved.filter({ $0.id == entry.id }).max(by: { $0.version < $1.version }),
+                  route.version >= (entry.route?.version ?? 0) else { return entry }
             return ParcoursCandidate(id: route.id, name: route.name,
                                      description: route.parcours?.description ?? "Saved parcours", route: route)
         }

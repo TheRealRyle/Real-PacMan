@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RouteDetailView: View {
     let route: GameRoute
+    var mode: ParcoursMode = .explore
     @Environment(GameStore.self) private var game
     @State private var offline = OfflineMapStore()
     @State private var downloadRequested = false
@@ -30,6 +31,7 @@ struct RouteDetailView: View {
                             Link("View map source", destination: definition.sourceURL).tint(.yellow)
                         }
                     }
+                    Text(mode.instructions).foregroundStyle(.white).font(.subheadline)
                     if isDraft {
                         ArcadePanel(title: "MAP DRAFT") {
                             Text("These are mapped park paths with proposed pellets. The starting point, access and spacing still need an on-foot review.")
@@ -38,7 +40,7 @@ struct RouteDetailView: View {
                         RouteMapView(route: route, collected: [])
                             .frame(height: 260)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
-                        ArcadePanel(title: "EXPLORE · NO TIMER") {
+                        ArcadePanel(title: mode.title.uppercased()) {
                             Text(offline.status).font(.caption)
                             ArcadeActionButton { downloadRequested = true } label: {
                                 Label(offline.isDownloading ? "DOWNLOADING…" : "DOWNLOAD MAP", systemImage: "arrow.down.circle.fill")
@@ -48,7 +50,7 @@ struct RouteDetailView: View {
                         }
                     }
                     ArcadeNavigationLink {
-                        GameplayView(startingRoute: game.archive.activeSession == nil ? route : nil)
+                        GameplayView(startingRoute: game.archive.activeSession == nil ? route : nil, startingMode: mode)
                             .toolbar(.visible, for: .navigationBar)
                     } label: {
                         Label(game.archive.activeSession == nil ? "START WALK" : "RESUME SAVED WALK",
@@ -60,7 +62,7 @@ struct RouteDetailView: View {
                 .frame(maxWidth: 620).frame(maxWidth: .infinity)
             }
         }
-        .navigationTitle("Explore")
+        .navigationTitle(mode.title)
         .toolbar(.visible, for: .navigationBar)
         .task { if !isDraft { await offline.refreshStatus(for: route) } }
         .task(id: downloadRequested) {

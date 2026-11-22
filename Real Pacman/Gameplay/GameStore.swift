@@ -10,6 +10,8 @@ final class GameStore {
     private(set) var isSyncing = false
     private(set) var isPlaying = false
     private(set) var latestFinishedSession: GameSession?
+    private var lastAcceptedAt: Date?
+    private var lastAcceptedCoordinate: RouteCoordinate?
     private var previousLocation: CLLocation?
     private let fileURL: URL
     private var canSave = true
@@ -37,19 +39,27 @@ final class GameStore {
         } catch { message = "Could not save progress: \(error.localizedDescription)" }
     }
 
-    func start(_ route: GameRoute) {
+    func start(_ route: GameRoute, mode: ParcoursMode = .explore) {
         guard archive.activeSession == nil, canSave else { return }
         do { try route.validate() }
         catch { message = error.localizedDescription; return }
+        guard route.parcours?.supportedModes.contains(mode) ?? (mode == .explore),
+              !mode.hasGhosts || route.parcours != nil else {
+            message = "This parcours does not support that mode."; return
+        }
         latestFinishedSession = nil
-        archive.activeSession = GameSession(id: UUID(), route: route, startedAt: Date())
+        var session = GameSession(id: UUID(), route: route, startedAt: Date())
+        session.mode = mode
+        session.rules = ModeProgress(route: route, mode: mode)
+        archive.activeSession = session
+        lastAcceptedCoordinate = nil
         isPlaying = true
         previousLocation = nil
         save()
     }
 
     func resume() { isPlaying = true; previousLocation = nil }
-    func pause() { isPlaying = false; previousLocation = nil }
+    func pause() { isPlaying = false; previousLocation = nil; lastAcceptedCoordinate = nil; save() }
 
     func collect(at location: CLLocation) {
         guard isPlaying, var session = archive.activeSession,
@@ -62,6 +72,8 @@ final class GameStore {
             guard distance / elapsed <= 12 else { return }
             if distance >= 3 { session.distanceMeters += distance; previousLocation = location }
         } else { previousLocation = location }
+        lastAcceptedAt = Date()
+        lastAcceptedCoordinate = RouteCoordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         for pellet in session.route.pellets where !session.collectedPelletIDs.contains(pellet.id) {
             if location.distance(from: pellet.coordinate.location) <= GameplayRules.collectionRadiusMeters {
                 session.collectedPelletIDs.insert(pellet.id)
@@ -72,8 +84,24 @@ final class GameStore {
         else { save() }
     }
 
+    func advance(by seconds: Double) {
+        guard seconds.isFinite, seconds > 0 else { return }
+        guard isPlaying, var session = archive.activeSession,
+              let mode = session.mode, mode != .explore else { return }
+        var progress = session.rules ?? ModeProgress(route: session.route, mode: mode)
+        let previous = progress.activeElapsed
+        progress.advance(by: seconds, route: session.route,
+                         player: (lastAcceptedAt.map { Date().timeIntervalSince($0) <= 10 } == true) ? lastAcceptedCoordinate : nil)
+        session.rules = progress
+        archive.activeSession = session
+        if session.rules?.outcome != nil { finish() }
+        else if Int(previous) != Int(session.rules?.activeElapsed ?? 0) { save() }
+    }
+
     func finish() {
         guard var session = archive.activeSession else { return }
+        let completed = session.collectedPelletIDs.count == session.route.pellets.count
+        if session.rules?.outcome == nil { session.rules?.outcome = completed ? .completed : .stopped }
         session.finishedAt = Date()
         latestFinishedSession = session
         archive.results.append(session)

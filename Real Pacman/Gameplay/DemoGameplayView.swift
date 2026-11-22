@@ -6,8 +6,8 @@ struct DemoGameplayView: View {
     @State private var cameraReset = UUID()
     @Environment(\.scenePhase) private var scenePhase
 
-    init(route: GameRoute) {
-        _demo = State(initialValue: DemoSession(route: route))
+    init(route: GameRoute, mode: ParcoursMode = .explore) {
+        _demo = State(initialValue: DemoSession(route: route, mode: mode))
     }
 
     var body: some View {
@@ -15,7 +15,7 @@ struct DemoGameplayView: View {
             if demo.isComplete {
                 CompletionScoreView(score: demo.score, collected: demo.collectedPelletIDs.count,
                                     total: demo.route.pellets.count, distance: demo.distanceMeters,
-                                    isDemo: true, restart: restart)
+                                    isDemo: true, restart: restart, rules: demo.rules)
             } else {
                 gameplay
             }
@@ -26,6 +26,7 @@ struct DemoGameplayView: View {
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
         .navigationBarTitleDisplayMode(.inline)
+        .modifier(GameplayClock(running: demo.isPlaying && scenePhase == .active && demo.mode != .explore) { demo.advance(by: $0) })
         .onAppear { ArcadeAudio.shared.setGameplayVisible(true) }
         .onDisappear { demo.pause(); ArcadeAudio.shared.setGameplayVisible(false) }
         .onChange(of: scenePhase) {
@@ -36,11 +37,12 @@ struct DemoGameplayView: View {
     private var gameplay: some View {
         VStack(spacing: 0) {
             GameplayMapView(route: demo.route, collected: demo.collectedPelletIDs,
-                            player: demo.player, isDemo: true)
+                            player: demo.player, isDemo: true, ghosts: demo.rules.ghosts)
                 .id(cameraReset)
                 .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay { RoundedRectangle(cornerRadius: 24).strokeBorder(.cyan.opacity(0.25), lineWidth: 1) }
                 .padding(.horizontal, 12).padding(.top, 8)
+            ModeHUD(mode: demo.mode, rules: demo.rules)
             GameplayDashboard(score: demo.score, collected: demo.collectedPelletIDs.count,
                               total: demo.route.pellets.count, distance: demo.distanceMeters,
                               isPlaying: demo.isPlaying, isDemo: true,
