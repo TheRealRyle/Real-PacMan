@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Waits for the release spring before acting. The view task cancels if the control disappears.
+/// Gives press feedback time to appear before acting; cancels if the control disappears.
 struct ArcadeActionButton<Label: View>: View {
     var sound: ArcadeSound? = .press
     let action: () -> Void

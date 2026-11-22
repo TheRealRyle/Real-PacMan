@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Owns animation state so a quick tap still gets a visible compression and rebound.
+/// Keeps subtle press feedback visible even when a scroll view delays touch-down.
 struct ArcadeButtonFace<Label: View>: View {
     let label: Label
     let color: Color
@@ -25,17 +25,13 @@ struct ArcadeButtonFace<Label: View>: View {
                 RoundedRectangle(cornerRadius: 18)
                     .strokeBorder(Color.black.opacity(0.6), lineWidth: 3)
             }
-            .shadow(color: .black.opacity(0.45), radius: 0, y: compressed ? 2 : 6)
-            .offset(y: reduceMotion ? 0 : (compressed ? 5 : 0))
-            .scaleEffect(
-                x: reduceMotion ? 1 : (compressed ? 0.93 : 1),
-                y: reduceMotion ? 1 : (compressed ? 0.84 : 1)
-            )
+            .shadow(color: .black.opacity(0.45), radius: 0, y: 6)
+            .scaleEffect(reduceMotion || !compressed ? 1 : 0.97)
             .onChange(of: isPressed) {
                 if isPressed { compress() }
             }
             .onChange(of: activated) {
-                // Scroll views can delay touch-down feedback. Activation guarantees a pop
+                // Scroll views can delay touch-down feedback. Activation guarantees feedback
                 // even when the native pressed state was too short to be rendered.
                 if activated { compress() }
             }
@@ -44,7 +40,7 @@ struct ArcadeButtonFace<Label: View>: View {
                 let remaining = max(0, releaseAt.timeIntervalSinceNow)
                 do { try await Task.sleep(for: .seconds(remaining)) }
                 catch { return }
-                withAnimation(reduceMotion ? nil : .spring(response: 0.36, dampingFraction: 0.36)) {
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.15)) {
                     compressed = false
                 }
             }
@@ -60,6 +56,6 @@ struct ArcadeButtonFace<Label: View>: View {
     private func compress() {
         guard !reduceMotion else { return }
         releaseAt = Date().addingTimeInterval(0.09)
-        withAnimation(.easeOut(duration: 0.055)) { compressed = true }
+        withAnimation(.easeOut(duration: 0.15)) { compressed = true }
     }
 }
