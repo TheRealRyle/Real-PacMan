@@ -52,6 +52,8 @@ struct RouteMapView: UIViewRepresentable {
         if let cameraRequest, context.coordinator.cameraRequestID != cameraRequest.id {
             context.coordinator.cameraRequestID = cameraRequest.id
             switch cameraRequest.target {
+            case .savedZoom:
+                map.setZoomLevel(followZoom, animated: !reduceMotion)
             case .player:
                 context.coordinator.needsInitialFraming = false
                 if usesDeviceLocation {

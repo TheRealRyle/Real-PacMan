@@ -5,6 +5,7 @@ struct RouteMapCameraRequest {
     enum Target {
         case player
         case parcours
+        case savedZoom
     }
 
     let id = UUID()
