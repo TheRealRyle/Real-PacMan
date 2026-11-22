@@ -10,6 +10,7 @@ final class GameStore {
     private(set) var isSyncing = false
     private(set) var isPlaying = false
     private(set) var latestFinishedSession: GameSession?
+    private(set) var latestUnlockedAchievements: [Achievement] = []
     private var lastAcceptedAt: Date?
     private var lastAcceptedCoordinate: RouteCoordinate?
     private var previousLocation: CLLocation?
@@ -30,6 +31,7 @@ final class GameStore {
     }
 
     var pendingResults: Int { archive.results.filter { $0.syncedAt == nil }.count }
+    var achievements: [AchievementProgress] { AchievementTracker.progress(results: archive.results) }
 
     private func save() {
         guard canSave else { return }
@@ -48,6 +50,7 @@ final class GameStore {
             message = "This parcours does not support that mode."; return
         }
         latestFinishedSession = nil
+        latestUnlockedAchievements = []
         var session = GameSession(id: UUID(), route: route, startedAt: Date())
         session.mode = mode
         session.rules = ModeProgress(route: route, mode: mode)
@@ -100,11 +103,13 @@ final class GameStore {
 
     func finish() {
         guard var session = archive.activeSession else { return }
+        let alreadyUnlocked = Set(achievements.filter(\.isUnlocked).map(\.achievement))
         let completed = session.collectedPelletIDs.count == session.route.pellets.count
         if session.rules?.outcome == nil { session.rules?.outcome = completed ? .completed : .stopped }
         session.finishedAt = Date()
         latestFinishedSession = session
         archive.results.append(session)
+        latestUnlockedAchievements = achievements.filter { $0.isUnlocked && !alreadyUnlocked.contains($0.achievement) }.map(\.achievement)
         archive.activeSession = nil
         pause()
         save()

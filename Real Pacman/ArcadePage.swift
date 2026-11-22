@@ -3,6 +3,7 @@ import SwiftUI
 struct ArcadePage<Content: View>: View {
     let title: String
     let symbol: String
+    var titleFont: Font = .system(.largeTitle, design: .rounded, weight: .black)
     @ViewBuilder let content: () -> Content
     @Environment(\.dismiss) private var dismiss
 
@@ -19,7 +20,7 @@ struct ArcadePage<Content: View>: View {
                         .buttonStyle(ArcadeButtonStyle())
                         .accessibilityLabel("Back")
                         Text(title)
-                            .font(.system(.largeTitle, design: .rounded, weight: .black))
+                            .font(titleFont)
                             .foregroundStyle(.white)
                             .shadow(color: .black.opacity(0.5), radius: 0, y: 4)
                             .frame(maxWidth: .infinity, alignment: .leading)
