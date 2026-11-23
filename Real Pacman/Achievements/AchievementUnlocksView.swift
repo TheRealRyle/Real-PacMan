@@ -2,6 +2,8 @@ import SwiftUI
 
 struct AchievementUnlocksView: View {
     let achievements: [Achievement]
+    var playsSound = true
+    var announcesUnlock = true
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var revealed = false
@@ -68,8 +70,10 @@ struct AchievementUnlocksView: View {
                 }
                 guard !Task.isCancelled else { return }
                 revealed = true
-                ArcadeAudio.shared.play(.achievementUnlocked)
-                AccessibilityNotification.Announcement("Achievement unlocked: \(achievements.map(\.title).joined(separator: ", ")).").post()
+                if playsSound { ArcadeAudio.shared.play(.achievementUnlocked) }
+                if announcesUnlock {
+                    AccessibilityNotification.Announcement("Achievement unlocked: \(achievements.map(\.title).joined(separator: ", ")).").post()
+                }
             }
         }
     }
