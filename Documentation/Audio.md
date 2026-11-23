@@ -8,7 +8,7 @@ All seven WAV files in Real Pacman/Audio are original synthesized assets. No Pac
 - ui_toggle: bright two-note toggle feedback.
 - ui_adjust: short slider-release preview.
 - life_lost: 450 ms descending hit cue with a soft bass impact, played once when lives decrease in real or demo gameplay, including the final hit. Uses the Sound volume and existing Silent Mode/interruption behavior.
-- achievement_unlocked: 1.2-second ascending arpeggio and warm chord for the achievement reveal. Plays once for the award group and respects Sound volume, Silent Mode and interruptions.
+- achievement_unlocked: 1.2-second ascending arpeggio and warm chord for the achievement reveal and full parcours clears. A victory with new achievements plays it once for the group. Respects Sound volume, Silent Mode and interruptions.
 
 ArcadeAudio preloads one looping music player and three voices per effect. Music and Sound settings independently adjust playback immediately; zero mutes that channel. Effects remain available during gameplay, but menu music pauses. Music resumes at its paused position on return.
 

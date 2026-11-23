@@ -106,10 +106,22 @@ The native GPS location view draws a soft blue accuracy halo scaled in map metre
 demo play has no accuracy halo. The saved-layout fallback draws the same vector
 asset at 32 points. There is no looping pulse or position/rotation animation.
 
-Newly earned achievements lead the score screen with a gold medallion, halo,
+Newly earned achievements appear on the score screen with a gold medallion, halo,
 large badge title, gold particles and a short fanfare. The shared 0.97 entrance
 settles before a finite 900 ms medal burst; controls remain interactive. Multiple
 unlocks share one reveal and show the additional badges beneath the featured one.
 The reveal and sound run once per presentation, cancel pending playback when
 leaving or backgrounding, and do not replay on returning from the trophy cabinet.
 Reduce Motion keeps the static medal/glow and omits movement, rotation and particles.
+
+A full parcours clear leads with an animated trophy medallion, finite gold burst,
+large victory title and a score that counts up over 850 ms before settling. The
+pellet bar fills over 650 ms and the summary shows distance, active time when
+recorded, and remaining hearts for ghost modes. Real and practice clears share
+the presentation; practice scores remain separate. The final score is announced
+directly to VoiceOver, and Reduce Motion shows it immediately with a static trophy.
+Done/Play Again stay pinned beneath the scrollable results and remain usable
+throughout the celebration. Failed or stopped runs use distinct outcome icons
+and static scores. A successful clear shares one fanfare/announcement with newly
+earned badges. Pending celebration cancels on departure/backgrounding and does
+not replay when returning from the trophy cabinet.
