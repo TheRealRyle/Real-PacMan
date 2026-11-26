@@ -109,8 +109,9 @@ inserts, retry identity, conflicts and persistence across application instances.
 Separately, the actual server executable ran with `--env production`, applied
 migrations, and passed real HTTP checks. Its saved result survived restarting
 both the API process and PostgreSQL. Missing production configuration was rejected.
-Linux Docker image execution and a public HTTPS endpoint remain unverified locally;
-the added GitHub workflow builds and smoke-tests the image when run on GitHub.
+The Linux image subsequently built and ran successfully on Render; see the hosted
+verification below. The optional GitHub workflow remains local because the saved
+GitHub credential lacks permission to publish workflows.
 
 ## Class-project HTTPS deployment on Render
 
@@ -160,6 +161,28 @@ References: [Render Docker](https://render.com/docs/docker),
 [Blueprint fields](https://render.com/docs/blueprint-spec),
 [database connectivity](https://render.com/docs/postgresql-creating-connecting),
 [free plan limits](https://render.com/docs/free).
+
+## Hosted verification (2026-11-26)
+
+Live API: https://real-pacman-api-o256.onrender.com
+
+- Workspace: Ryle's workspace; free web service `srv-dc3unf2jnfac73avd2gg`.
+- Existing free PostgreSQL 18.7 database: `dpg-dc3uikrl550s73flnj9g-a`.
+- Source: `codex/class-project-backend`, runtime commit `66a4cc2`.
+- Linux image built successfully; startup migrations and database health passed.
+- Public HTTPS checks passed with normal certificate verification: catalogue,
+  canonical score, concurrent retries, conflicting UUID and missing-key rejection.
+- A second deployment of the same commit became live; the saved result was then
+  accepted as a duplicate, confirming persistence across the redeployment.
+- All 53 app/core tests in eight suites passed with the live integration URL,
+  including actual GameStore download, failure/retry persistence, and all three
+  timed/ghost mode uploads. The standalone GPS/persistence executable also passed.
+- Read-only SQL confirmed exactly one stored route snapshot for each of versions
+  1 and 2, and five synthetic test results. These are not player walks.
+- Physical iPhone sync and outdoor/airplane-mode testing remain unverified.
+
+In the installed app's Settings, set the server URL to the live API base URL
+above (without `/api/v1`). Then refresh parcours and sync results.
 
 ## Deployment boundary
 
