@@ -55,7 +55,23 @@ final class PlayerAccount {
     }
     func signIn(server: String, username: String, password: String, register: Bool) async -> Bool {
         guard !isBusy else { return false }
-        isBusy = true; message = nil
+        message = nil
+        if register {
+            let name = username.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            guard name.range(of: "^[a-z0-9_]{3,24}$", options: .regularExpression) != nil else {
+                message = "Choose a username with 3–24 letters, numbers or underscores. Spaces aren’t allowed."
+                return false
+            }
+            guard password.count >= 10 else {
+                message = "Your password needs at least 10 characters."
+                return false
+            }
+            guard password.utf8.count <= 72 else {
+                message = "That password is too long. Try a shorter one."
+                return false
+            }
+        }
+        isBusy = true
         defer { isBusy = false }
         do {
             let base = Self.normalized(server)
