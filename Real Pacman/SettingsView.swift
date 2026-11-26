@@ -62,6 +62,11 @@ struct SettingsView: View {
                 #endif
             }
             .arcadeEntrance(delay: 0.22)
+            ArcadeNavigationLink { PrivacyDetailsView() } label: {
+                Label("PRIVACY & DATA", systemImage: "hand.raised.fill").frame(maxWidth: .infinity)
+            }.buttonStyle(ArcadeButtonStyle(color: .cyan))
+            Text("Real Pac-Man · Version 1.0 · Class project")
+                .font(.caption).foregroundStyle(.white.opacity(0.75))
         }
     }
 
