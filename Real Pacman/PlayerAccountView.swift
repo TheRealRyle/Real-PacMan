@@ -51,7 +51,7 @@ struct PlayerAccountView: View {
                             content.offset(x: reduceMotion ? 0 : offset)
                         } animation: { _ in .linear(duration: 0.06) }
                     if register {
-                        Text("Username: 3–24 letters, numbers or underscores. Password: 10–72 bytes. Keep it safe: password recovery isn’t available for this class project.")
+                        Text("Username: 3–24 letters, numbers or underscores. Password: at least 10 characters. Keep your password somewhere safe; password recovery isn’t available.")
                             .font(.caption)
                     }
                     if let message = game.account.message { Text(message).foregroundStyle(.red).font(.subheadline) }
