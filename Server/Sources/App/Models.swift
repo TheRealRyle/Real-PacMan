@@ -22,6 +22,7 @@ final class StoredResult: Model, @unchecked Sendable {
     @Parent(key: "route_version_id") var routeVersion: RouteVersion
     @Field(key: "payload") var payload: String
     @Field(key: "score") var score: Int
+    @OptionalField(key: "player_id") var playerID: UUID?
     init() {}
     init(id: UUID, routeVersionID: UUID, payload: String, score: Int) {
         self.id = id

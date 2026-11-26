@@ -30,6 +30,9 @@ public func configure(_ app: Application, configureDatabase: Bool = true) async 
     app.migrations.add(CreateGameSchema())
     app.migrations.add(SeedVerney())
     app.migrations.add(SeedStageTwoVerney())
+    app.migrations.add(AddPlayerAccounts())
+    app.passwords.use(.bcrypt)
+    accountRoutes(app)
     try routes(app)
     if Environment.get("AUTO_MIGRATE") == "true" {
         guard app.environment != .production else {

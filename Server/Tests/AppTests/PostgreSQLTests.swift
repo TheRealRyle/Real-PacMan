@@ -14,11 +14,14 @@ struct PostgreSQLTests {
         let database = URLComponents(string: url)?.path ?? ""
         try #require(database.hasSuffix("_test"), "POSTGRES_TEST_URL must name a database ending in _test")
         let id = UUID()
+        let testPlayerID = UUID()
+        let testToken = UUID().uuidString
         var saved: ResultPayload?
         func configurePostgres(_ app: Application) async throws {
             app.databases.use(try .postgres(url: url), as: .psql)
             try await configure(app, configureDatabase: false)
             try await app.autoMigrate()
+            try await seedTestAccount(app, id: testPlayerID, token: testToken)
         }
         try await withApp(configure: configurePostgres) { app in
             // Reapplying migrations must preserve both published versions.
@@ -35,6 +38,7 @@ struct PostgreSQLTests {
             }
             @Sendable func upload() async throws {
                 try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                     request.headers.add(name: "Idempotency-Key", value: id.uuidString)
                     try request.content.encode(payload)
                 }, afterResponse: { response async throws in
@@ -52,6 +56,7 @@ struct PostgreSQLTests {
         try await withApp(configure: configurePostgres) { app in
             let payload = try #require(saved)
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                 request.headers.add(name: "Idempotency-Key", value: id.uuidString)
                 try request.content.encode(payload)
             }, afterResponse: { response async throws in
@@ -62,6 +67,7 @@ struct PostgreSQLTests {
                 finishedAt: payload.finishedAt, collectedPelletIDs: [], distanceMeters: 0,
                 mode: "explore", syncedAt: nil)
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                 request.headers.add(name: "Idempotency-Key", value: id.uuidString)
                 try request.content.encode(conflict)
             }, afterResponse: { response async in

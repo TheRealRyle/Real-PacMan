@@ -24,6 +24,7 @@ private func modeResult(route: RoutePayload, mode: String, outcome: String = "st
 
 private func upload(_ result: ResultPayload, to app: Application, expecting status: HTTPStatus = .ok) async throws {
     try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
         request.headers.add(name: "Idempotency-Key", value: result.id.uuidString)
         try request.content.encode(result)
     }, afterResponse: { response async in #expect(response.status == status) })

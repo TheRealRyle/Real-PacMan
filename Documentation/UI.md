@@ -150,3 +150,10 @@ pause while the prompt is open. Backgrounding leaves the walk paused. The sheet
 scrolls for larger text sizes and uses the shared reduced-motion-aware entrance.
 Simulator build passed; a timed walk returned to playing after cancellation, and
 confirmation saved a partial result with the timer stopped during the prompt.
+
+## Player account
+
+Settings and Statistics link to the arcade-styled Player Account screen for
+registration, sign-in, sign-out and explicit guest-result assignment. Password
+errors appear inline with a red field and reduced-motion-aware shake. Offline
+play stays available; signing in binds newly recorded runs to that player.

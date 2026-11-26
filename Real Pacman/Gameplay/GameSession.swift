@@ -10,5 +10,7 @@ struct GameSession: Codable, Identifiable {
     var distanceMeters: Double = 0
     var finishedAt: Date?
     var syncedAt: Date?
+    var playerID: UUID?
+    var playerServer: String?
     var score: Int { route.pellets.filter { collectedPelletIDs.contains($0.id) }.reduce(0) { $0 + $1.value } }
 }

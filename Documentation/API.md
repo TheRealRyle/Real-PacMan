@@ -125,3 +125,10 @@ passed with hosted integration enabled, plus standalone GPS/persistence checks.
 Physical iPhone-to-hosted-server sync remains pending. See `Server/README.md` for the
 deployment procedure and verification script. Accounts and player authorization
 remain separate work; HTTPS hosting does not add player identity.
+
+## Player authentication
+
+Account endpoints and authenticated result ownership supersede the earlier
+unauthenticated API descriptions. See Server/README.md for the request contract,
+token expiry, migration and guest-assignment rules. Route catalogue remains public;
+result uploads now require Bearer authorization. Local device history is retained.

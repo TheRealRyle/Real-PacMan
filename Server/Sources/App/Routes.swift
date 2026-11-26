@@ -14,13 +14,15 @@ func routes(_ app: Application) throws {
         }
         return latest.values.sorted { $0.name < $1.name }
     }
-    app.post("api", "v1", "results") { req async throws -> ResultReceipt in
+    app.grouped(PlayerAuthenticator()).grouped(Player.guardMiddleware()).post("api", "v1", "results") { req async throws -> ResultReceipt in
+        let playerID = try req.auth.require(Player.self).requireID()
         let result = try req.content.decode(ResultPayload.self)
         guard let key = req.headers.first(name: "Idempotency-Key"), UUID(uuidString: key) == result.id else {
             throw Abort(.badRequest, reason: "Idempotency-Key must equal the session UUID")
         }
         let payload = try result.canonicalJSON()
         if let existing = try await StoredResult.find(result.id, on: req.db) {
+            guard existing.playerID == playerID else { throw Abort(.conflict, reason: "Result belongs to another player or is a legacy anonymous result") }
             return try receipt(for: existing, matching: payload, id: result.id)
         }
         guard let version = try await RouteVersion.query(on: req.db)
@@ -32,14 +34,16 @@ func routes(_ app: Application) throws {
         let versionID = try version.requireID()
         do {
             try await req.db.transaction { database in
-                try await StoredResult(id: result.id, routeVersionID: versionID, payload: payload, score: score)
-                    .create(on: database)
+                let stored = StoredResult(id: result.id, routeVersionID: versionID, payload: payload, score: score)
+                stored.playerID = playerID
+                try await stored.create(on: database)
             }
         } catch {
             // A concurrent identical request can win the primary-key race. Query outside
             // the failed transaction, which PostgreSQL has already rolled back.
             if let existing = try await StoredResult.find(result.id, on: req.db) {
-                return try receipt(for: existing, matching: payload, id: result.id)
+                guard existing.playerID == playerID else { throw Abort(.conflict, reason: "Result belongs to another player or is a legacy anonymous result") }
+            return try receipt(for: existing, matching: payload, id: result.id)
             }
             throw error
         }

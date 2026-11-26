@@ -29,8 +29,12 @@ def main():
     if not parts.hostname or parts.username or parts.password or parts.query or parts.fragment or parts.path:
         parser.error("Use a base URL containing only scheme, hostname and optional port")
 
+    auth_token = None
+
     def request(path, payload=None, key=None):
         headers = {"Content-Type": "application/json"}
+        if auth_token:
+            headers["Authorization"] = "Bearer " + auth_token
         if key:
             headers["Idempotency-Key"] = key
         data = None if payload is None else json.dumps(payload).encode()
@@ -54,14 +58,20 @@ def main():
         state = json.loads(args.state.read_text())
         require(state["baseURL"] == base, "State belongs to a different server")
         payload = state["payload"]
+        auth_token = state.get("token")
+        require(auth_token is not None, "This state predates authentication; use a new state file")
     else:
+        status, login = request("/api/v1/auth/register", dict(username="check_" + uuid.uuid4().hex[:16], password=uuid.uuid4().hex))
+        require(status == 200, "Synthetic test-account registration failed")
+        auth_token = login["token"]
         route = routes[0]
         now = time.time() - 978307200  # Swift Date reference epoch, 2001-01-01.
         payload = dict(id=str(uuid.uuid4()), route=route, startedAt=now - 60,
                        finishedAt=now, collectedPelletIDs=[route["pellets"][0]["id"]],
                        distanceMeters=10, mode="explore")
         # Save before uploading so an interrupted run can safely retry.
-        args.state.write_text(json.dumps(dict(baseURL=base, payload=payload), indent=2))
+        args.state.touch(mode=0o600, exist_ok=False)
+        args.state.write_text(json.dumps(dict(baseURL=base, payload=payload, token=auth_token), indent=2))
 
     key = payload["id"]
     score = sum(p.get("value", 10) for p in payload["route"]["pellets"]

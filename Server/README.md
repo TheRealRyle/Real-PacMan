@@ -184,13 +184,42 @@ Live API: https://real-pacman-api-o256.onrender.com
 In the installed app's Settings, set the server URL to the live API base URL
 above (without `/api/v1`). Then refresh parcours and sync results.
 
-## Deployment boundary
+## Player accounts
 
-This remains an unauthenticated prototype API, including when hosted with HTTPS.
-Result UUIDs provide retry
-identity, not player identity. Do not expose it as a trusted competitive service:
-client-reported collection cannot prove a physical walk. Before public release,
-add authentication, per-player authorization, rate limits,
-monitoring, backups and a defined account/statistics API. Demo sessions never
-reach this API. The request-body limit is four megabytes; map tiles remain with the
-configured map provider rather than passing through this server.
+`POST /api/v1/auth/register` and `/auth/login` accept `{username, password}`.
+Usernames are case-insensitive, 3–24 ASCII letters/digits/underscores. Passwords
+must be 10–72 UTF-8 bytes and are hashed with bcrypt on the password thread pool.
+Responses contain `{player: {id, username}, token, expiresAt}`; expiry uses numeric
+seconds since 2001 to match the client. Tokens have 256 random bits, expire in
+30 days and are stored only as SHA-256 digests in the database. Authentication
+attempts are limited to ten per remote address per minute per server process.
+
+Send `Authorization: Bearer TOKEN` for uploads, `GET /api/v1/results`,
+`GET /api/v1/auth/me` and `POST /api/v1/auth/logout`. Logout revokes that token.
+Result ownership comes exclusively from the authenticated user, never a submitted
+player ID. Replays must belong to the same player. Legacy anonymous results stay
+unassigned and cannot be claimed by uploading their UUID. The result-list endpoint
+returns only the player's receipt IDs and canonical scores. Catalogue and health
+remain public. The additive AddPlayerAccounts migration preserves earlier data.
+
+The app exposes Player Account from Settings and Statistics. Sign-in credentials
+are bound to the selected server and stored in device-only Keychain; passwords
+are never saved. New walks snapshot their player and server locally. Account
+switches cannot reassign them. Guest play remains offline; only the explicit
+Upload my saved guest walks action assigns previously unsynced guest results.
+Local statistics and achievements remain device history, not cloud restoration.
+Offline sign-out clears the device credential immediately; server revocation is
+best effort, and unreachable sessions expire naturally. Signing out does not
+remove locally saved walks. Expired sessions require signing in again.
+
+Class-project scope: username/password accounts have no password reset, email
+verification or account deletion UI. Do not use a password you need elsewhere.
+Server ownership checks protect access, but client movement still is not proof of
+a physical walk or competitive anti-cheat. Free hosting/expiry limits still apply.
+
+Validation: 15 backend tests across four suites passed, including PostgreSQL
+migration/persistence, registration, bcrypt verification, duplicate usernames,
+invalid login, ownership, private result lists, revocation and expired tokens.
+54 app/core tests passed with local live integration enabled, including explicit
+guest assignment and account switching, plus standalone GPS/persistence checks.
+The iOS Simulator build passed. Optional CI workflow remains local/unpublished.
