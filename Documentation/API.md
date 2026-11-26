@@ -109,3 +109,16 @@ The combined simulator build passed. All 24 app/core tests (including the enable
 GameSession.mode now supports explore, timed, ghosts and timedGhosts on route versions advertising those modes. The optional rules object records activeElapsed, timeLimitSeconds, livesRemaining, collisionCooldownUntil, ghosts and outcome. Each ghost records id, pathID, distanceAlongPath, isReversed and coordinate. Outcomes are completed, timedOut, caught and stopped. The server validates these fields against canonical mode capabilities and timing, then calculates points from canonical collected pellets. Metadata is client-reported game state, not proof of physical movement or protection against cheating. Legacy Explore uploads omit rules and keep their original retry identity.
 
 Stage-two verification: the simulator build passed; 34 app/core test functions in seven suites passed, including live uploads for timed, ghosts and timedGhosts, plus the existing GPS/persistence checks. Twelve backend HTTP/database test functions passed against isolated SQLite. The combined-mode demo was checked in the simulator for its countdown, three lives, ghost markers and paused state. Physical GPS/heading and PostgreSQL runtime still require device/host testing. The isolated stage-two test listener uses port 8082; an older listener on 8080 must be restarted with the updated server before accepting new-mode results.
+
+## Production deployment preparation (2026-11-26)
+
+The server now includes a Docker image definition, a free Render HTTPS Blueprint referencing the existing PostgreSQL database, and GitHub checks for PostgreSQL and the Linux image.
+Production startup requires an explicit database URL and explicit migrations before serving (at container startup on the free plan). All 13 backend tests passed with the PostgreSQL integration test
+enabled against PostgreSQL 17.12. Actual production-environment HTTP uploads and
+retries passed locally; data survived restarting both the API and database.
+These checks supersede the earlier PostgreSQL-runtime limitation above.
+
+Public deployment, public HTTPS verification, Linux image execution and physical
+iPhone-to-hosted-server sync remain pending. See `Server/README.md` for the
+deployment procedure and verification script. Accounts and player authorization
+remain separate work; HTTPS hosting does not add player identity.
