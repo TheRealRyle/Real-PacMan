@@ -132,3 +132,9 @@ Account endpoints and authenticated result ownership supersede the earlier
 unauthenticated API descriptions. See Server/README.md for the request contract,
 token expiry, migration and guest-assignment rules. Route catalogue remains public;
 result uploads now require Bearer authorization. Local device history is retained.
+
+Hosted account API deployment and PostgreSQL migration succeeded on 2026-11-26.
+The actual client integration suite passed all 54 tests against the live HTTPS
+server, including account creation, switching and authenticated mode uploads.
+Rebuild the iPhone app to use Player Account from Settings or Statistics; older
+builds cannot upload anonymously after this update.
