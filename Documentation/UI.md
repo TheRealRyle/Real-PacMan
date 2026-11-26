@@ -139,3 +139,14 @@ and a longer display time. The completion trophy cabinet reveal remains availabl
 Verified: simulator build passed, Settings showed the hosted default, and saving
 a simulator test run displayed the First Outing title card. The temporary fixture
 was restored after verification.
+
+## Early finish prompt
+
+Finish now opens an arcade-styled sheet with a gold flag, current points, pellet
+progress, paused status and an explanation that partial runs cannot be resumed
+after saving. Back to game restores the previous play/pause state; Save & end
+walk commits the result and opens its score screen. Gameplay and location updates
+pause while the prompt is open. Backgrounding leaves the walk paused. The sheet
+scrolls for larger text sizes and uses the shared reduced-motion-aware entrance.
+Simulator build passed; a timed walk returned to playing after cancellation, and
+confirmation saved a partial result with the timer stopped during the prompt.
