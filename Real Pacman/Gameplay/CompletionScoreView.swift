@@ -9,6 +9,7 @@ struct CompletionScoreView: View {
     var restart: (() -> Void)? = nil
     var rules: ModeProgress? = nil
     var unlockedAchievements: [Achievement] = []
+    var announcesAchievements = true
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -45,7 +46,7 @@ struct CompletionScoreView: View {
                         .multilineTextAlignment(.center)
                     if !isDemo, !unlockedAchievements.isEmpty {
                         AchievementUnlocksView(achievements: unlockedAchievements, playsSound: !isComplete,
-                                               announcesUnlock: !isComplete)
+                                               announcesUnlock: !isComplete && announcesAchievements)
                     }
                 }
                 .padding(28)
@@ -80,7 +81,7 @@ struct CompletionScoreView: View {
             revealed = true
             if isComplete {
                 ArcadeAudio.shared.play(.achievementUnlocked)
-                let badges = !isDemo && !unlockedAchievements.isEmpty
+                let badges = announcesAchievements && !isDemo && !unlockedAchievements.isEmpty
                     ? " Achievements unlocked: \(unlockedAchievements.map(\.title).joined(separator: ", "))." : ""
                 AccessibilityNotification.Announcement("Parcours complete. \(score) \(isDemo ? "demo points" : "points").\(badges)").post()
             }

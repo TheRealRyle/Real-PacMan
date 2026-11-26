@@ -125,3 +125,17 @@ throughout the celebration. Failed or stopped runs use distinct outcome icons
 and static scores. A successful clear shares one fanfare/announcement with newly
 earned badges. Pending celebration cancels on departure/backgrounding and does
 not replay when returning from the trophy cabinet.
+
+## Achievement title cards and hosted default
+
+The hosted HTTPS API is now the default for fresh installs and previous blank or
+loopback settings. Explicit custom URLs are retained. Newly earned achievements
+appear as queued brown-and-gold CONGRATS title cards with a cyan glow above the
+gameplay/completion screen. Awards still unlock from saved real runs; demo scores
+do not award achievements. Each card dismisses automatically without blocking
+controls. Reduce Motion removes entrance motion, and VoiceOver gets an announcement
+and a longer display time. The completion trophy cabinet reveal remains available.
+
+Verified: simulator build passed, Settings showed the hosted default, and saving
+a simulator test run displayed the First Outing title card. The temporary fixture
+was restored after verification.

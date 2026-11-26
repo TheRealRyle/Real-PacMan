@@ -3,6 +3,7 @@ import Foundation
 
 @MainActor @Observable
 final class GameSettings {
+    static let defaultServerURL = "https://real-pacman-api-o256.onrender.com"
     var musicVolume: Double { didSet { UserDefaults.standard.set(musicVolume, forKey: "musicVolume") } }
     var soundVolume: Double { didSet { UserDefaults.standard.set(soundVolume, forKey: "soundVolume") } }
     var vibrationEnabled: Bool { didSet { UserDefaults.standard.set(vibrationEnabled, forKey: "vibrationEnabled") } }
@@ -16,6 +17,12 @@ final class GameSettings {
         musicVolume = defaults.object(forKey: "musicVolume") as? Double ?? 1
         soundVolume = defaults.object(forKey: "soundVolume") as? Double ?? 1
         vibrationEnabled = defaults.object(forKey: "vibrationEnabled") as? Bool ?? true
-        serverURL = defaults.string(forKey: "serverURL") ?? ""
+        let savedServer = defaults.string(forKey: "serverURL")?.trimmingCharacters(in: .whitespacesAndNewlines)
+        // Upgrade the previous empty/loopback setup while retaining custom servers.
+        let usesLocalServer = savedServer.flatMap(URL.init(string:))?.host.map {
+            ["localhost", "127.0.0.1", "::1", "[::1]"].contains($0.lowercased())
+        } ?? false
+        serverURL = savedServer == nil || savedServer?.isEmpty == true || usesLocalServer
+            ? Self.defaultServerURL : savedServer!
     }
 }

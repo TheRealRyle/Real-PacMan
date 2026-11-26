@@ -46,13 +46,18 @@ struct GameplayView: View {
             } else if let result = game.latestFinishedSession, result.id == sessionID {
                 CompletionScoreView(score: result.score, collected: result.collectedPelletIDs.count,
                                     total: result.route.pellets.count, distance: result.distanceMeters, rules: result.rules,
-                                    unlockedAchievements: game.latestUnlockedAchievements)
+                                    unlockedAchievements: game.latestUnlockedAchievements,
+                                    announcesAchievements: false)
             } else {
                 ContentUnavailableView("Walk saved", systemImage: "checkmark.circle",
                                        description: Text("Your result is in Statistics and ready to sync."))
             }
         }
         .background(Color(red: 0.025, green: 0.05, blue: 0.12).ignoresSafeArea())
+        .overlay(alignment: .top) {
+            AchievementBannerQueue(achievements: game.latestFinishedSession?.id == sessionID
+                                   ? game.latestUnlockedAchievements : [])
+        }
         .modifier(LifeLostFeedback(lives: game.archive.activeSession?.rules?.livesRemaining
                                   ?? (game.latestFinishedSession?.id == sessionID ? game.latestFinishedSession?.rules?.livesRemaining : nil)))
         .navigationTitle("Collect pellets")
