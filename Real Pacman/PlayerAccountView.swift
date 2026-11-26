@@ -37,13 +37,16 @@ struct PlayerAccountView: View {
                 }
             } else {
                 ArcadePanel(title: register ? "CREATE PLAYER" : "WELCOME BACK") {
-                    TextField("Username", text: $username)
+                    TextField("Username", text: $username,
+                              prompt: Text("Username").foregroundStyle(.white.opacity(0.8)))
                         .textContentType(.username).textInputAutocapitalization(.never).autocorrectionDisabled()
-                    SecureField("Password", text: $password)
+                        .modifier(AccountFieldStyle())
+                        .accessibilityLabel("Username")
+                    SecureField("Password", text: $password,
+                                prompt: Text("Password").foregroundStyle(.white.opacity(0.8)))
                         .textContentType(register ? .newPassword : .password)
-                        .padding(12)
-                        .background(.black.opacity(0.25), in: RoundedRectangle(cornerRadius: 10))
-                        .overlay { RoundedRectangle(cornerRadius: 10).strokeBorder(game.account.message == nil ? .white.opacity(0.3) : .red, lineWidth: 2) }
+                        .modifier(AccountFieldStyle(hasError: game.account.message != nil))
+                        .accessibilityLabel("Password")
                         .phaseAnimator([0.0, -10, 10, -6, 6, -3, 0], trigger: failures) { content, offset in
                             content.offset(x: reduceMotion ? 0 : offset)
                         } animation: { _ in .linear(duration: 0.06) }
@@ -72,5 +75,20 @@ struct PlayerAccountView: View {
                 }
             }
         }
+    }
+}
+
+private struct AccountFieldStyle: ViewModifier {
+    var hasError = false
+
+    func body(content: Content) -> some View {
+        content
+            .textFieldStyle(.plain)
+            .padding(12)
+            .background(.black.opacity(0.25), in: RoundedRectangle(cornerRadius: 10))
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .strokeBorder(hasError ? .red : .white.opacity(0.3), lineWidth: 2)
+            }
     }
 }
