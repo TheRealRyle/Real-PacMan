@@ -223,3 +223,15 @@ invalid login, ownership, private result lists, revocation and expired tokens.
 54 app/core tests passed with local live integration enabled, including explicit
 guest assignment and account switching, plus standalone GPS/persistence checks.
 The iOS Simulator build passed. Optional CI workflow remains local/unpublished.
+
+### Hosted account verification (2026-11-26)
+
+Runtime commit `f4e28e8` deployed successfully from stage3 to the existing free
+HTTPS service. AddPlayerAccounts migrated hosted PostgreSQL 18.7 successfully.
+HTTPS registration and authenticated uploads, retries, scores and rejection checks
+passed. Anonymous result-list access returned 401. All 54 actual client/core tests
+passed with hosted integration enabled, including explicit guest assignment and
+cross-account upload isolation. Read-only SQL confirmed player-owned results while
+legacy anonymous rows remained unassigned. Test runs create synthetic accounts and
+results. The optional Simulator visual check was unavailable because there was no
+accessible Simulator window; the simulator build itself passed.
