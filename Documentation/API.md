@@ -112,13 +112,16 @@ Stage-two verification: the simulator build passed; 34 app/core test functions i
 
 ## Production deployment preparation (2026-11-26)
 
-The server now includes a Docker image definition, a free Render HTTPS Blueprint referencing the existing PostgreSQL database, and GitHub checks for PostgreSQL and the Linux image.
+The server now includes a Docker image definition, a free Render HTTPS Blueprint referencing the existing PostgreSQL database, and an optional local GitHub workflow for PostgreSQL and the Linux image.
 Production startup requires an explicit database URL and explicit migrations before serving (at container startup on the free plan). All 13 backend tests passed with the PostgreSQL integration test
 enabled against PostgreSQL 17.12. Actual production-environment HTTP uploads and
 retries passed locally; data survived restarting both the API and database.
 These checks supersede the earlier PostgreSQL-runtime limitation above.
 
-Public deployment, public HTTPS verification, Linux image execution and physical
-iPhone-to-hosted-server sync remain pending. See `Server/README.md` for the
+The free service is live at https://real-pacman-api-o256.onrender.com against
+PostgreSQL 18.7. Linux image execution, migrations, public HTTPS uploads and
+persistence across redeployment passed. All 53 app/core tests in eight suites
+passed with hosted integration enabled, plus standalone GPS/persistence checks.
+Physical iPhone-to-hosted-server sync remains pending. See `Server/README.md` for the
 deployment procedure and verification script. Accounts and player authorization
 remain separate work; HTTPS hosting does not add player identity.
