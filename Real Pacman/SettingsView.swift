@@ -6,6 +6,9 @@ struct SettingsView: View {
     var body: some View {
         @Bindable var settings = settings
         ArcadePage(title: "SETTINGS", symbol: "gearshape.fill") {
+            ArcadeNavigationLink { PlayerAccountView() } label: {
+                Label("PLAYER ACCOUNT", systemImage: "person.crop.circle.fill").frame(maxWidth: .infinity)
+            }.buttonStyle(ArcadeButtonStyle(color: .yellow))
             ArcadePanel(title: "SOUND & FEEL") {
                 volumeControl("Music", symbol: "music.note", value: $settings.musicVolume)
                 volumeControl("Sound", symbol: "speaker.wave.2.fill", value: $settings.soundVolume)

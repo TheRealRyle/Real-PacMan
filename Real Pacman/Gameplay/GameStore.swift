@@ -4,6 +4,7 @@ import CoreLocation
 
 @MainActor @Observable
 final class GameStore {
+    let account: PlayerAccount
     private(set) var archive = GameArchive()
     var message: String?
     private(set) var isLoading = false
@@ -18,6 +19,7 @@ final class GameStore {
     private var canSave = true
 
     init(fileURL: URL? = nil) {
+        self.account = PlayerAccount(persistsSession: fileURL == nil)
         self.fileURL = fileURL ?? URL.applicationSupportDirectory
             .appending(path: "RealPacman/progress.json")
         do {
@@ -52,6 +54,8 @@ final class GameStore {
         latestFinishedSession = nil
         latestUnlockedAchievements = []
         var session = GameSession(id: UUID(), route: route, startedAt: Date())
+        session.playerID = account.player?.id
+        session.playerServer = account.player == nil ? nil : account.saved?.server
         session.mode = mode
         session.rules = ModeProgress(route: route, mode: mode)
         archive.activeSession = session
@@ -115,6 +119,16 @@ final class GameStore {
         save()
     }
 
+    /// Guest walks are attached only by the explicit account-screen action.
+    func claimGuestResults(server: String) {
+        guard let login = account.credentials(for: server) else { return }
+        for index in archive.results.indices where archive.results[index].playerID == nil && archive.results[index].syncedAt == nil {
+            archive.results[index].playerID = login.player.id
+            archive.results[index].playerServer = PlayerAccount.normalized(server)
+        }
+        save()
+    }
+
     func fetchRoutes(server: String) async {
         guard !isLoading else { return }
         isLoading = true
@@ -133,14 +147,16 @@ final class GameStore {
 
     func sync(server: String) async {
         guard !isSyncing, pendingResults > 0 else { return }
+        guard let login = account.credentials(for: server) else { return }
         isSyncing = true
         defer { isSyncing = false }
         do {
             let url = try endpoint(server, path: "results")
-            for result in archive.results where result.syncedAt == nil {
+            for result in archive.results where result.syncedAt == nil && result.playerID == login.player.id && result.playerServer == PlayerAccount.normalized(server) {
                 try Task.checkCancellation()
                 var request = URLRequest(url: url)
                 request.httpMethod = "POST"
+                request.setValue("Bearer \(login.token)", forHTTPHeaderField: "Authorization")
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.setValue(result.id.uuidString, forHTTPHeaderField: "Idempotency-Key")
                 request.httpBody = try JSONEncoder().encode(result)

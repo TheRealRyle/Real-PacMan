@@ -9,7 +9,19 @@ func withServer(_ body: (Application) async throws -> Void) async throws {
         app.databases.use(.sqlite(.memory), as: .sqlite)
         try await configure(app, configureDatabase: false)
         try await app.autoMigrate()
+        try await seedTestAccount(app)
     }, body)
+}
+
+struct TestTokenKey: StorageKey { typealias Value = String }
+func seedTestAccount(_ app: Application, id: UUID = UUID(), token: String = UUID().uuidString) async throws {
+    if try await Player.find(id, on: app.db) == nil {
+        let player = Player(username: "test_" + id.uuidString.lowercased(), passwordHash: "unused-test-hash")
+        player.id = id
+        try await player.create(on: app.db)
+        try await PlayerToken(raw: token, playerID: id, expiresAt: Date().addingTimeInterval(3600)).create(on: app.db)
+    }
+    app.storage[TestTokenKey.self] = token
 }
 
 func fixture(_ app: Application, version: Int = 2) async throws -> RoutePayload {
@@ -51,6 +63,7 @@ struct APITests {
             let route = try await fixture(app)
             let payload = result(route, pellets: Array(route.pellets.prefix(2).map(\.id)))
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                 request.headers.add(name: "Idempotency-Key", value: payload.id.uuidString)
                 try request.content.encode(payload)
             }, afterResponse: { response async throws in
@@ -63,6 +76,7 @@ struct APITests {
                 finishedAt: payload.finishedAt, collectedPelletIDs: Array(payload.collectedPelletIDs.reversed()),
                 distanceMeters: payload.distanceMeters, mode: payload.mode, syncedAt: nil)
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                 request.headers.add(name: "Idempotency-Key", value: payload.id.uuidString)
                 try request.content.encode(retry)
             }, afterResponse: { response async throws in
@@ -74,6 +88,7 @@ struct APITests {
                 finishedAt: payload.finishedAt, collectedPelletIDs: payload.collectedPelletIDs,
                 distanceMeters: 20, mode: payload.mode, syncedAt: nil)
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                 request.headers.add(name: "Idempotency-Key", value: payload.id.uuidString)
                 try request.content.encode(conflict)
             }, afterResponse: { response async in #expect(response.status == .conflict) })
@@ -85,6 +100,7 @@ struct APITests {
         try await withServer { app in
             let payload = result(try await fixture(app))
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                 try request.content.encode(payload)
             }, afterResponse: { response async throws in
                 #expect(response.status == .badRequest)
@@ -101,6 +117,7 @@ struct APITests {
             let payload = ResultPayload(id: UUID(), route: route, startedAt: now, finishedAt: now,
                 collectedPelletIDs: [], distanceMeters: 90, mode: "explore", syncedAt: nil)
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                 request.headers.add(name: "Idempotency-Key", value: payload.id.uuidString)
                 try request.content.encode(payload)
             }, afterResponse: { response async in #expect(response.status == .ok) })
@@ -113,6 +130,7 @@ struct APITests {
             let payload = result(try await fixture(app))
             @Sendable func upload() async throws {
                 try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                     request.headers.add(name: "Idempotency-Key", value: payload.id.uuidString)
                     try request.content.encode(payload)
                 }, afterResponse: { response async in #expect(response.status == .ok) })
@@ -156,6 +174,7 @@ struct APITests {
             let data = try JSONSerialization.data(withJSONObject: object)
             let id = try #require(object["id"] as? String)
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                 request.headers.add(name: "Idempotency-Key", value: id)
                 request.headers.contentType = .json
                 request.body = ByteBuffer(data: data)
@@ -180,6 +199,7 @@ struct APITests {
             }
             let payload = result(old)
             try await app.testing().test(.POST, "/api/v1/results", beforeRequest: { request in
+                request.headers.bearerAuthorization = .init(token: app.storage[TestTokenKey.self]!)
                 request.headers.add(name: "Idempotency-Key", value: payload.id.uuidString)
                 try request.content.encode(payload)
             }, afterResponse: { response async in #expect(response.status == .ok) })

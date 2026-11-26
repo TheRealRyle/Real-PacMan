@@ -28,6 +28,34 @@ struct ServerEndpointTests {
 
 @MainActor
 struct ServerIntegrationTests {
+    @Test("Guest ownership is explicit and account switches cannot upload another player's walks",
+          .enabled(if: ProcessInfo.processInfo.environment["REALPACMAN_INTEGRATION_URL"] != nil))
+    func accountIsolation() async throws {
+        let base = try #require(ProcessInfo.processInfo.environment["REALPACMAN_INTEGRATION_URL"])
+        let game = GameStore(fileURL: URL.temporaryDirectory.appending(path: UUID().uuidString + ".json"))
+        await game.fetchRoutes(server: base)
+        game.start(try #require(game.archive.routes.first))
+        game.finish()
+        let alice = "a_" + UUID().uuidString.replacingOccurrences(of: "-", with: "").prefix(16)
+        let bob = "b_" + UUID().uuidString.replacingOccurrences(of: "-", with: "").prefix(16)
+        try #require(await game.account.signIn(server: base, username: alice, password: "integration-test-password", register: true))
+        await game.sync(server: base)
+        #expect(game.pendingResults == 1)
+        #expect(game.archive.results.first?.playerID == nil)
+        game.claimGuestResults(server: base)
+        let owner = try #require(game.account.player?.id)
+        #expect(game.archive.results.first?.playerID == owner)
+        await game.account.signOut()
+        try #require(await game.account.signIn(server: base, username: bob, password: "integration-test-password", register: true))
+        await game.sync(server: base)
+        #expect(game.pendingResults == 1)
+        #expect(game.archive.results.first?.playerID == owner)
+        await game.account.signOut()
+        try #require(await game.account.signIn(server: base, username: alice, password: "integration-test-password", register: false))
+        await game.sync(server: base)
+        #expect(game.pendingResults == 0)
+    }
+
     @Test("Stage two modes sync their real session metadata",
           .enabled(if: ProcessInfo.processInfo.environment["REALPACMAN_INTEGRATION_URL"] != nil),
           arguments: [ParcoursMode.timed, .ghosts, .timedGhosts])
@@ -35,6 +63,7 @@ struct ServerIntegrationTests {
         let base = try #require(ProcessInfo.processInfo.environment["REALPACMAN_INTEGRATION_URL"])
         let file = URL.temporaryDirectory.appending(path: UUID().uuidString).appending(path: "progress.json")
         let game = GameStore(fileURL: file)
+        try #require(await game.account.signIn(server: base, username: "test_" + UUID().uuidString.replacingOccurrences(of: "-", with: "").prefix(16), password: "integration-test-password", register: true))
         await game.fetchRoutes(server: base)
         let route = try #require(game.archive.routes.first)
         #expect(route.version >= 2)
@@ -57,6 +86,7 @@ struct ServerIntegrationTests {
         let base = try #require(ProcessInfo.processInfo.environment["REALPACMAN_INTEGRATION_URL"])
         let file = URL.temporaryDirectory.appending(path: UUID().uuidString).appending(path: "progress.json")
         let game = GameStore(fileURL: file)
+        try #require(await game.account.signIn(server: base, username: "test_" + UUID().uuidString.replacingOccurrences(of: "-", with: "").prefix(16), password: "integration-test-password", register: true))
         await game.fetchRoutes(server: base)
         #expect(game.message == nil)
         let route = try #require(game.archive.routes.first)
@@ -71,7 +101,7 @@ struct ServerIntegrationTests {
         #expect(game.pendingResults == 1)
         await game.sync(server: base + "/missing")
         #expect(game.pendingResults == 1)
-        #expect(game.message != nil)
+        #expect(game.message == nil) // A token is never sent to a different base URL.
         #expect(GameStore(fileURL: file).pendingResults == 1)
         game.message = nil
         await game.sync(server: base)
@@ -82,6 +112,7 @@ struct ServerIntegrationTests {
 
         var request = URLRequest(url: try ServerEndpoint.url(base, path: "results"))
         request.httpMethod = "POST"
+        request.setValue("Bearer \(try #require(game.account.credentials(for: base)).token)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(result.id.uuidString, forHTTPHeaderField: "Idempotency-Key")
         request.httpBody = try JSONEncoder().encode(result)

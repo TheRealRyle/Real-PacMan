@@ -20,6 +20,11 @@ struct StatisticsView: View {
             .arcadeEntrance(delay: 0.12)
 
             ArcadePanel(title: "SAVED RESULTS", color: Color(red: 0.05, green: 0.3, blue: 0.5)) {
+                ArcadeNavigationLink { PlayerAccountView() } label: {
+                    Label(game.account.player?.username ?? "SIGN IN TO SYNC", systemImage: "person.crop.circle")
+                }.buttonStyle(ArcadeButtonStyle(color: .cyan))
+                Text("Only results assigned to the signed-in player upload. Assign guest walks from Player Account.")
+                    .font(.caption)
                 stat("Waiting to sync", symbol: "icloud.and.arrow.up",
                      value: "\(game.pendingResults)")
                 ArcadeActionButton {
