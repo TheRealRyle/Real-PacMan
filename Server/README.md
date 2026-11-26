@@ -91,18 +91,83 @@ Production `RealPacmanServer` always uses PostgreSQL. PostgreSQL-specific runtim
 validation additionally requires running the Compose database and the production
 executable; successful SQLite checks alone do not establish that validation.
 
-Verified here: both executables compile, all twelve HTTP/database test functions
-pass (including parameterized invalid-upload and mode cases), and the test HTTP listener answers
-`GET /health`. Docker and PostgreSQL are not installed in this workspace's host,
-so the production PostgreSQL connection and migrations have not been exercised
-against a running PostgreSQL instance.
+To enable the additional PostgreSQL test, create a dedicated database whose name
+ends in `_test`, then run:
+
+```sh
+POSTGRES_TEST_URL='postgres://user:password@127.0.0.1:5432/realpacman_test?tlsmode=disable' swift test
+```
+
+Use `tlsmode=disable` only for a local test database or an explicitly private
+network. The PostgreSQL test applies migrations and seeds the canonical routes;
+it removes its own synthetic result. Never point it at a live database.
+
+Verified on 2026-11-26: all 13 backend test functions in three suites passed with
+the PostgreSQL test enabled against PostgreSQL 17.12. The existing API/mode suites
+still use isolated SQLite. The PostgreSQL test exercises migrations, concurrent
+inserts, retry identity, conflicts and persistence across application instances.
+Separately, the actual server executable ran with `--env production`, applied
+migrations, and passed real HTTP checks. Its saved result survived restarting
+both the API process and PostgreSQL. Missing production configuration was rejected.
+Linux Docker image execution and a public HTTPS endpoint remain unverified locally;
+the added GitHub workflow builds and smoke-tests the image when run on GitHub.
+
+## Class-project HTTPS deployment on Render
+
+The repository-root `render.yaml` creates one **free** Docker web service in
+Frankfurt. It references the existing `RealPacmanGame-Postgres` database (PostgreSQL
+18), without creating or upgrading a database. No paid resources are declared.
+Render provides the public HTTPS address and certificate.
+
+Free services have no pre-deploy command. `MIGRATE_ON_START=true` makes the
+container entrypoint run `migrate --yes --env production` before opening the HTTP
+listener. A failed migration stops startup. Keep this deployment to one instance;
+paid multi-instance deployments should use a separate pre-deploy migration phase.
+The entrypoint uses `exec` so the server receives shutdown signals directly.
+
+Production requires `DATABASE_URL` and rejects `AUTO_MIGRATE=true`.
+`DATABASE_TLS_MODE` defaults to `require`, with certificate and hostname
+verification. The Blueprint explicitly selects `disable` for Render's private
+same-region connection because internal database certificates are self-signed.
+Never use that override for an external database URL. The phone uses HTTPS.
+Database credentials are resolved by Render's `fromDatabase` reference and are
+never committed to the repository. The Blueprint does not change the existing
+database's inbound access rules.
+
+After the deployment becomes live, verify its assigned URL:
+
+```sh
+python3 Scripts/verify_backend.py https://YOUR-SERVICE.onrender.com --state /tmp/realpacman-deploy-check.json
+```
+
+Restart the web service, then rerun the same command using the same state file.
+It must report that the saved result survived restart. This writes a synthetic
+Explore result and checks its canonical score, concurrent retries, conflicting
+uploads and missing-key rejection. Keep its UUID to identify the test result.
+
+Enter the assigned HTTPS base URL in the iPhone app's Settings, refresh parcours
+and sync a saved result. Physical-device verification remains a separate check.
+Automatic deploys and Blueprint auto-sync should remain disabled for the class
+presentation; deploy reviewed commits explicitly.
+
+Free databases expire after 30 days and have no automatic backups. This instance
+reports expiration on December 26, 2026, after the November 30 presentation.
+Free web services sleep after 15 minutes without inbound traffic and may take
+about a minute to wake. Open `/health` before the presentation and allow time for
+startup. This is a class-project deployment, not a long-term production service.
+
+References: [Render Docker](https://render.com/docs/docker),
+[Blueprint fields](https://render.com/docs/blueprint-spec),
+[database connectivity](https://render.com/docs/postgresql-creating-connecting),
+[free plan limits](https://render.com/docs/free).
 
 ## Deployment boundary
 
-This is an unauthenticated development backend. Result UUIDs provide retry
+This remains an unauthenticated prototype API, including when hosted with HTTPS.
+Result UUIDs provide retry
 identity, not player identity. Do not expose it as a trusted competitive service:
 client-reported collection cannot prove a physical walk. Before public release,
-add authentication, per-player authorization, rate limits, deployment TLS,
+add authentication, per-player authorization, rate limits,
 monitoring, backups and a defined account/statistics API. Demo sessions never
 reach this API. The request-body limit is four megabytes; map tiles remain with the
 configured map provider rather than passing through this server.
