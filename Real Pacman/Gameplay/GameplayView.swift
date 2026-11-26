@@ -7,6 +7,7 @@ struct GameplayView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var location = LocationService()
     @State private var confirmFinish = false
+    @State private var resumeAfterPrompt = false
     @State private var sessionID: UUID?
 
     var body: some View {
@@ -35,6 +36,9 @@ struct GameplayView: View {
                             }.buttonStyle(ArcadeButtonStyle(color: .green))
                             Button {
                                 ArcadeAudio.shared.play(.press)
+                                resumeAfterPrompt = game.isPlaying
+                                game.pause()
+                                location.wantsUpdates = false
                                 confirmFinish = true
                             } label: {
                                 Label("Finish", systemImage: "flag.checkered").frame(maxWidth: .infinity)
@@ -76,13 +80,39 @@ struct GameplayView: View {
         }
         .onDisappear { ArcadeAudio.shared.setGameplayVisible(false); location.wantsUpdates = false; game.pause() }
         .onChange(of: scenePhase) {
-            if scenePhase != .active { location.wantsUpdates = false; game.pause() }
+            if scenePhase != .active {
+                resumeAfterPrompt = false
+                location.wantsUpdates = false
+                game.pause()
+            }
         }
         .onChange(of: game.archive.activeSession?.id) {
             if game.archive.activeSession == nil { location.wantsUpdates = false }
         }
-        .confirmationDialog("Finish this walk and save your result?", isPresented: $confirmFinish, titleVisibility: .visible) {
-            Button("Finish walk") { location.wantsUpdates = false; game.finish() }
+        .sheet(isPresented: $confirmFinish, onDismiss: {
+            if resumeAfterPrompt, scenePhase == .active,
+               game.archive.activeSession?.id == sessionID {
+                game.resume()
+                location.wantsUpdates = true
+            }
+            resumeAfterPrompt = false
+        }) {
+            if let session = game.archive.activeSession {
+                EndWalkPrompt(session: session) {
+                    ArcadeAudio.shared.play(.press)
+                    confirmFinish = false
+                } finish: {
+                    ArcadeAudio.shared.play(.press)
+                    resumeAfterPrompt = false
+                    location.wantsUpdates = false
+                    game.finish()
+                    confirmFinish = false
+                }
+                .presentationDetents([.large])
+                .presentationDragIndicator(.hidden)
+                .presentationCornerRadius(32)
+                .interactiveDismissDisabled()
+            }
         }
     }
 }
