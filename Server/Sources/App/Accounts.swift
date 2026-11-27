@@ -125,7 +125,8 @@ struct AddPlayerAccounts: AsyncMigration {
 struct AccountResponseHeaders: AsyncMiddleware {
     func respond(to request: Request, chainingTo next: any AsyncResponder) async throws -> Response {
         let response = try await next.respond(to: request)
-        if request.url.path.hasPrefix("/api/v1/auth/") || request.url.path == "/api/v1/results" {
+        if request.url.path.hasPrefix("/api/v1/auth/") || request.url.path == "/api/v1/results"
+            || request.url.path.hasPrefix("/api/v1/admin/") || request.url.path == "/api/v1/routes" {
             response.headers.replaceOrAdd(name: .cacheControl, value: "no-store")
         }
         return response
